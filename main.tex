@@ -6,6 +6,8 @@
 \usepackage{amsmath}
 \usepackage{amsfonts}
 
+\newcommand{\Y}{\ensuremath{\mathcal{Y}}}
+
 \begin{document}
 
 \title{Statistical methods for machine learning}
@@ -40,19 +42,23 @@ sistemi di \textit{machine learning} il cui obiettivo è apprendere dei
 \textbf{\textit{predictors}}, ovvero funzioni che mappano i \textit{data points} alla loro
 etichetta.
 
-\subsection*{Label set $\mathcal{Y}$}
-Verrà usata $\mathcal{Y}$ per indicare il label set, ovvero l'insieme di tutte le possibili
+\subsection*{Label set $\Y$}
+Verrà usata $\Y$ per indicare il label set, ovvero l'insieme di tutte le possibili
 etichette di un \textit{data point}. Le etichette potranno essere di due tipi differenti:
 \begin{enumerate}
-    \item \textbf{Categoriche} ($\mathcal{Y} = \{ \text{sport},\text{politica},\text{economia}\}$):
+    \item \textbf{Categoriche} ($\Y = \{ \text{sport},\text{politica},\text{economia}\}$):
         si parlerà di problemi di \textbf{classificazione};
-    \item \textbf{Numeriche} ($\mathcal{Y} \subseteq \mathbb{R} $): 
+    \item \textbf{Numeriche} ($\Y \subseteq \mathbb{R} $): 
         si parlerà di problemi di \textbf{regressione}.
 \end{enumerate}
 
+È importante sottolineare come la reale differenza tra le due tipologie di etichetta sia il
+significato e non la sua rappresentazione in quanto, banalmente, si potrà sempre codificare
+un'etichetta categorica in un numero.
 
-
-
+A sottolineare ciò è il fatto che nella regressione, l'errore è tipicamente una funzione della
+differenza $| y-\hat{y} |$, dove $\hat{y}$ è la predizione di $y$. Nella classificazione, invece,
+l'errore è tipicamente binario: predizione corretta ($\hat{y}=y$) o errata ($\hat{y}\neq y$).
 
 
 
