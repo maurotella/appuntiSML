@@ -1,0 +1,59 @@
+\documentclass[a4paper]{article}
+
+\usepackage[top=2.5cm]{geometry}
+\usepackage{lmodern}
+\usepackage{parskip}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+\begin{document}
+
+\title{Statistical methods for machine learning}
+\author{Mauro Tellaroli}
+\date{}
+\maketitle
+
+\section{Introduzione}
+
+La \textit{data inference} è lo studio dei metodi che utilizzano i dati per predirre il futuro. 
+Il \textit{Machine Learning} è uno strumento potente che può essere usato per risolvere una 
+grossa parte dei problemi di \textit{data inference}, inclusi i seguenti:
+\begin{itemize}
+    \item \textbf{Clustering}: raggruppare i \textit{data points} in base alle loro similarità;
+    \item \textbf{Prediction}: assegnare delle etichette (\textit{label}) ai \textit{data points};
+    \item \textbf{Generation}: generare nuovi \textit{data points};
+    \item    \textbf{Control}: eseguire una sequenza di azioni in un ambiente con l'obiettivo di
+                               massimizzare una nozione di utilità.
+\end{itemize}
+
+Con \textit{data point} si intende una serie di informazioni legate ad un unico elemento;
+un'analogia può essere un \textit{record} in un database.
+
+Gli algoritmi che risolvono una \textit{learning task} in base a dei dati già semanticamente
+etichettati lavorano in modalità \textbf{\textit{supervised learning}}. A etichettare i dati
+saranno delle persone o la natura. Un esempio dell'ultimo caso sono le previsioni del meteo. 
+D'altra parte, gli algoritmi che utilizzano i dati senza la presenza di etichette lavorano in
+modalità \textbf{\textit{unsupervised learning}}.
+
+In questo corso ci si focalizzerà sul \textit{supervised learning} e la progettazione di 
+sistemi di \textit{machine learning} il cui obiettivo è apprendere dei 
+\textbf{\textit{predictors}}, ovvero funzioni che mappano i \textit{data points} alla loro
+etichetta.
+
+\subsection*{Label set $\mathcal{Y}$}
+Verrà usata $\mathcal{Y}$ per indicare il label set, ovvero l'insieme di tutte le possibili
+etichette di un \textit{data point}. Le etichette potranno essere di due tipi differenti:
+\begin{enumerate}
+    \item \textbf{Categoriche} ($\mathcal{Y} = \{ \text{sport},\text{politica},\text{economia}\}$):
+        si parlerà di problemi di \textbf{classificazione};
+    \item \textbf{Numeriche} ($\mathcal{Y} \subseteq \mathbb{R} $): 
+        si parlerà di problemi di \textbf{regressione}.
+\end{enumerate}
+
+
+
+
+
+
+
+\end{document}
