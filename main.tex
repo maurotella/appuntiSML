@@ -43,7 +43,7 @@ modalità \textbf{\textit{unsupervised learning}}.
 
 In questo corso ci si focalizzerà sul \textit{supervised learning} e la progettazione di 
 sistemi di \textit{machine learning} il cui obiettivo è apprendere dei 
-\textbf{\textit{predittori}}, ovvero funzioni che mappano i \textit{data points} alla loro
+\textbf{predittori}, ovvero funzioni che mappano i \textit{data points} alla loro
 etichetta.
 
 \subsection*{Label set $\Y$}
@@ -60,12 +60,13 @@ etichette di un \textit{data point}. Le etichette potranno essere di due tipi di
 significato e non la sua rappresentazione in quanto, si potrà sempre codificare
 un'etichetta categorica in un numero.
 
-A sottolineare ciò è il fatto che nella regressione, l'errore è tipicamente una funzione della
+A sottolineare ciò è il fatto che nella regressione l'errore è tipicamente una funzione della
 differenza $| y-\hat{y} |$, dove $\hat{y}$ è la predizione di $y$. Nella classificazione, invece,
 l'errore è tipicamente binario: predizione corretta ($\hat{y}=y$) o errata ($\hat{y}\neq y$).
 
-Quando ci sono solo due possibili etichette ($|\Y|=2$), si ha un \textbf{problema di classificazione
-binario} e, convenzionalmente, verrà usata una codifica numerica $\Y=\{-1,1\}$.
+Quando ci sono solo due possibili etichette ($|\Y|=2$), si ha un \textbf{problema di 
+classificazione binario} e, convenzionalmente, verrà usata una codifica numerica 
+$\Y=\{-1,1\}$.
 
 \subsection{Loss function $\loss$}
 Come già visto precedentemente, si vuole misurare l'errore che un predittore commette su una
@@ -82,11 +83,12 @@ Nella regressione, le tipiche funzioni di loss sono:
     \item la \textit{\textbf{quadratic loss}}: $\loss(y,\hat{y}) = (y-\hat{y})^2$
 \end{itemize}
 
-In alcuni casi può essere conveniente scegliere la predizione da un insieme $\Z$ diverso da $\Y$.
-Per esempio, si consideri il problema di assegnare una probabilità $\hat{y}\in (0,1)$ all'evento
-$y=\text{\quotes{pioverà domani}}$. In questo caso, $\Y=\{\text{\quotes{piove}},\text{
-\quotes{non piove}}\}$ e $\Z = (0,1)$. Indicando questi due eventi con 1 (piove) e 0 (non piove),
-si può usare una funzione di loss per la regressione, come la \textit{absolute loss}:
+In alcuni casi può essere conveniente scegliere l'etichetta predetta da un insieme $\Z$ diverso 
+da $\Y$. Per esempio, si consideri il problema di assegnare una probabilità $\hat{y}\in (0,1)$
+all'evento $y=\text{\quotes{pioverà domani}}$. In questo caso, $\Y=\{\text{\quotes{piove}},
+\text{\quotes{non piove}}\}$ e $\Z = (0,1)$. Indicando questi due eventi con 1 (piove) e 0 
+(non piove), si può usare una funzione di loss per la regressione, come la 
+\textit{absolute loss}:
 $$ \loss(y,\hat{y}) = |y-\hat{y}| =  \begin{cases} 1-\hat{y} & y=1 \qquad (\text{piove}) \\
 \hat{y} & y=0 \qquad (\text{non piove}) \end{cases} $$
 
