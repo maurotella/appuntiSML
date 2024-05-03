@@ -53,12 +53,15 @@ etichette di un \textit{data point}. Le etichette potranno essere di due tipi di
 \end{enumerate}
 
 È importante sottolineare come la reale differenza tra le due tipologie di etichetta sia il
-significato e non la sua rappresentazione in quanto, banalmente, si potrà sempre codificare
+significato e non la sua rappresentazione in quanto, si potrà sempre codificare
 un'etichetta categorica in un numero.
 
 A sottolineare ciò è il fatto che nella regressione, l'errore è tipicamente una funzione della
 differenza $| y-\hat{y} |$, dove $\hat{y}$ è la predizione di $y$. Nella classificazione, invece,
 l'errore è tipicamente binario: predizione corretta ($\hat{y}=y$) o errata ($\hat{y}\neq y$).
+
+Quando ci sono solo due possibili etichette ($|\Y|=2$), si ha un \textbf{problema di classificazione
+binario} e, convenzionalmente, verrà usata una codifica numerica $\Y=\{-1,1\}$.
 
 
 
