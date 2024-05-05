@@ -1,10 +1,15 @@
 \documentclass[a4paper]{article}
 
 \usepackage[top=2.5cm]{geometry}
+\usepackage[italian]{babel}
 \usepackage{lmodern}
 \usepackage{parskip}
+\usepackage{hyperref}
 \usepackage{amsmath}
+\usepackage{caption}
+\usepackage{subcaption}
 \usepackage{amsfonts}
+\usepackage{tikz}
 
 \newcommand{\quotes}[1]{``#1''}
 
@@ -46,7 +51,7 @@ sistemi di \textit{machine learning} il cui obiettivo è apprendere dei
 \textbf{predittori}, ovvero funzioni che mappano i \textit{data points} alla loro
 etichetta.
 
-\subsection*{Label set $\Y$}
+\subsection{Label set \texorpdfstring{$\Y$}{Y}}
 Verrà usata $\Y$ per indicare il label set, ovvero l'insieme di tutte le possibili
 etichette di un \textit{data point}. Le etichette potranno essere di due tipi differenti:
 \begin{enumerate}
@@ -68,7 +73,7 @@ Quando ci sono solo due possibili etichette ($|\Y|=2$), si ha un \textbf{problem
 classificazione binario} e, convenzionalmente, verrà usata una codifica numerica 
 $\Y=\{-1,1\}$.
 
-\subsection{Loss function $\loss$}
+\subsection{Loss function \texorpdfstring{$\loss$}{l}}
 Come già visto precedentemente, si vuole misurare l'errore che un predittore commette su una
 determinata predizione. Per farlo si userà una \textbf{funzione di loss} $\loss$ non negativa 
 che misurerà la discrepanza $\loss(y,\hat{y})$ tra l'etichetta predetta $\hat{y}$ e quella
@@ -92,6 +97,31 @@ all'evento $y=\text{\quotes{pioverà domani}}$. In questo caso, $\Y=\{\text{\quo
 $$ \loss(y,\hat{y}) = |y-\hat{y}| =  \begin{cases} 1-\hat{y} & y=1 \qquad (\text{piove}) \\
 \hat{y} & y=0 \qquad (\text{non piove}) \end{cases} $$
 
+Per penalizzare maggiormente le predizioni che distano troppo dalla realtà, si può usare una
+\textit{\textbf{logarithmic loss}}:
+$$ \loss(y,\hat{y}) = \begin{cases} \ln{\frac{1}{\hat{y}}} & y=1 \qquad 
+(\text{piove}) \\ \ln{\frac{1}{1-\hat{y}}} & y=0 \qquad (\text{non piove}) \end{cases} $$
 
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{.43\textwidth}
+        \centering
+        \input{figures/log_loss_0.tex}
+    \end{subfigure}
+    \begin{subfigure}{.43\textwidth}
+        \centering
+        \input{figures/log_loss_1.tex}
+    \end{subfigure}
+    \caption{Confronto tra \textit{\color{cyan}absolute loss} e \textit{\color{orange}
+    \label{fig:abs_vs_log}
+    logarithmic loss}; a sinistra il caso $y=0$, a destra $y=1$.}
+\end{figure}
+
+Si noti in figura \ref{fig:abs_vs_log} come la \textit{logarithmic loss} tenda ad
+infinito quando la predizione è opposta all'etichetta reale:
+$$\lim_{\hat{y}\rightarrow 1^-} \loss(0,\hat{y})=\lim_{\hat{y}\rightarrow 0^+}
+\loss(1,\hat{y}) = +\infty$$
+In pratica questo previene 
+l'utilizzo di predizioni $\hat{y}$ troppo sicure, quindi troppo vicine a zero o uno.
 
 \end{document}
