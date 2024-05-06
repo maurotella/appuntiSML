@@ -106,3 +106,56 @@ pixel di un'immagine o una lista di occorrenze di parole in un testo. Quando inv
 presenti utilizzano unità di misura differenti, come \quotes{età} e \quotes{altezza}, la
 codifica non risulta più immediata. Ci sarà bisogno di una procedura che codifichi i dati
 in modo da ottenere uno spazio vettoriale omogeneo e coerente con i dati iniziali.
+
+In questo corso si assumerà che i dati possano essere rappresentati da vettori di numeri:
+$$ \X \equiv \mathbb{R}^d $$
+
+\subsection{Predittori \texorpdfstring{$\pred$}{f}}
+
+Un \textbf{predittore} è una funzione $\pred:\X \rightarrow \Y$ che mappa i
+\textit{data points} alle etichette (o $\pred:\X \rightarrow \Z$). Sì può quindi
+dire che in un problema di predizione l'obiettivo è ottenere una funzione $\pred$ 
+che genera delle predizioni $\hat{y} = \pred(x)$ tali che $\loss(y,\hat{y})$ sia
+basso per il maggior numero di punti $x \in \X$ osservati. In pratica, \textbf{la 
+funzione $\pred$ è definita da un certo numero di parametri in dato modello}. Un
+esempio sono i parametri di una rete neurale.
+
+\subsection{Esempi}
+Nel \textit{supervised learning} un \textbf{esempio} è una coppia $(x,y)$ dove $x$
+è un \textit{data point} e $y$ la sua reale etichetta.
+
+In alcuni casi $x$ ha un'unica $y$, come nel caso in cui $y$ rappresenta una proprietà
+oggettiva di $x$; in altri casi, invece, $x$ può avere diverse $y$ associate, come
+quando le $y$ sono soggettivamente assegnate da persone.
+
+\subsection{Test set e test error}
+Per poter stimare la qualità di un predittore si usa un insieme di esempi detto
+\textbf{\textit{test set}}:
+$$ \{ (x_1',y_1'),\dots, (x_n',y_n')\} $$
+Data una \textit{loss function} $\loss$, il \textit{test set} viene usato per
+calcolare il \textit{\textbf{test error}} di un predittore $\pred$:
+$$ \frac{1}{n}\sum^{n}_{t=1}{\loss(y_t',\pred(x_t'))} $$
+
+Il \textit{test error} ha quindi lo scopo di calcolare la prestazione media del 
+predittore su dei dati reali.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
