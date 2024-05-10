@@ -25,7 +25,7 @@ sistemi di \textit{machine learning} il cui obiettivo è apprendere dei
 \textbf{predittori}, ovvero funzioni che mappano i \textit{data points} alla loro
 etichetta.
 
-\subsection{Label set \texorpdfstring{$\Y$}{Y}}
+\subsection{\textit{Label set} \texorpdfstring{$\Y$}{Y}}
 Verrà usata $\Y$ per indicare il label set, ovvero l'insieme di tutte le possibili
 etichette di un \textit{data point}. Le etichette potranno essere di due tipi differenti:
 \begin{enumerate}
@@ -47,7 +47,7 @@ Quando ci sono solo due possibili etichette ($|\Y|=2$), si ha un \textbf{problem
 classificazione binario} e, convenzionalmente, verrà usata una codifica numerica 
 $\Y=\{-1,1\}$.
 
-\subsection{Loss function \texorpdfstring{$\loss$}{l}}
+\subsection{\textit{Loss function} \texorpdfstring{$\loss$}{l}}
 Come già visto precedentemente, si vuole misurare l'errore che un predittore commette su una
 determinata predizione. Per farlo si userà una \textbf{funzione di loss} $\loss$ non negativa 
 che misurerà la discrepanza $\loss(y,\hat{y})$ tra l'etichetta predetta $\hat{y}$ e quella
@@ -87,8 +87,7 @@ $$ \loss(y,\hat{y}) = \begin{cases} \ln{\frac{1}{\hat{y}}} & y=1 \qquad
         \input{figures/log_loss_1.tex}
     \end{subfigure}
     \caption{Confronto tra \textit{\color{cyan}absolute loss} e \textit{\color{orange}
-    \label{fig:abs_vs_log}
-    logarithmic loss}; a sinistra il caso $y=0$, a destra $y=1$.}
+    logarithmic loss}; a sinistra il caso $y=0$, a destra $y=1$. \label{fig:abs_vs_log}}
 \end{figure}
 
 Si noti in figura \ref{fig:abs_vs_log} come la \textit{logarithmic loss} tenda ad
@@ -98,7 +97,7 @@ $$\lim_{\hat{y}\rightarrow 1^-} \loss(0,\hat{y})=\lim_{\hat{y}\rightarrow 0^+}
 In pratica questo previene 
 l'utilizzo di predizioni $\hat{y}$ troppo sicure, quindi troppo vicine a zero o uno.
 
-\subsection{Data domain \texorpdfstring{$\X$}{X}}
+\subsection{\textit{Data domain} \texorpdfstring{$\X$}{X}}
 Verrà usata $\X$ per indicare l'insieme dei \textit{data points}; ogni suo punto $x \in \X$
 è tipicamente un record di un database. Spesso un \textit{data point} può essere codificato 
 come un vettore. Questa codifica risulta naturale in presenza di quantità omogenee, come i
@@ -128,20 +127,32 @@ In alcuni casi $x$ ha un'unica $y$, come nel caso in cui $y$ rappresenta una pro
 oggettiva di $x$; in altri casi, invece, $x$ può avere diverse $y$ associate, come
 quando le $y$ sono soggettivamente assegnate da persone.
 
-\subsection{Test set e test error}
+\subsection{\textit{Test set} e \textit{test error}}
 Per poter stimare la qualità di un predittore si usa un insieme di esempi detto
 \textbf{\textit{test set}}:
 $$ \{ (x_1',y_1'),\dots, (x_n',y_n')\} $$
 Data una \textit{loss function} $\loss$, il \textit{test set} viene usato per
 calcolare il \textit{\textbf{test error}} di un predittore $\pred$:
-$$ \frac{1}{n}\sum^{n}_{t=1}{\loss(y_t',\pred(x_t'))} $$
+$$ \frac{1}{n}\sum^{n}_{t=1}{
+    \loss(\underbrace{y_t'}_{\mathclap{\text{reale}}},
+    \overbrace{\pred(x_t')}^{\mathclap{\text{predetta}}})} $$
 
 Il \textit{test error} ha quindi lo scopo di calcolare la prestazione media del 
 predittore su dei dati reali.
 
+\subsection{\textit{Learning algorithm}}
+Si definisce \textit{training set} un insieme di esempi:
+$$ \{(x_1,y_1),\dots,(x_m,y_m)\} $$
+che viene usato dal \textbf{\textit{learning algorithm}} per produrre un predittore.
+Informalmente, il \textit{learning algorithm} \quotes{impara} dal \textit{training set}.
 
+%$$ S \rightarrow \boxed{A} \rightarrow A(S) $$
 
-
+\begin{figure}[h]
+    \centering
+    \input{figures/learning_alg.tex}
+    \caption{caption}
+\end{figure}
 
 
 
