@@ -8,7 +8,6 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{mathtools}
-\usepackage{unicode-math}
 \usepackage{esint}
 \usepackage{caption}
 \usepackage{subcaption}
@@ -20,7 +19,10 @@
 \newcommand{\Y}{\ensuremath{\mathcal{Y}}}
 \newcommand{\Z}{\ensuremath{\mathcal{Z}}}
 \newcommand{\X}{\ensuremath{\mathcal{X}}}
-\newcommand{\pred}{\ensuremath{\mathcal{f}}}
+\newcommand{\F}{\ensuremath{\mathcal{F}}}
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\argmin}{argmin}
+\newcommand{\pred}{\ensuremath{f}}
 \newcommand{\loss}{\ensuremath{\ell}}
 
 \begin{document}
@@ -29,6 +31,9 @@
 \author{Mauro Tellaroli}
 \date{}
 \maketitle
+
+\tableofcontents
+\clearpage
 
 \input{sections/01_Introduzione.tex}
 

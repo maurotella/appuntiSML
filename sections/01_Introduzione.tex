@@ -1,5 +1,7 @@
 \section{Introduzione}
 
+\subsection{Definizioni fondamentali}
+
 La \textit{data inference} è lo studio dei metodi che utilizzano i dati per predirre il futuro. 
 Il \textit{Machine Learning} è uno strumento potente che può essere usato per risolvere una 
 grossa parte dei problemi di \textit{data inference}, inclusi i seguenti:
@@ -25,7 +27,7 @@ sistemi di \textit{machine learning} il cui obiettivo è apprendere dei
 \textbf{predittori}, ovvero funzioni che mappano i \textit{data points} alla loro
 etichetta.
 
-\subsection{\textit{Label set} \texorpdfstring{$\Y$}{Y}}
+\subsubsection{\textit{Label set} \texorpdfstring{$\Y$}{Y}}
 Verrà usata $\Y$ per indicare il label set, ovvero l'insieme di tutte le possibili
 etichette di un \textit{data point}. Le etichette potranno essere di due tipi differenti:
 \begin{enumerate}
@@ -47,7 +49,7 @@ Quando ci sono solo due possibili etichette ($|\Y|=2$), si ha un \textbf{problem
 classificazione binario} e, convenzionalmente, verrà usata una codifica numerica 
 $\Y=\{-1,1\}$.
 
-\subsection{\textit{Loss function} \texorpdfstring{$\loss$}{l}}
+\subsubsection{\textit{Loss function} \texorpdfstring{$\loss$}{l}}
 Come già visto precedentemente, si vuole misurare l'errore che un predittore commette su una
 determinata predizione. Per farlo si userà una \textbf{funzione di loss} $\loss$ non negativa 
 che misurerà la discrepanza $\loss(y,\hat{y})$ tra l'etichetta predetta $\hat{y}$ e quella
@@ -97,7 +99,7 @@ $$\lim_{\hat{y}\rightarrow 1^-} \loss(0,\hat{y})=\lim_{\hat{y}\rightarrow 0^+}
 In pratica questo previene 
 l'utilizzo di predizioni $\hat{y}$ troppo sicure, quindi troppo vicine a zero o uno.
 
-\subsection{\textit{Data domain} \texorpdfstring{$\X$}{X}}
+\subsubsection{\textit{Data domain} \texorpdfstring{$\X$}{X}}
 Verrà usata $\X$ per indicare l'insieme dei \textit{data points}; ogni suo punto $x \in \X$
 è tipicamente un record di un database. Spesso un \textit{data point} può essere codificato 
 come un vettore. Questa codifica risulta naturale in presenza di quantità omogenee, come i
@@ -109,17 +111,17 @@ in modo da ottenere uno spazio vettoriale omogeneo e coerente con i dati inizial
 In questo corso si assumerà che i dati possano essere rappresentati da vettori di numeri:
 $$ \X \equiv \mathbb{R}^d $$
 
-\subsection{Predittori \texorpdfstring{$\pred$}{f}}
+\subsubsection{Predittori \texorpdfstring{$f$}{f}}
 
 Un \textbf{predittore} è una funzione $\pred:\X \rightarrow \Y$ che mappa i
 \textit{data points} alle etichette (o $\pred:\X \rightarrow \Z$). Sì può quindi
 dire che in un problema di predizione l'obiettivo è ottenere una funzione $\pred$ 
 che genera delle predizioni $\hat{y} = \pred(x)$ tali che $\loss(y,\hat{y})$ sia
 basso per il maggior numero di punti $x \in \X$ osservati. In pratica, \textbf{la 
-funzione $\pred$ è definita da un certo numero di parametri in dato modello}. Un
+funzione $\pred$ è definita da un certo numero di parametri in un dato modello}. Un
 esempio sono i parametri di una rete neurale.
 
-\subsection{Esempi}
+\subsubsection{Esempi}
 Nel \textit{supervised learning} un \textbf{esempio} è una coppia $(x,y)$ dove $x$
 è un \textit{data point} e $y$ la sua reale etichetta.
 
@@ -127,7 +129,7 @@ In alcuni casi $x$ ha un'unica $y$, come nel caso in cui $y$ rappresenta una pro
 oggettiva di $x$; in altri casi, invece, $x$ può avere diverse $y$ associate, come
 quando le $y$ sono soggettivamente assegnate da persone.
 
-\subsection{\textit{Test set} e \textit{test error}}
+\subsubsection{\textit{Test set} e \textit{test error}}
 Per poter stimare la qualità di un predittore si usa un insieme di esempi detto
 \textbf{\textit{test set}}:
 $$ \{ (x_1',y_1'),\dots, (x_n',y_n')\} $$
@@ -140,33 +142,103 @@ $$ \frac{1}{n}\sum^{n}_{t=1}{
 Il \textit{test error} ha quindi lo scopo di calcolare la prestazione media del 
 predittore su dei dati reali.
 
-\subsection{\textit{Learning algorithm}}
-Si definisce \textit{training set} un insieme di esempi:
-$$ \{(x_1,y_1),\dots,(x_m,y_m)\} $$
-che viene usato dal \textbf{\textit{learning algorithm}} per produrre un predittore.
+\subsubsection{\textit{Learning algorithm} \texorpdfstring{$A$}{A}}
+Si definisce \textit{training set} $S$ un insieme di esempi:
+$$ S = \{(x_1,y_1),\dots,(x_m,y_m)\} $$
+che viene usato dal \textbf{\textit{learning algorithm} $A$} per produrre un predittore
+$A(S)$.
 Informalmente, il \textit{learning algorithm} \quotes{impara} dal \textit{training set}.
-
-%$$ S \rightarrow \boxed{A} \rightarrow A(S) $$
 
 \begin{figure}[h]
     \centering
     \input{figures/learning_alg.tex}
-    \caption{caption}
 \end{figure}
 
+Il \textit{test set} e il \textit{training set} vengono solitamente prodotti assieme
+attraverso un processo di collezione dati e etichettamento. Dato l'insieme di esempi
+preparati, questo verrà partizionato in \textit{test set} e \textit{training set},
+tipicamente tramite una divisione casuale. \textbf{Obiettivo del corso è lo sviluppo
+di una teoria che ci guidi nella progettazione di \textit{learning algorithm} che
+generano predittori con un basso \textit{test error}}.
 
+\subsubsection{\textit{Training error} \texorpdfstring{$\loss_S$}{l}}
+Sia $S = \{(x_1,y_1),\dots,(x_m,y_m)\}$ il \textit{training set}; viene definito,
+equivalentemente al \textit{test error}, il \textbf{\textit{training error}}:
+$$ \loss_S(\pred) = \frac{1}{m}\sum_{t=1}^m \loss(y_t,\pred(x_t)) $$
 
+\textbf{Un approccio intuitivo alla progettazione di \textit{learning algorithm} è 
+quello di assumere che il \textit{training error} $\loss_S(\pred)$ del predittore 
+$\pred$ sia correlato con il suo \textit{test error}}.
 
+\subsection{Empirical Risk Minimization (ERM)}
+\subsubsection{Definizione}
+Sia $\F$ un insieme di predittori e $\loss$ una \textit{loss function}.
+L'\textit{empirical risk minimizer} (ERM) è il \textit{learning algorithm} $A$
+che restituisce alcuni predittori in $\F$ che \textbf{minimizzano il 
+\textit{training error}}:
+$$ A(S) \in \argmin_{f \in \F} \loss_S(f) $$
 
+Si noti come $A(S)$ appartenga e non uguagli il minimo; questo perchè ci 
+potrebbero essere più $f \in \F$ che minimizzano $\loss_S(f)$.
 
+\subsubsection{\textit{Overfitting} e \textit{underfitting}}
+Se in $\F$ tutti i predittori hanno un \textit{test error} alto, ERM produrrà
+un pessimo predittore. \textbf{Per trovare un buon predittore, ci sarà quindi
+bisogno di un $\F$ grande}.
 
+\textbf{Tuttavia, se $\F$ è troppo grande, anche in questo caso verrà prodotto
+un pessimo predittore}. Un esempio è il seguente.
 
+Si consideri il seguente problema \quotes{giocattolo}:
+$$ \Y = \{-1,1\} \qquad \X = \{x_1,x_2,x_3,x_4,x_5\} $$
+Si prenda l'insieme $\F$ contenente un classificatore $f:\X\rightarrow\Y$ per
+ognuna delle possibili combinazioni di etichettamento dei cinque \textit{data
+points}. $\F$ sarà quindi formata da $2^5=32$ classificatori:
+$$ \F = \{f_1,\dots,f_{32}\} $$
 
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|c|} \hline
+        $\F$  & $f(x_1)$ & $f(x_2)$ & $f(x_3)$ & $f(x_4)$ & $f(x_5)$ \\ \hline
+        $f_1$ &  1 &  1 &  1 &  1 &  1 \\
+        $f_2$ &  1 &  1 &  1 &  1 & -1 \\
+        $f_3$ &  1 &  1 &  1 & -1 &  1 \\
+        $f_4$ &  1 &  1 &  1 & -1 & -1 \\
+        $f_5$ &  1 &  1 & -1 &  1 &  1 \\
+        $\vdots$ & \vdots & \vdots & \vdots & \vdots & \vdots \\
+        $f_{31}$ & -1 & -1 & -1 & -1 &  1 \\
+        $f_{32}$ & -1 & -1 & -1 & -1 & -1 \\ \hline
+    \end{tabular}
+\end{center}
+\vspace{1em}
 
+Si supponga che il \textit{training set} $S$ contenga solo tre \textit{data points}
+qualsiasi e il \textit{test set} contenga gli altri due. Sia $f^*$ il predittore usato
+per etichettare i dati che quindi avrà zero \textit{test} e \textit{training error};
+ogni etichetta $y_t$ sarà quindi ottenuta da $f^*$:
+$$ y_t=f^*(x_t) \quad \forall t=1,\dots,5 $$ 
 
+Per rendere l'idea, si prenda come esempio:
+$$ f^*=f_3 $$
+$$
+\begin{aligned}
+    S &= \{(x_1,y_1),(x_2,y_2),(x_3,y_3)\} \\
+      &= \{(x_1,1),(x_2,1),(x_3,1)\} \\
+\end{aligned}
+$$
 
+Nonostante ad avere \textit{test error} nullo sia solo $f_3$, ad avere il \textit{training
+error} nullo sono i quattro classificatori che hanno $y_1,y_2,y_3=1$ ovvero $f_1,f_2,f_3,f_4$.
+Questo perchè il \textit{training set} $S$ contiene solo i primi 3 \textit{data points}.
 
+Siamo quindi nella situazione in cui ERM trova più predittori con $\loss_S$ minimo e non
+ha abbastanza informazioni per capire quale di questi ha il \textit{test error} migliore.
 
+\textbf{Il problema dell'esempio appena visto è che $\F$ è troppo grande rispetto al
+\textit{training set}}. La domanda che sorge spontanea è quindi: Quanto deve essere 
+grande $\F$ per poter ottenere un buon predittore tramite ERM?
 
+\textbf{La teoria dell'informazione ci suggerisce che $S$ debba avere cardinalità
+$\log_2{|\F|}$} o, viceversa, $\F$ debba avere cardinalità $2^m$.
 
-
+Quindi, nell'esempio di prima, il \textit{training set} avrebbe dovuto contenere almeno
+$\log_2{|\F|}=5$ \textit{data points}.

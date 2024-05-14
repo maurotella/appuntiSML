@@ -1,0 +1,15 @@
+\babel@toc {italian}{}\relax 
+\babel@toc {italian}{}\relax 
+\contentsline {section}{\numberline {1}Introduzione}{2}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Definizioni fondamentali}{2}{subsection.1.1}%
+\contentsline {subsubsection}{\numberline {1.1.1}\textit {Label set} $\ensuremath {\mathcal {Y}}$}{2}{subsubsection.1.1.1}%
+\contentsline {subsubsection}{\numberline {1.1.2}\textit {Loss function} $\ensuremath {\ell }$}{2}{subsubsection.1.1.2}%
+\contentsline {subsubsection}{\numberline {1.1.3}\textit {Data domain} $\ensuremath {\mathcal {X}}$}{3}{subsubsection.1.1.3}%
+\contentsline {subsubsection}{\numberline {1.1.4}Predittori $f$}{3}{subsubsection.1.1.4}%
+\contentsline {subsubsection}{\numberline {1.1.5}Esempi}{4}{subsubsection.1.1.5}%
+\contentsline {subsubsection}{\numberline {1.1.6}\textit {Test set} e \textit {test error}}{4}{subsubsection.1.1.6}%
+\contentsline {subsubsection}{\numberline {1.1.7}\textit {Learning algorithm} $A$}{4}{subsubsection.1.1.7}%
+\contentsline {subsubsection}{\numberline {1.1.8}\textit {Training error} $\ensuremath {\ell }_S$}{4}{subsubsection.1.1.8}%
+\contentsline {subsection}{\numberline {1.2}Empirical Risk Minimization (ERM)}{4}{subsection.1.2}%
+\contentsline {subsubsection}{\numberline {1.2.1}Definizione}{4}{subsubsection.1.2.1}%
+\contentsline {subsubsection}{\numberline {1.2.2}\textit {Overfitting} e \textit {underfitting}}{5}{subsubsection.1.2.2}%
