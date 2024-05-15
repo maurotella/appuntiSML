@@ -149,6 +149,8 @@ che viene usato dal \textbf{\textit{learning algorithm} $A$} per produrre un pre
 $A(S)$.
 Informalmente, il \textit{learning algorithm} \quotes{impara} dal \textit{training set}.
 
+\vspace{1em}
+
 \begin{figure}[h]
     \centering
     \input{figures/learning_alg.tex}
@@ -184,7 +186,7 @@ potrebbero essere più $f \in \F$ che minimizzano $\loss_S(f)$.
 \subsubsection{\textit{Overfitting} e \textit{underfitting}}
 Se in $\F$ tutti i predittori hanno un \textit{test error} alto, ERM produrrà
 un pessimo predittore. \textbf{Per trovare un buon predittore, ci sarà quindi
-bisogno di un $\F$ grande}.
+bisogno che $\F$ sia sufficientemente grande}.
 
 \textbf{Tuttavia, se $\F$ è troppo grande, anche in questo caso verrà prodotto
 un pessimo predittore}. Un esempio è il seguente.
@@ -231,7 +233,8 @@ error} nullo sono i quattro classificatori che hanno $y_1,y_2,y_3=1$ ovvero $f_1
 Questo perchè il \textit{training set} $S$ contiene solo i primi 3 \textit{data points}.
 
 Siamo quindi nella situazione in cui ERM trova più predittori con $\loss_S$ minimo e non
-ha abbastanza informazioni per capire quale di questi ha il \textit{test error} migliore.
+ha abbastanza informazioni per capire quale di questi sia migliore a livello di
+\textit{test error}.
 
 \textbf{Il problema dell'esempio appena visto è che $\F$ è troppo grande rispetto al
 \textit{training set}}. La domanda che sorge spontanea è quindi: Quanto deve essere 
