@@ -1,0 +1,28 @@
+\section{L'algoritmo \textit{Nearest Neighbor} (NN)}
+
+Verrà introdotto ora l'algoritmo di \textbf{\textit{Nearest Neighbor} (NN)} per la
+classificazione binaria con \textit{feature} numeriche:
+$$ \X = \RN^d \qquad\qquad \Y = \{-1,1\} $$
+
+NN non è un'istanza di ERM in quanto non punta a minimizzare $\loss_S$.
+
+\textbf{
+L'idea di NN è la sueguente:
+\begin{itemize}
+    \item Predici ogni punto del \textit{training set} con la propria etichetta;
+    \item Predici gli altri punti con l'etichetta del punto del \textit{training set}
+        che è più vicino al punto interessato.
+\end{itemize}
+}
+
+Più formalmente, dato un \textit{training set}:
+$$ S = \{(x_1,y_1),\dots,(x_m,y_m)\} $$
+l'algoritmo $\Ann$ genera un classificatore $\hnn:\RN \rightarrow \{-1,1\}$ definito
+come segue:
+$$ \hnn(x) = \text{etichetta $y_t$ del punto $x_t \in S$ più vicino a x} $$
+
+Se a minimizzare la distanza con $x$ sono più punti, si predirrà l'etichetta più
+presente tra i putni vicini. Se non c'è una maggioranza di etichette tra i punti
+più vicini si predirrà un valore di default $\in \{-1,1\}$.
+
+La distanza tra i vari punti verrà calcolata tramite la distanza euclidea

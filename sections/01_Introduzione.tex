@@ -33,7 +33,7 @@ etichette di un \textit{data point}. Le etichette potranno essere di due tipi di
 \begin{enumerate}
     \item \textbf{Categoriche} ($\Y = \{ \text{sport},\text{politica},\text{economia}\}$):
         si parlerà di problemi di \textbf{classificazione};
-    \item \textbf{Numeriche} ($\Y \subseteq \mathbb{R} $): 
+    \item \textbf{Numeriche} ($\Y \subseteq \RN $): 
         si parlerà di problemi di \textbf{regressione}.
 \end{enumerate}
 
@@ -101,15 +101,17 @@ l'utilizzo di predizioni $\hat{y}$ troppo sicure, quindi troppo vicine a zero o 
 
 \subsubsection{\textit{Data domain} \texorpdfstring{$\X$}{X}}
 Verrà usata $\X$ per indicare l'insieme dei \textit{data points}; ogni suo punto $x \in \X$
-è tipicamente un record di un database. Spesso un \textit{data point} può essere codificato 
-come un vettore. Questa codifica risulta naturale in presenza di quantità omogenee, come i
-pixel di un'immagine o una lista di occorrenze di parole in un testo. Quando invece i dati
+è tipicamente un record di un database formato da \textit{feature}:
+$$ x = (x_1, \dots , x_d) $$
+Spesso un \textit{data point} può essere codificato come un vettore i cui elementi sono le
+sue \textit{feature}. Questa codifica risulta naturale in presenza di quantità omogenee, come
+i pixel di un'immagine o una lista di occorrenze di parole in un testo. Quando invece i dati
 presenti utilizzano unità di misura differenti, come \quotes{età} e \quotes{altezza}, la
 codifica non risulta più immediata. Ci sarà bisogno di una procedura che codifichi i dati
 in modo da ottenere uno spazio vettoriale omogeneo e coerente con i dati iniziali.
 
 In questo corso si assumerà che i dati possano essere rappresentati da vettori di numeri:
-$$ \X \equiv \mathbb{R}^d $$
+$$ \X \equiv \RN^d $$
 
 \subsubsection{Predittori \texorpdfstring{$f$}{f}}
 

@@ -16,14 +16,18 @@
 
 \newcommand{\quotes}[1]{``#1''}
 
-\DeclareMathOperator*{\Y}{\mathcal{Y}}
-\DeclareMathOperator*{\Z}{\mathcal{Z}}
-\DeclareMathOperator*{\X}{\mathcal{X}}
-\DeclareMathOperator*{\F}{\mathcal{F}}
+
+\newcommand{\Y}{\ensuremath{\mathcal{Y}}}
+\newcommand{\Z}{\ensuremath{\mathcal{Z}}}
+\newcommand{\X}{\ensuremath{\mathcal{X}}}
+\newcommand{\F}{\ensuremath{\mathcal{F}}}
 \DeclareMathOperator*{\argmax}{argmax}
 \DeclareMathOperator*{\argmin}{argmin}
 \newcommand{\pred}{\ensuremath{f}}  
 \newcommand{\loss}{\ensuremath{\ell}}
+\newcommand{\RN}{\ensuremath{\mathbb{R}}}
+\newcommand{\Ann}{\ensuremath{A_{\text{NN}}}}
+\newcommand{\hnn}{\ensuremath{h_{\text{NN}}}}
 
 \begin{document}
 
@@ -36,5 +40,7 @@
 \clearpage
 
 \input{sections/01_Introduzione.tex}
+\clearpage
+\input{sections/02_nearest_neighbor.tex}
 
 \end{document}
