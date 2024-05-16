@@ -28,7 +28,7 @@ sistemi di \textit{machine learning} il cui obiettivo è apprendere dei
 etichetta.
 
 \subsubsection{\textit{Label set} \texorpdfstring{$\Y$}{Y}}
-Verrà usata $\Y$ per indicare il label set, ovvero l'insieme di tutte le possibili
+Verrà usata $\Y$ per indicare il \textit{label set}, ovvero l'insieme di tutte le possibili
 etichette di un \textit{data point}. Le etichette potranno essere di due tipi differenti:
 \begin{enumerate}
     \item \textbf{Categoriche} ($\Y = \{ \text{sport},\text{politica},\text{economia}\}$):
@@ -176,17 +176,18 @@ $\pred$ sia correlato con il suo \textit{test error}}.
 \subsubsection{Definizione}
 Sia $\F$ un insieme di predittori e $\loss$ una \textit{loss function}.
 L'\textit{empirical risk minimizer} (ERM) è il \textit{learning algorithm} $A$
-che restituisce alcuni predittori in $\F$ che \textbf{minimizzano il 
+che restituisce un predittore in $\F$ che \textbf{minimizza il 
 \textit{training error}}:
 $$ A(S) \in \argmin_{f \in \F} \loss_S(f) $$
 
 Si noti come $A(S)$ appartenga e non uguagli il minimo; questo perchè ci 
 potrebbero essere più $f \in \F$ che minimizzano $\loss_S(f)$.
 
-\subsubsection{\textit{Overfitting} e \textit{underfitting}}
-Se in $\F$ tutti i predittori hanno un \textit{test error} alto, ERM produrrà
-un pessimo predittore. \textbf{Per trovare un buon predittore, ci sarà quindi
-bisogno che $\F$ sia sufficientemente grande}.
+\subsubsection{Predittori con \textit{test error} elevato}
+Quando in $\F$ tutti i predittori hanno un \textit{test error} alto, ERM produrrà
+un pessimo predittore. \textbf{Per trovare un buon predittore, ovvero un predittore
+con un \textit{test error} basso, ci sarà quindi bisogno che $\F$ sia sufficientemente
+grande}.
 
 \textbf{Tuttavia, se $\F$ è troppo grande, anche in questo caso verrà prodotto
 un pessimo predittore}. Un esempio è il seguente.
@@ -241,7 +242,40 @@ ha abbastanza informazioni per capire quale di questi sia migliore a livello di
 grande $\F$ per poter ottenere un buon predittore tramite ERM?
 
 \textbf{La teoria dell'informazione ci suggerisce che $S$ debba avere cardinalità
-$\log_2{|\F|}$} o, viceversa, $\F$ debba avere cardinalità $2^m$.
+$\log_2{|\F|}$} o, viceversa, $\F$ debba avere cardinalità $2^m$. Quindi, nell'esempio
+di prima, il \textit{training set} avrebbe dovuto contenere almeno $\log_2{|\F|}=5$
+\textit{data points}.
 
-Quindi, nell'esempio di prima, il \textit{training set} avrebbe dovuto contenere almeno
-$\log_2{|\F|}=5$ \textit{data points}.
+\subsubsection{\textit{Overfitting} e \textit{underfitting}}
+
+I due eventi visti nella sezione precedente, che portano alla generazione di un predittore con 
+\textit{test set} elevato, vengono chiamati:
+\begin{itemize}
+    \item \textbf{Underfitting}: si verifica quando il \textit{training error} 
+        è elevato;
+    \item \textbf{Overfitting}: si verifica quando il \textit{training error} 
+    è basso ma il \textit{test error} è alto.
+\end{itemize}
+
+Quando $A$ è ERM e $S$ ha dimensione fissata $|S|=m$:
+\begin{itemize}
+    \item Ci si aspetta \textit{overfitting} quando $\log_2|\F| \gg m $;
+    \item Ci si aspetta \textit{underfitting} quando $\log_2|\F| \ll m $.
+\end{itemize}
+
+\subsubsection{Etichette rumorose}
+Il fenomeno dell'\textit{overfitting} spesso accade quando le etichette sono rumorose, ovvero
+quando le etichette $y$ non sono deterministicamente associate con i \textit{data points} $x$.
+Questo può accadere per i seguenti motivi (non mutuamente esclusivi tra loro):
+\begin{enumerate}
+    \item \textbf{Incertezza umana}: se ad etichettare $S$ sono delle persone, ci sarà dell'
+        incertezza in quanto persone diverse potrebbero avere opinioni diverse;
+    \item \textbf{Incertezza epistemica}: ogni \textit{data point} è rappresentato da un 
+        vettore delle \textit{feature} che non contiene abbastanza informazioni per determinare
+        univocamente l'etichetta;
+    \item \textbf{Incertezza aleatoria}: il vettore delle \textit{feature} che rappresenta il
+        \textit{data point} è ottenuto attraverso delle misurazioni rumorose.
+\end{enumerate}
+
+Le etichette rumorose portano all'\textit{overfitting} perchè possono ingannare l'algoritmo su
+quale sia la \quotes{vera} etichetta di una certo \textit{data point}.
