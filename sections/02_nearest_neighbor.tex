@@ -25,4 +25,17 @@ Se a minimizzare la distanza con $x$ sono più punti, si predirrà l'etichetta p
 presente tra i putni vicini. Se non c'è una maggioranza di etichette tra i punti
 più vicini si predirrà un valore di default $\in \{-1,1\}$.
 
-La distanza tra i vari punti verrà calcolata tramite la distanza euclidea
+Presi due punti $x=(x_1,\dots,x_d)$ e $x_t=(x_{t,1},\dots,x_{t,d})$, la distanza
+$||x-x_t||$ verrà calcolata tramite la distanza euclidea:
+$$||x-x_t|| = \sqrt{\sum_{i=1}^d (x_i-x_{t,i})^2}$$
+
+Ogni classificatore binario $\pred : \RN^d \rightarrow \{-1,1\}$ partiziona $\RN^d$
+in due regioni (come mostrato in figura \ref{fig:voronoi}):
+$$ \colorbox{orange}{$\{ x \in \RN^d : \pred(x)=1 \}$} \quad , \quad 
+   \colorbox{cyan}{$\{ x \in \RN^d : \pred(x)=-1 \}$} $$
+
+\begin{figure}[h]
+    \centering
+    \input{figures/voronoi.tex}
+    \caption{Diagramma di Voronoi in $\RN^2$\label{fig:voronoi}}
+\end{figure}
