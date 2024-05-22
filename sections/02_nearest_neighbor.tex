@@ -1,13 +1,14 @@
 \section{L'algoritmo \textit{Nearest Neighbor} (NN)}
 
+\subsection{Definizione}
+
 Verrà introdotto ora l'algoritmo di \textbf{\textit{Nearest Neighbor} (NN)} per la
 classificazione binaria con \textit{feature} numeriche:
 $$ \X = \RN^d \qquad\qquad \Y = \{-1,1\} $$
 
 NN non è un'istanza di ERM in quanto non punta a minimizzare $\loss_S$.
 
-\textbf{
-L'idea di NN è la sueguente:
+\textbf{L'idea di NN è la sueguente:
 \begin{itemize}
     \item Predici ogni punto del \textit{training set} con la propria etichetta;
     \item Predici gli altri punti con l'etichetta del punto del \textit{training set}
@@ -38,5 +39,55 @@ $$ \colorbox{orange}{$\{ x \in \RN^d : \pred(x)=1 \}$} \quad , \quad
     \centering
     \input{figures/voronoi.tex}
     \caption{Diagramma di Voronoi in $\RN^2$\label{fig:voronoi}; tutti i punti $x$
-    interni a una cella con centro $x_t$ sono tali che $\hnn(x)=y_t$}
+    interni a una cella con centro \textbullet $x_t$ sono tali che $\hnn(x)=y_t$}
 \end{figure}
+
+\subsection{Efficienza ed efficacia}
+
+Siccome il funzionamento di NN implica la memorizzazione di tutto il 
+\textit{training set}, \textbf{l'algoritmo non scala bene con il numero di
+$|S| = m$ di \textit{training point}}. Inoltre, calcolare un qualsiasi
+$\hnn(x)$ è costoso, in quanto richiede di calcolare la distanza tra $x$ e
+tutti gli altri punti di $S$; questo in $\RN^d$ comporta un costo di 
+$\Theta (dm)$.
+
+Infine, si noti come, vista la completa memorizzazione di $S$, \textbf{NN generi 
+sempre un classificatore $\hnn$ con \textit{training error} nullo}:
+$$ \loss_S(\hnn)=0 $$
+
+\subsection{Algoritmi \texorpdfstring{\kNN}{k-NN}}
+Partendo dagli algoritmi NN, si può ottenere una famiglia di algoritmi detta
+\kNN; il parametro $k$ assume tipicamente i valori $k=1,3,5,\dots$ con $k<|S|$.
+
+Questi algoritmi sono definiti come segue: dato un \textit{training set} $S$ e un
+punto $x \in \X$, \kNN \ genererà un predittore $\hknn$ tale che:
+$$\hknn(x) = \text{etichetta $y_t$ appartenente alla maggioranza dei $k$ punti
+più vicini a $x$} $$
+
+\begin{figure}[h]
+    \centering
+    \input{figures/knn.tex}
+    \caption{Esempi di $\hknn$ con $\X=\RN^2$; si noti come, con lo stesso \textit{training set}, 
+    la predizione cambia al variare di $k$. \label{fig:knn}}
+\end{figure}
+\vspace{1em}
+
+A differenza di NN ($k=1$), non si ha sempre un \textit{training error} nullo:
+$$ \loss_S(\hknn)\geq0 $$
+
+\begin{figure}[h]
+    \centering
+    \input{figures/knn_line.tex}
+    \caption{Esempi di $\hknn$ con $\X = \RN$; si noti come al crescere di $k$
+     cresca anche la \quotes{semplicità} del classificatore\label{fig:knn_line}
+     così come il numero di punti errati (evidenziati in grassetto)}.
+\end{figure}
+\vspace{1em}
+
+Come si può infatti notare dalla figura \ref{fig:knn}, nei casi con $k=3$ e $k=5$
+
+
+
+
+
+

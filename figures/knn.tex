@@ -1,0 +1,66 @@
+\begin{tikzpicture}[scale=1.8]
+
+    \def \r {.05}
+
+    \begin{scope}
+        \coordinate (X) at (1.4,1.6);
+
+        \node at (1.4,2.5) {$\hnn(x)=$};
+        \draw[fill=cyan] (1.95,2.5) circle (\r);
+
+        \draw[dash pattern=on .5pt off 1.89pt](X) circle (.23);
+
+        \draw[fill=white] (X)  circle (\r) node[above]{$x$};
+    
+        \draw[fill=cyan]   (.9,1.6)    circle (\r);
+        \draw[fill=cyan]   (1.0,2.15)  circle (\r);
+        \draw[fill=cyan]   (1.1,1.17)  circle (\r);
+        \draw[fill=cyan]   (1.2,1.5)   circle (\r);
+        \draw[fill=orange] (1.68,1.87) circle (\r);
+        \draw[fill=orange] (1.67,1.29) circle (\r);
+        \draw[fill=orange] (2.05,1.5)  circle (\r);
+
+        \draw (2.3,1) -- (2.3,2.5);
+    \end{scope}
+
+    \begin{scope}[xshift=1.8cm]
+        \coordinate (X) at (1.4,1.6);
+
+        \node at (1.35,2.5) {$h_{3\text{-NN}}(x)=$};
+        \draw[fill=orange] (1.95,2.5) circle (\r);
+
+        \draw[dash pattern=on .5pt off 1.89pt](X) circle (.415);
+
+        \draw[fill=white] (X)  circle (\r) node[above]{$x$};
+    
+        \draw[fill=cyan]   (.9,1.6)    circle (\r);
+        \draw[fill=cyan]   (1.0,2.15)  circle (\r);
+        \draw[fill=cyan]   (1.1,1.17)  circle (\r);
+        \draw[fill=cyan]   (1.2,1.5)   circle (\r);
+        \draw[fill=orange] (1.68,1.87) circle (\r);
+        \draw[fill=orange] (1.67,1.29) circle (\r);
+        \draw[fill=orange] (2.05,1.5)  circle (\r);
+
+        \draw (2.3,1) -- (2.3,2.5);
+    \end{scope}
+
+    \begin{scope}[xshift=3.6cm]
+        \coordinate (X) at (1.4,1.6);
+        
+        \node at (1.35,2.5) {$h_{5\text{-NN}}(x)=$};
+        \draw[fill=cyan] (1.95,2.5) circle (\r);
+
+        \draw[dash pattern=on .5pt off 1.815pt](X) circle (.525);
+
+        \draw[fill=white] (X)  circle (\r) node[above]{$x$};
+    
+        \draw[fill=cyan]   (.9,1.6)    circle (\r);
+        \draw[fill=cyan]   (1.0,2.15)  circle (\r);
+        \draw[fill=cyan]   (1.1,1.17)  circle (\r);
+        \draw[fill=cyan]   (1.2,1.5)   circle (\r);
+        \draw[fill=orange] (1.68,1.87) circle (\r);
+        \draw[fill=orange] (1.67,1.29) circle (\r);
+        \draw[fill=orange] (2.05,1.5)  circle (\r);
+    \end{scope}
+
+\end{tikzpicture}
