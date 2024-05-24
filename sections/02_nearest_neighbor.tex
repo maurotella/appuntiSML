@@ -1,7 +1,8 @@
-\section{L'algoritmo \textit{Nearest Neighbor} (NN)}
+\section{Gli algoritmi \textit{Nearest Neighbor}}
 
-\subsection{Definizione}
+\subsection{\textit{Nearest Neighbor} (NN)}
 
+\subsubsection{Definizione}
 Verrà introdotto ora l'algoritmo di \textbf{\textit{Nearest Neighbor} (NN)} per la
 classificazione binaria con \textit{feature} numeriche:
 $$ \X = \RN^d \qquad\qquad \Y = \{-1,1\} $$
@@ -32,8 +33,8 @@ $$||x-x_t|| = \sqrt{\sum_{i=1}^d (x_i-x_{t,i})^2}$$
 
 Ogni classificatore binario $\pred : \RN^d \rightarrow \{-1,1\}$ partiziona $\RN^d$
 in due regioni (come mostrato in figura \ref{fig:voronoi}):
-$$ \colorbox{orange}{$\{ x \in \RN^d : \pred(x)=1 \}$} \quad , \quad 
-   \colorbox{cyan}{$\{ x \in \RN^d : \pred(x)=-1 \}$} $$
+$$ \colorbox{transp-cyan}{$\{ x \in \RN^d : \pred(x)=1 \}$} \quad , \quad 
+   \colorbox{transp-orange}{$\{ x \in \RN^d : \pred(x)=-1 \}$} $$
 
 \begin{figure}[h]
     \centering
@@ -42,7 +43,7 @@ $$ \colorbox{orange}{$\{ x \in \RN^d : \pred(x)=1 \}$} \quad , \quad
     interni a una cella con centro \textbullet $x_t$ sono tali che $\hnn(x)=y_t$}
 \end{figure}
 
-\subsection{Efficienza ed efficacia}
+\subsubsection{Efficienza ed efficacia}
 
 Siccome il funzionamento di NN implica la memorizzazione di tutto il 
 \textit{training set}, \textbf{l'algoritmo non scala bene con il numero di
@@ -55,7 +56,9 @@ Infine, si noti come, vista la completa memorizzazione di $S$, \textbf{NN generi
 sempre un classificatore $\hnn$ con \textit{training error} nullo}:
 $$ \loss_S(\hnn)=0 $$
 
-\subsection{Algoritmi \texorpdfstring{\kNN}{k-NN}}
+\subsection{\texorpdfstring{$k-$Nearest Neighbor (\kNN)}{k-NN}}
+
+\subsubsection{Definizione}
 Partendo dagli algoritmi NN, si può ottenere una famiglia di algoritmi detta
 \kNN; il parametro $k$ assume tipicamente i valori $k=1,3,5,\dots$ con $k<|S|$.
 
@@ -67,27 +70,48 @@ più vicini a $x$} $$
 \begin{figure}[h]
     \centering
     \input{figures/knn.tex}
-    \caption{Esempi di $\hknn$ con $\X=\RN^2$; si noti come, con lo stesso \textit{training set}, 
-    la predizione cambia al variare di $k$. \label{fig:knn}}
+    \caption{Esempi di $\hknn$ con $\X=\RN^2$; si noti come, con lo stesso 
+    \textit{training set}, la predizione cambia al variare di $k$. \label{fig:knn}}
 \end{figure}
 \vspace{1em}
 
-A differenza di NN ($k=1$), non si ha sempre un \textit{training error} nullo:
+\subsubsection{Efficienza ed efficacia}
+
+A livello di efficienza \kNN \ soffre degli stessi problemi di NN vista la
+memorizzazione dell'intero \textit{training set}.
+
+Per quanto riguarda la sua efficacia invece, \kNN \ non ha sempre un 
+\textit{training error} nullo:
 $$ \loss_S(\hknn)\geq0 $$
 
 \begin{figure}[h]
     \centering
     \input{figures/knn_line.tex}
-    \caption{Esempi di $\hknn$ con $\X = \RN$; si noti come al crescere di $k$
-     cresca anche la \quotes{semplicità} del classificatore\label{fig:knn_line}
-     così come il numero di punti errati (evidenziati in grassetto)}.
+    \caption{\label{fig:knn_line}Esempi di $\hknn$ con $\X = \RN$.}
 \end{figure}
 \vspace{1em}
 
-Come si può infatti notare dalla figura \ref{fig:knn}, nei casi con $k=3$ e $k=5$
+Come si può infatti notare dalla figura \ref{fig:knn_line}, nei casi con $k=3$ e 
+$k=5$ sono presenti punti errati (evidenziati in grassetto) considerati dal 
+classificatore come \textit{outlier}. Inoltre \textbf{al crescere di $k$ cresce 
+anche la \quotes{semplicità} del classificatore così come il numero di punti errati}.
+L'estremo di ciò è quando $k=|S|$; in questo caso infatti $\hknn$ diventa un 
+classificatore costante che predice sempre l'etichetta più presente in tutto $S$.
 
+In un generico classificatore $\hknn$ tipicamente succede che:
+\begin{itemize}
+    \item \textbf{Se $k$ è troppo basso} si ottiene un classificatore che si 
+        \quotes{fida} troppo del \textit{training set}, ottenendo quindi 
+        \textbf{\textit{overfitting}};
+    \item \textbf{Se $k$ è troppo alto}, si ottiene un classificatore troppo
+        semplice, ottenendo \textbf{\textit{underfitting}}.
+\end{itemize}
 
-
-
-
-
+Tutti i classificatori introdotti fino ad'ora sono classificatori binari ($|\Y|=2$).
+Tuttavia \kNN può essere usato anche per:
+\begin{itemize}
+    \item problemi di classificazione multiclasse ($|\Y|>2$): si opera come nel caso
+        binario, predicendo quindi l'etichetta più presente nei $k$ punti più vicini;
+    \item problemi di regressione ($\Y = \RN$): si predice la media aritmetice delle
+        etichette dei $k$ punti più vicini.
+\end{itemize}

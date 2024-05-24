@@ -15,7 +15,10 @@
 \contentsline {subsubsection}{\numberline {1.2.2}Predittori con \textit {test error} elevato}{5}{subsubsection.1.2.2}%
 \contentsline {subsubsection}{\numberline {1.2.3}\textit {Overfitting} e \textit {underfitting}}{6}{subsubsection.1.2.3}%
 \contentsline {subsubsection}{\numberline {1.2.4}Etichette rumorose}{6}{subsubsection.1.2.4}%
-\contentsline {section}{\numberline {2}L'algoritmo \textit {Nearest Neighbor} (NN)}{7}{section.2}%
-\contentsline {subsection}{\numberline {2.1}Definizione}{7}{subsection.2.1}%
-\contentsline {subsection}{\numberline {2.2}Efficienza ed efficacia}{7}{subsection.2.2}%
-\contentsline {subsection}{\numberline {2.3}Algoritmi $k-$NN}{8}{subsection.2.3}%
+\contentsline {section}{\numberline {2}Gli algoritmi \textit {Nearest Neighbor}}{7}{section.2}%
+\contentsline {subsection}{\numberline {2.1}\textit {Nearest Neighbor} (NN)}{7}{subsection.2.1}%
+\contentsline {subsubsection}{\numberline {2.1.1}Definizione}{7}{subsubsection.2.1.1}%
+\contentsline {subsubsection}{\numberline {2.1.2}Efficienza ed efficacia}{8}{subsubsection.2.1.2}%
+\contentsline {subsection}{\numberline {2.2}$k-$Nearest Neighbor ($k-$NN)}{8}{subsection.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.1}Definizione}{8}{subsubsection.2.2.1}%
+\contentsline {subsubsection}{\numberline {2.2.2}Efficienza ed efficacia}{8}{subsubsection.2.2.2}%
