@@ -1,0 +1,37 @@
+\section{Tree Predictors}
+
+Come già visto, mentre alcuni tipi di dato hanno una naturale rappresentazione
+vettoriale $x \in \RN^d$, altri non ce l'hanno. Un esempio possono essere dei
+\textit{record} medici, dove i dati contengono i seguenti campi:
+$$ \begin{aligned}
+    &\texttt{età} \in \{12,\dots,90\} \\
+    &\texttt{fumatore} \in \{\text{sì},\text{no},\text{ex}\} \\
+    &\texttt{peso} \in [10,200] \\
+    &\texttt{sesso} \in \{\text{M},\text{F}\} \\
+    &\texttt{terapia} \in \{\text{antibiotici},\text{cortisone},\text{nessuna}\} \\
+\end{aligned} $$
+
+Anche convertendo questi tipi di dato in dati numerici, gli algoritmi basati sulla
+distanza euclidea, come il \kNN, potrebbero non andare molto bene.
+
+\textbf{Per poter applicare la \textit{data inference} su dati le cui 
+\textit{feature} variano in insiemi eterogenei $\X_1,\dots,\X_d$, verrà introdotta 
+una nuova famiglia di predittori: i \textit{tree predictors}}.
+
+Un \textit{tree predictor} è un albero ordinato e radicato dove ogni nodo può
+essere una \textbf{foglia} o un \textbf{nodo interno}. In figura \ref{fig:tree_class}
+viene mostrato un esempio di \textit{tree predictor} binario le cui \textit{feature}
+sono:
+
+$$ \begin{aligned}
+    &\texttt{previsione} \in \{\text{sole},\text{nuvole},\text{pioggia}\} \\
+    &\texttt{umidità} \in [0,100] \\
+    &\texttt{vento} \in \{\text{sì},\text{no}\}
+\end{aligned} $$
+ 
+\begin{figure}[h]
+    \centering
+    \input{figures/tree.tex}
+    \caption{Esempio classico di \textit{tree classifier} binario.\label{fig:tree_class}}
+\end{figure}
+

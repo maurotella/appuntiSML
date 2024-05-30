@@ -22,3 +22,4 @@
 \contentsline {subsection}{\numberline {2.2}$k-$Nearest Neighbor ($k-$NN)}{8}{subsection.2.2}%
 \contentsline {subsubsection}{\numberline {2.2.1}Definizione}{8}{subsubsection.2.2.1}%
 \contentsline {subsubsection}{\numberline {2.2.2}Efficienza ed efficacia}{8}{subsubsection.2.2.2}%
+\contentsline {section}{\numberline {3}Tree Predictors}{10}{section.3}%
