@@ -1,5 +1,6 @@
 \section{Tree Predictors}
 
+\subsection{Definizione}
 Come già visto, mentre alcuni tipi di dato hanno una naturale rappresentazione
 vettoriale $x \in \RN^d$, altri non ce l'hanno. Un esempio possono essere dei
 \textit{record} medici, dove i dati contengono i seguenti campi:
@@ -19,10 +20,12 @@ distanza euclidea, come il \kNN, potrebbero non andare molto bene.
 una nuova famiglia di predittori: i \textit{tree predictors}}.
 
 Un \textit{tree predictor} è un albero ordinato e radicato dove ogni nodo può
-essere una \textbf{foglia} o un \textbf{nodo interno}. In figura \ref{fig:tree_class}
+essere una \textbf{foglia} o un \textbf{nodo interno}. È importante sottolineare che
+in un albero ordinato i figli di ogni nodo sono anch'essi ordinati e quindi numerabili
+consecutivamente.
+In figura \ref{fig:tree_class}
 viene mostrato un esempio di \textit{tree predictor} binario le cui \textit{feature}
 sono:
-
 $$ \begin{aligned}
     &\texttt{previsione} \in \{\text{sole},\text{nuvole},\text{pioggia}\} \\
     &\texttt{umidità} \in [0,100] \\
@@ -35,3 +38,53 @@ $$ \begin{aligned}
     \caption{Esempio classico di \textit{tree classifier} binario.\label{fig:tree_class}}
 \end{figure}
 
+Sia $ \X = \X_1,\dots,\X_d $, dove ogni $\X_i$ rappresenta il dominio dell'$i$-esimo
+attributo (o \textit{feature}) $x_i$. \textbf{Il \textit{tree predictor} $h_T:\X 
+\rightarrow \Y$ è un predittore definito da un albero $T$ i cui nodi interni 
+corrispondono a dei test e le cui foglie corrispondono a delle etichette $y \in \Y$}.
+
+Un test su un attributo $i$ su un nodo interno con $k$ figli è una funzione 
+$f:\X \rightarrow \{1,\dots,k\}$. $f$ mappa ogni elemento di $\X_i$ a un nodo figlio. 
+Due esempi possono essere i seguenti:
+
+\begin{minipage}{.45\textwidth}
+    $$\X_i = \{a,b,c,d\} \qquad\quad k=3$$
+    $$ f(x_i) = 
+        \begin{cases}
+            \ 1 & x_i = c\\
+            \ 2 & x_i = d\\
+            \ 3 & x_i \in \{a,b\}\\
+        \end{cases}
+    $$
+\end{minipage}
+\begin{minipage}{.45\textwidth}
+    $$\X_i = [0,100] \qquad\quad k=2$$
+    $$ f(x_i) = 
+        \begin{cases}
+            \ 1 & x_i \in [0,70]\\
+            \ 2 & x_i \in (70,100]\\
+        \end{cases}
+    $$
+\end{minipage}
+
+L'esempio di destra è riferito all'attributo \texttt{umidità} di figura
+\ref{fig:tree_class}.
+
+La predizione $h_T(x)$ è calcolata come segue:
+\begin{enumerate}
+    \item $v \leftarrow r \qquad$ ($r$ è la radice di $T$)
+    \item se $v$ è una foglia $\ell$, si restituisce l'etichetta $y \in \Y$
+    associata a $\ell$;
+    \item altrimenti, sia $f:\X_i \rightarrow \{1,\dots,k\}$ il test associato a
+    $v$, \textbf{assegna $v\leftarrow v_j$} dove $j=f(x_i)$ e $v_j$ indica il
+    $j$-esimo figlio di $v$;
+    \item vai al passaggio 2.
+\end{enumerate}
+
+Se $h_T(x)$ restituisce la foglia $\ell$, si dirà che l'esempio $x$ è indirizzato a
+$\ell$.
+
+\subsection{Costruzione di un \textit{tree predictor}}
+Dato un \textit{training set} $S$, si vedrà ora come costruire un \textit{tree predictor}.
+Per semplicità, si guarderà solo ad una classificazione binaria $\Y=\{-1,1\}$ e verranno
+usati solo alberi binari completi, cioè alberi dove ogni nodo interno ha due figli.
