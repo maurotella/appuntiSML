@@ -1,0 +1,19 @@
+\usetikzlibrary {shapes.geometric}
+\begin{tikzpicture}[level distance=1.9cm,
+    level 1/.style={sibling distance=3cm},
+    level 2/.style={sibling distance=1.5cm}
+]
+    
+    \node [ellipse,draw] {\texttt{previsione}}
+        child {node[ellipse,draw] {\texttt{umidità}}
+            child {node[rectangle,draw] {$+1$} edge from parent node[above,rotate=67] {bassa}}
+            child {node[rectangle,draw] {$-1$} edge from parent node[above,rotate=-67] {alta}}
+            edge from parent node[above,rotate=50] {sole}
+        }
+        child {node[ellipse,draw] {\texttt{vento}} 
+            child {node[rectangle,draw,fill=cyan] {$?$} edge from parent node[above,rotate=67] {sì}}
+            child {node[rectangle,draw,fill=orange] {$?$} edge from parent node[above,rotate=-67] {no}}
+            edge from parent node[above,yshift=-.3em,xshift=.2em,rotate=-53] {pioggia}
+        };
+
+\end{tikzpicture}

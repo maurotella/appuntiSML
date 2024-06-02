@@ -35,7 +35,8 @@ $$ \begin{aligned}
 \begin{figure}[h]
     \centering
     \input{figures/tree.tex}
-    \caption{Esempio classico di \textit{tree classifier} binario.\label{fig:tree_class}}
+    \caption{Esempio classico di \textit{tree classifier} per una classificazione
+    binaria.\label{fig:tree_class}}
 \end{figure}
 
 Sia $ \X = \X_1,\dots,\X_d $, dove ogni $\X_i$ rappresenta il dominio dell'$i$-esimo
@@ -78,13 +79,99 @@ La predizione $h_T(x)$ è calcolata come segue:
     \item altrimenti, sia $f:\X_i \rightarrow \{1,\dots,k\}$ il test associato a
     $v$, \textbf{assegna $v\leftarrow v_j$} dove $j=f(x_i)$ e $v_j$ indica il
     $j$-esimo figlio di $v$;
-    \item vai al passaggio 2.
+    \item vai al punto 2.
 \end{enumerate}
 
 Se $h_T(x)$ restituisce la foglia $\ell$, si dirà che l'esempio $x$ è indirizzato a
 $\ell$.
 
 \subsection{Costruzione di un \textit{tree predictor}}
+\subsubsection{Idea generale}
 Dato un \textit{training set} $S$, si vedrà ora come costruire un \textit{tree predictor}.
 Per semplicità, si guarderà solo ad una classificazione binaria $\Y=\{-1,1\}$ e verranno
 usati solo alberi binari completi, cioè alberi dove ogni nodo interno ha due figli.
+
+\textbf{L'idea è quella di far crescere l'albero partendo da un singolo nodo (che dovrà 
+essere una foglia)}. L'etichetta di quest'unica foglia sarà l'etichetta $\hat{y} \in \Y$,
+ovvero l'etichetta più presente nel \textit{training set}. Si avrà quindi inizialmente, 
+un classificatore che assegna a tutti i \textit{data point} l'etichetta $\hat{y}$.
+\textbf{L'albero sarà fatto crescere scegliendo una foglia e rimpiazzandola con un nodo
+interno e due nuove foglie}.
+
+\subsubsection{Minimizzazione del \textit{training error}}
+Si chiami $T$ l'albero cresciuto fino a un certo punto e $h_T$ il classificatore
+corrispondente. \textbf{Obiettivo è calcolare il contributo che ogni foglia dà al
+\textit{training error} $\ell_S(h_T)$}.
+
+\textbf{Presa una foglia $\ell$, si vuole capire che etichetta assegnarle per
+minimizzare $\ell_S$}.
+
+Si definisca:
+$$ S_{\ell} = \{(x_t,y_t) \in S : \text{$x_t$ è indirizzato a $\ell$}\} $$
+$S_{\ell}$ è quindi l'insieme degli esempi di \textit{training} che sono indirizzati
+alla foglia $\ell$. Si divida ora $S_{\ell}$ in due sottoinsiemi:
+$$ S_{\ell}^+ = \{(x_t,y_t) \in S_{\ell} : y_t=+1\} $$
+$$ S_{\ell}^- = \{(x_t,y_t) \in S_{\ell} : y_t=-1\} $$
+Il primo conterrà tutti gli esempi di \textit{training} che vengono indirizzati a $\ell$
+con etichetta positiva mentre il secondo con etichetta negativa. Di questi insiemi
+si prenda il loro numero di elementi:
+$$ N_{\ell}^+ = |S_{\ell}^+| \qquad\quad N_{\ell}^- = |S_{\ell}^-| \qquad\quad
+N_{\ell}^{\phantom{+}} = |S_{\ell}| $$
+
+È facile capire che se la maggior parte degli esempi di \textit{training} che vengono
+indirizzati alla foglia $\ell$ hanno etichetta positiva, allora l'etichetta che bisognerà 
+dare a $\ell$, per minimizzare il suo errore $\ell_S$, sarà l'etichetta positiva 
+(chiaramente lo stesso discorso vale per l'etichetta negativa); questa intuizione può
+essere quindi usata per assegnare l'etichetta $y_{\ell}$ alla foglia $\ell$ nel seguente
+modo:
+$$ y_{\ell} = 
+\begin{cases}
++1 &  N_{\ell}^+ \geq N_{\ell}^- \\
+-1 & \text{altrimenti}
+\end{cases}
+$$
+
+\textbf{Di conseguenza la foglia $\ell$ sbaglierà la sua previsione su
+$\min{\{\Nlpos,\Nlneg\}}$} esempi di \textit{training}. Per facilitare delle osservazioni
+successive moltiplichiamo e dividiamo per $N_{\ell}$:
+$$ \min{\{\Nlpos,\Nlneg\}} = 
+\min{\left\{\frac{\Nlpos}{N_{\ell}},\frac{\Nlneg}{N_{\ell}}\right\}}N_{\ell} $$
+Quindi se il valore appena scritto è l'errore che una singola foglia $\ell$ fa, il
+\textit{training error} sarà:
+$$ 
+\begin{aligned}
+\ell_{S}(h_T)
+&=\frac{1}{m}\sum_{\ell}\min{\left\{\frac{\Nlpos}{N_{\ell}},\frac{\Nlneg}{N_{\ell}}\right\}}N_{\ell}\\
+&=\frac{1}{m}\sum_{\ell} \psi \left(\frac{\Nlpos}{N_{\ell}}\right)N_{\ell}\\
+\end{aligned}
+$$
+Dove viene introdotta la funzione $\psi$, definita in $[0,1]$:
+$$\psi(a) = \min{\{a,1-a\}}$$
+Si può facilmente intuire come $\frac{\Nlpos}{N_{\ell}}$ e $\frac{\Nlneg}{N_{\ell}}$ siano
+sempre compresi tra 0 e 1.
+
+\textbf{Esempio}
+
+Sia $T$ l'albero di figura \ref{fig:tree_class_ex1}. Si deve decidere che etichette dare
+alle foglie evidenziate in azzurro e arancio.
+
+\begin{center}
+    \begin{tabular}{|c|c|c|c|} \hline
+        \texttt{previsione} & \texttt{umidità} & \texttt{vento} & $y_t$ \\ \hline
+        sole & alta & no & -1\\
+        sole & alta & sì & -1\\
+        pioggia & alta & no & 1\\
+        pioggia & bassa & no & 1\\
+        pioggia & bassa & sì & -1\\
+        pioggia & alta & sì & -1\\
+        sole & bassa & no & 1\\
+        sole & bassa & sì & 1\\ \hline
+    \end{tabular}
+\end{center}
+
+\begin{figure}[h]
+    \centering
+    \input{figures/tree_ex1.tex}
+    \caption{Esempio di \textit{tree classifier} \quotes{in costruzione}.
+    \label{fig:tree_class_ex1}}
+\end{figure}
