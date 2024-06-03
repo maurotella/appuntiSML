@@ -6,13 +6,21 @@
     
     \node [ellipse,draw] {\texttt{previsione}}
         child {node[ellipse,draw] {\texttt{umidità}}
-            child {node[rectangle,draw] {$+1$} edge from parent node[above,rotate=67] {bassa}}
-            child {node[rectangle,draw] {$-1$} edge from parent node[above,rotate=-67] {alta}}
+            child {
+                node[rectangle,draw,fill=cyan!40] {?}
+                node[xshift=-1.23em] {$\ell'$}
+                edge from parent node[above,rotate=67] {$\leq 70\%$}
+            }
+            child {
+                node[rectangle,draw,fill=orange!40] {?}
+                node[xshift=-1.28em] {$\ell''$}
+                edge from parent node[above,rotate=-67] {$> 70\%$}
+            }
             edge from parent node[above,rotate=50] {sole}
         }
         child {node[ellipse,draw] {\texttt{vento}} 
-            child {node[rectangle,draw,fill=cyan] {$?$} edge from parent node[above,rotate=67] {sì}}
-            child {node[rectangle,draw,fill=orange] {$?$} edge from parent node[above,rotate=-67] {no}}
+            child {node[rectangle,draw] {$-1$} edge from parent node[above,rotate=67] {sì}}
+            child {node[rectangle,draw] {$+1$} edge from parent node[above,rotate=-67] {no}}
             edge from parent node[above,yshift=-.3em,xshift=.2em,rotate=-53] {pioggia}
         };
 

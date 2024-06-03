@@ -152,26 +152,35 @@ sempre compresi tra 0 e 1.
 
 \textbf{Esempio}
 
-Sia $T$ l'albero di figura \ref{fig:tree_class_ex1}. Si deve decidere che etichette dare
-alle foglie evidenziate in azzurro e arancio.
+Sia $T$ l'albero di figura \ref{fig:tree_class_ex1} e $S$ il \textit{training set} mostrato
+in tabella \ref{tab:tree_ex1} (vengono mostrati solo gli esempi di $S$ che sono
+indirizzati a $\ell'$ e $\ell''$).
+Si deve decidere che etichette dare
+alle foglie $\ell'$ e $\ell''$;
 
-\begin{center}
-    \begin{tabular}{|c|c|c|c|} \hline
-        \texttt{previsione} & \texttt{umidità} & \texttt{vento} & $y_t$ \\ \hline
-        sole & alta & no & -1\\
-        sole & alta & sì & -1\\
-        pioggia & alta & no & 1\\
-        pioggia & bassa & no & 1\\
-        pioggia & bassa & sì & -1\\
-        pioggia & alta & sì & -1\\
-        sole & bassa & no & 1\\
-        sole & bassa & sì & 1\\ \hline
-    \end{tabular}
-\end{center}
-
-\begin{figure}[h]
+\vspace{.7em}
+\begin{minipage}{.49\textwidth}
+    \captionsetup{type=table}
+    \begin{center}
+        \begin{tabular}{|c|c|c|c|} \hline
+            \texttt{previsione} & \texttt{umidità} & \texttt{vento} & $y_t$ \\ \hline
+            \rowcolor{orange!40}sole & 85 & no & $+1$\\
+            \rowcolor{orange!40}sole & 76 & sì & $-1$\\
+            \rowcolor{cyan!40}sole & 55 & sì & $+1$\\
+            \rowcolor{cyan!40}sole & 65 & sì & $-1$\\
+            \rowcolor{orange!40}sole & 82 & sì & $-1$\\
+            \rowcolor{cyan!40}sole & 35 & no & $+1$\\
+            \rowcolor{orange!40}sole & 94 & no & $-1$\\
+            \rowcolor{cyan!40}sole & 66 & no & $+1$\\
+            \rowcolor{cyan!40}sole & 48 & sì & $+1$\\ \hline
+        \end{tabular}
+    \end{center}
+    \captionof{table}{Esempio di \textit{training set}\label{tab:tree_ex1}}
+\end{minipage}
+\begin{minipage}{.49\textwidth}
+    \captionsetup{type=figure}
     \centering
     \input{figures/tree_ex1.tex}
-    \caption{Esempio di \textit{tree classifier} \quotes{in costruzione}.
+    \captionof{figure}{Esempio di \textit{tree classifier} \quotes{in costruzione}.
     \label{fig:tree_class_ex1}}
-\end{figure}
+\end{minipage}
