@@ -147,32 +147,32 @@ $$
 $$
 Dove viene introdotta la funzione $\psi$, definita in $[0,1]$:
 $$\psi(a) = \min{\{a,1-a\}}$$
-Si può facilmente intuire come $\frac{\Nlpos}{N_{\ell}}$ e $\frac{\Nlneg}{N_{\ell}}$ siano
-sempre compresi tra 0 e 1.
+Si può facilmente intuire come $\Nlpos/N_{\ell}$ e $\Nlneg/N_{\ell}$ siano
+sempre compresi tra 0 e 1 in quanto rappresentano la percentuale di esempi positivi/negativi
+che raggiungono $\ell$ rispetto al totale degli esempi (sempre che raggiungono $\ell$).
 
 \textbf{Esempio}
 
 Sia $T$ l'albero di figura \ref{fig:tree_class_ex1} e $S$ il \textit{training set} mostrato
 in tabella \ref{tab:tree_ex1} (vengono mostrati solo gli esempi di $S$ che sono
 indirizzati a $\ell'$ e $\ell''$).
-Si deve decidere che etichette dare
-alle foglie $\ell'$ e $\ell''$;
+Si deve decidere che etichette assegnare alle foglie $\ell'$ e $\ell''$;
 
 \vspace{.7em}
 \begin{minipage}{.49\textwidth}
     \captionsetup{type=table}
     \begin{center}
-        \begin{tabular}{|c|c|c|c|} \hline
-            \texttt{previsione} & \texttt{umidità} & \texttt{vento} & $y_t$ \\ \hline
-            \rowcolor{orange!40}sole & 85 & no & $+1$\\
-            \rowcolor{orange!40}sole & 76 & sì & $-1$\\
-            \rowcolor{cyan!40}sole & 55 & sì & $+1$\\
-            \rowcolor{cyan!40}sole & 65 & sì & $-1$\\
-            \rowcolor{orange!40}sole & 82 & sì & $-1$\\
-            \rowcolor{cyan!40}sole & 35 & no & $+1$\\
-            \rowcolor{orange!40}sole & 94 & no & $-1$\\
-            \rowcolor{cyan!40}sole & 66 & no & $+1$\\
-            \rowcolor{cyan!40}sole & 48 & sì & $+1$\\ \hline
+        \begin{tabular}{|c|c|c|c|c|} \hline
+            $x_t$ & \texttt{previsione} & \texttt{umidità} & \texttt{vento} & $y_t$ \\ \hline
+            \rowcolor{orange!40}$x_1$ & sole & 85 & no & $+1$\\
+            \rowcolor{orange!40}$x_2$ & sole & 76 & sì & $-1$\\
+            \rowcolor{cyan!40}  $x_3$ & sole & 55 & sì & $+1$\\
+            \rowcolor{cyan!40}  $x_4$ & sole & 65 & sì & $-1$\\
+            \rowcolor{orange!40}$x_5$ & sole & 82 & sì & $-1$\\
+            \rowcolor{cyan!40}  $x_6$ & sole & 35 & no & $+1$\\
+            \rowcolor{orange!40}$x_7$ & sole & 94 & no & $-1$\\
+            \rowcolor{cyan!40}  $x_8$ & sole & 66 & no & $+1$\\
+            \rowcolor{cyan!40}  $x_9$ & sole & 48 & sì & $+1$\\ \hline
         \end{tabular}
     \end{center}
     \captionof{table}{Esempio di \textit{training set}\label{tab:tree_ex1}}
@@ -184,3 +184,27 @@ alle foglie $\ell'$ e $\ell''$;
     \captionof{figure}{Esempio di \textit{tree classifier} \quotes{in costruzione}.
     \label{fig:tree_class_ex1}}
 \end{minipage}
+
+Si prenda $\ell'$:
+$$
+\begin{aligned}
+    &S_{\ell'} = \{ (x_3,+1),(x_4,-1),(x_6,+1),(x_8,+1),(x_9,+1) \} & N_{\ell'}=5 \\
+    &S_{\ell'}^+ = \{ (x_3,+1)(x_6,+1),(x_8,+1),(x_9,+1) \} & \NlposOne=4 
+        & \qquad \frac{\NlposOne}{N_{\ell'}}=0.8 \\
+    &S_{\ell'}^- = \{ (x_4,-1) \} & \NlnegOne=1 & \qquad \frac{\NlnegOne}{N_{\ell'}}=0.2 \\
+\end{aligned}
+$$
+L'ottanta percento degli esempi che raggiungono $\ell'$ ha etichetta positiva, si può quindi
+affermare che l'etichetta $y_{\ell'}=+1$.
+
+Si prenda infine $\ell''$:
+$$
+\begin{aligned}
+    &S_{\ell''} = \{ (x_1,+1),(x_2,-1),(x_5,-1),(x_7,-1) \} & N_{\ell''}=4 \\
+    &S_{\ell''}^+ = \{ (x_1,+1) \} & \NlposTwo=1 & \qquad \frac{\NlposTwo}{N_{\ell''}}=0.25 \\
+    &S_{\ell''}^- = \{ (x_2,-1),(x_5,-1),(x_7,-1) \} & \NlnegTwo=3 
+        & \qquad \frac{\NlnegTwo}{N_{\ell''}}=0.75 \\
+\end{aligned}
+$$
+Il settantacinque percento degli esempi che raggiungono $\ell''$ ha etichetta negativa, si può quindi
+affermare che l'etichetta $y_{\ell''}=-1$.
