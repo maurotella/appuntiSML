@@ -98,7 +98,7 @@ un classificatore che assegna a tutti i \textit{data point} l'etichetta $\hat{y}
 \textbf{L'albero sarà fatto crescere scegliendo una foglia e rimpiazzandola con un nodo
 interno e due nuove foglie}.
 
-\subsubsection{Minimizzazione del \textit{training error}}
+\subsubsection{\textit{Training error}}
 Si chiami $T$ l'albero cresciuto fino a un certo punto e $h_T$ il classificatore
 corrispondente. \textbf{Obiettivo è calcolare il contributo che ogni foglia dà al
 \textit{training error} $\ell_S(h_T)$}.
@@ -132,8 +132,8 @@ $$ y_{\ell} =
 $$
 
 \textbf{Di conseguenza la foglia $\ell$ sbaglierà la sua previsione su
-$\min{\{\Nlpos,\Nlneg\}}$} esempi di \textit{training}. Per facilitare delle osservazioni
-successive moltiplichiamo e dividiamo per $N_{\ell}$:
+$\min{\{\Nlpos,\Nlneg\}}$} esempi di \textit{training}. Per facilitare delle successive
+osservazioni moltiplichiamo e dividiamo per $N_{\ell}$:
 $$ \min{\{\Nlpos,\Nlneg\}} = 
 \min{\left\{\frac{\Nlpos}{N_{\ell}},\frac{\Nlneg}{N_{\ell}}\right\}}N_{\ell} $$
 Quindi se il valore appena scritto è l'errore che una singola foglia $\ell$ fa, il
@@ -148,14 +148,15 @@ $$
 Dove viene introdotta la funzione $\psi$, definita in $[0,1]$:
 $$\psi(a) = \min{\{a,1-a\}}$$
 Si può facilmente intuire come $\Nlpos/N_{\ell}$ e $\Nlneg/N_{\ell}$ siano
-sempre compresi tra 0 e 1 in quanto rappresentano la percentuale di esempi positivi/negativi
-che raggiungono $\ell$ rispetto al totale degli esempi (sempre che raggiungono $\ell$).
+sempre compresi tra 0 e 1 in quanto rappresentano la percentuale di esempi 
+positivi/negativi che raggiungono $\ell$ rispetto al totale degli esempi 
+(sempre che raggiungono $\ell$).
 
 \textbf{Esempio}
 
-Sia $T$ l'albero di figura \ref{fig:tree_class_ex1} e $S$ il \textit{training set} mostrato
-in tabella \ref{tab:tree_ex1} (vengono mostrati solo gli esempi di $S$ che sono
-indirizzati a $\ell'$ e $\ell''$).
+Sia $T$ l'albero di figura \ref{fig:tree_class_ex1} e $S$ il \textit{training set}
+mostrato in tabella \ref{tab:tree_ex1} (vengono mostrati solo gli esempi di $S$ che
+sono indirizzati a $\ell'$ e $\ell''$).
 Si deve decidere che etichette assegnare alle foglie $\ell'$ e $\ell''$;
 
 \vspace{.7em}
@@ -190,12 +191,12 @@ $$
 \begin{aligned}
     &S_{\ell'} = \{ (x_3,+1),(x_4,-1),(x_6,+1),(x_8,+1),(x_9,+1) \} & N_{\ell'}=5 \\
     &S_{\ell'}^+ = \{ (x_3,+1)(x_6,+1),(x_8,+1),(x_9,+1) \} & \NlposOne=4 
-        & \qquad \frac{\NlposOne}{N_{\ell'}}=\dashuline{0.8} \\
+        & \qquad \frac{\NlposOne}{N_{\ell'}}={\color{red}0.8} \\
     &S_{\ell'}^- = \{ (x_4,-1) \} & \NlnegOne=1 & \qquad \frac{\NlnegOne}{N_{\ell'}}=0.2 \\
 \end{aligned}
 $$
-L'\dashuline{ottanta percento} degli esempi che raggiungono $\ell'$ ha etichetta positiva, si può quindi
-affermare che l'etichetta $y_{\ell'}=+1$.
+L'{\color{red}ottanta percento} degli esempi che raggiungono $\ell'$ ha etichetta
+positiva, si può quindi affermare che l'etichetta $y_{\ell'}=+1$.
 
 Si prenda infine $\ell''$:
 $$
@@ -203,8 +204,54 @@ $$
     &S_{\ell''} = \{ (x_1,+1),(x_2,-1),(x_5,-1),(x_7,-1) \} & N_{\ell''}=4 \\
     &S_{\ell''}^+ = \{ (x_1,+1) \} & \NlposTwo=1 & \qquad \frac{\NlposTwo}{N_{\ell''}}=0.25 \\
     &S_{\ell''}^- = \{ (x_2,-1),(x_5,-1),(x_7,-1) \} & \NlnegTwo=3 
-        & \qquad \frac{\NlnegTwo}{N_{\ell''}}=\dashuline{0.75} \\
+        & \qquad \frac{\NlnegTwo}{N_{\ell''}}={\color{blue}0.75} \\
 \end{aligned}
 $$
-Il \dashuline{settantacinque percento} degli esempi che raggiungono $\ell''$ ha etichetta negativa, si può quindi
-affermare che l'etichetta $y_{\ell''}=-1$.
+Il {\color{blue}settantacinque percento} degli esempi che raggiungono $\ell''$ ha etichetta
+negativa, si può quindi affermare che l'etichetta $y_{\ell''}=-1$.
+
+\subsubsection{Variazione del \textit{training error} sulla crescita dell'albero}
+
+Si supponga di sostituire una foglia $\ell$ con un nodo interno e due nuove foglie $\ell'$
+e $\ell''$, come mostrato in figura \ref{fig:tree_growth}. \textbf{Può il \textit{training
+error} del nuovo albero espanso crescere rispetto a quello originale?}
+
+\begin{figure}[h]
+    \centering
+    \input{figures/tree_growth.tex}
+    \caption{Un passaggio della crescita dell'albero: la foglia $\ell$ viene
+        rimpiazzata da un nodo interno $v$ con due nuove foglie $\ell'$ e $\ell''$.
+        \label{fig:tree_growth}}
+\end{figure}
+
+L'apporto che la foglia $\ell$ dà al \textit{training error} è:
+\begin{equation} \psi \left(\frac{\Nlpos}{N_{\ell}}\right)N_{\ell}\label{eq:tree_1}\end{equation}
+Gli esempi con etichetta positiva che vengono indirizzati a $\ell$ saranno ora divisi tra
+$\ell'$ e $\ell''$:
+$$ {\color{red}\Nlpos = \NlposOne + \NlposTwo} $$
+Si può quindi ottenere che:
+\begin{align}
+    \qquad \frac{\color{red}\Nlpos}{N_{\ell}} 
+        &= \frac{\color{red}\NlposOne + \NlposTwo}{N_{\ell}} \notag\\
+        &= \frac{\NlposOne}{N_{\ell}}+\frac{\NlposTwo}{N_{\ell}} \notag\\
+        &= \frac{\NlposOne}{N_{\ell}}\cdot{\color{blue}\frac{N_{\ell'}}{N_{\ell'}}}
+            +\frac{\NlposTwo}{N_{\ell}}\cdot{\color{blue}\frac{N_{\ell''}}{N_{\ell''}}}\notag\\
+        &= \frac{\NlposOne}{\color{blue}N_{\ell'}}\cdot
+            \frac{\color{blue}N_{\ell'}}{N_{\ell}}
+            +\frac{\NlposTwo}{\color{blue}N_{\ell''}}\cdot
+            \frac{\color{blue}N_{\ell''}}{N_{\ell}} \label{eq:tree_2}
+\end{align}
+
+Dati (\ref{eq:tree_1}) e (\ref{eq:tree_2}) si può dire che l'apporto di $\ell$ è:
+\begin{align}
+    \psi \left(\frac{\Nlpos}{N_{\ell}}\right)N_{\ell} &=
+        \psi \left(
+            \frac{\NlposOne}{N_{\ell'}}\cdot\frac{N_{\ell'}}{N_{\ell}}
+            +\frac{\NlposTwo}{N_{\ell''}}\cdot\frac{N_{\ell''}}{N_{\ell}}
+        \right)N_{\ell} \notag
+\end{align}
+
+Si noti che $\psi$ è una funzione concava. Questo permette di poter applicare la disuguaglianza di Jensen:
+\begin{equation} \psi(\mu a + (1-\mu)b) \geq \mu\psi(a)+(1-\mu)\psi(b) \qquad\qquad \forall
+a,b \in \RN, \quad \forall \mu \in [0,1] \label{eq:tree_jensen} \end{equation}
+

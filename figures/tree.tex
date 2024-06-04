@@ -1,5 +1,9 @@
 \usetikzlibrary {shapes.geometric}
-\begin{tikzpicture}[sibling distance=18mm, level distance=20mm]
+\begin{tikzpicture}[
+    sibling distance=18mm, 
+    level distance=20mm,
+    edge from parent/.style={draw,-latex}
+]
     
     \node [ellipse,draw] {\texttt{previsione}}
         child {node[ellipse,draw] {\texttt{umidità}}
