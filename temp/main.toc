@@ -27,4 +27,5 @@
 \contentsline {subsection}{\numberline {3.2}Costruzione di un \textit {tree predictor}}{11}{subsection.3.2}%
 \contentsline {subsubsection}{\numberline {3.2.1}Idea generale}{11}{subsubsection.3.2.1}%
 \contentsline {subsubsection}{\numberline {3.2.2}\textit {Training error}}{11}{subsubsection.3.2.2}%
-\contentsline {subsubsection}{\numberline {3.2.3}Variazione del \textit {training error} sulla crescita dell'albero}{13}{subsubsection.3.2.3}%
+\contentsline {subsubsection}{\numberline {3.2.3}Crescita dell'albero e \textit {training error}}{13}{subsubsection.3.2.3}%
+\contentsline {subsubsection}{\numberline {3.2.4}Algoritmo generale}{14}{subsubsection.3.2.4}%

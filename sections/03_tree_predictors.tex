@@ -141,7 +141,8 @@ Quindi se il valore appena scritto è l'errore che una singola foglia $\ell$ fa,
 $$ 
 \begin{aligned}
 \ell_{S}(h_T)
-&=\frac{1}{m}\sum_{\ell}\min{\left\{\frac{\Nlpos}{N_{\ell}},\frac{\Nlneg}{N_{\ell}}\right\}}N_{\ell}\\
+&=\frac{1}{m}\sum_{\ell}\min{\left\{\frac{\Nlpos}{N_{\ell}},\frac{\Nlneg}{N_{\ell}}
+\right\}}N_{\ell}\\
 &=\frac{1}{m}\sum_{\ell} \psi \left(\frac{\Nlpos}{N_{\ell}}\right)N_{\ell}\\
 \end{aligned}
 $$
@@ -164,7 +165,7 @@ Si deve decidere che etichette assegnare alle foglie $\ell'$ e $\ell''$;
     \captionsetup{type=table}
     \begin{center}
         \begin{tabular}{|c|c|c|c|c|} \hline
-            $x_t$ & \texttt{previsione} & \texttt{umidità} & \texttt{vento} & $y_t$ \\ \hline
+            $x_t$ & \texttt{previsione} & \texttt{umidità} & \texttt{vento} & $y_t$\\\hline
             \rowcolor{orange!40}$x_1$ & sole & 85 & no & $+1$\\
             \rowcolor{orange!40}$x_2$ & sole & 76 & sì & $-1$\\
             \rowcolor{cyan!40}  $x_3$ & sole & 55 & sì & $+1$\\
@@ -210,7 +211,7 @@ $$
 Il {\color{blue}settantacinque percento} degli esempi che raggiungono $\ell''$ ha etichetta
 negativa, si può quindi affermare che l'etichetta $y_{\ell''}=-1$.
 
-\subsubsection{Variazione del \textit{training error} sulla crescita dell'albero}
+\subsubsection{Crescita dell'albero e \textit{training error}}
 
 Si supponga di sostituire una foglia $\ell$ con un nodo interno e due nuove foglie $\ell'$
 e $\ell''$, come mostrato in figura \ref{fig:tree_growth}. \textbf{Può il \textit{training
@@ -225,10 +226,12 @@ error} del nuovo albero espanso crescere rispetto a quello originale?}
 \end{figure}
 
 L'apporto che la foglia $\ell$ dà al \textit{training error} è:
-\begin{equation} \psi \left(\frac{\Nlpos}{N_{\ell}}\right)N_{\ell}\label{eq:tree_1}\end{equation}
-Gli esempi con etichetta positiva che vengono indirizzati a $\ell$ saranno ora divisi tra
-$\ell'$ e $\ell''$:
-$$ {\color{red}\Nlpos = \NlposOne + \NlposTwo} $$
+\begin{equation}
+    \psi \left(\frac{\Nlpos}{N_{\ell}}\right)N_{\ell}\label{eq:tree_1}
+\end{equation}
+Gli esempi con etichetta positiva che vengono indirizzati a $\ell$ saranno ora divisi 
+tra $\ell'$ e $\ell''$:
+\begin{equation} {\color{red}\Nlpos = \NlposOne + \NlposTwo} \label{eq:tree_3} \end{equation}
 Si può quindi ottenere che:
 \begin{align}
     \qquad \frac{\color{red}\Nlpos}{N_{\ell}} 
@@ -248,10 +251,68 @@ Dati (\ref{eq:tree_1}) e (\ref{eq:tree_2}) si può dire che l'apporto di $\ell$ 
         \psi \left(
             \frac{\NlposOne}{N_{\ell'}}\cdot\frac{N_{\ell'}}{N_{\ell}}
             +\frac{\NlposTwo}{N_{\ell''}}\cdot\frac{N_{\ell''}}{N_{\ell}}
-        \right)N_{\ell} 
+        \right)N_{\ell} \label{eq:tree_4}
 \end{align}
 
-Si noti che $\psi$ è una funzione concava. Questo permette di poter applicare la disuguaglianza di Jensen:
-\begin{equation} \psi(\mu a + (1-\mu)b) \geq \mu\psi(a)+(1-\mu)\psi(b) \qquad\qquad \forall
-a,b \in \RN, \quad \forall \mu \in [0,1] \label{eq:tree_jensen} \end{equation}
+Si noti che $\psi$ è una funzione concava. Questo permette di poter applicare la 
+disuguaglianza di Jensen (valida con $ a,b \in \RN \wedge \mu \in [0,1] $):
+\begin{align}
+    \psi(a{\color{red}\mu} + b{\color{blue}(1-\mu)}) &\geq {\color{red}\mu}\psi(a)+
+        {\color{blue}(1-\mu)}\psi(b)\label{eq:tree_jensen} \tag{Jensen}\\[.7em]
+    \psi \left(
+            \frac{\NlposOne}{N_{\ell'}}\cdot{\color{red}\frac{N_{\ell'}}{N_{\ell}}}
+            +\frac{\NlposTwo}{N_{\ell''}}\cdot{\color{blue}\frac{N_{\ell''}}{N_{\ell}}}
+        \right)N_{\ell} 
+            &\geq 
+            \cancel{N_{\ell}}{\color{red}\frac{N_{\ell'}}{\cancel{N_{\ell}}}}
+            \psi\left(\frac{\NlposOne}{N_{\ell'}}\right) + \cancel{N_{\ell}}
+            {\color{blue}\frac{N_{\ell''}}{\cancel{N_{\ell}}}}
+            \psi\left(\frac{\NlposTwo}{N_{\ell''}}\right) \notag\\[.7em]
+            & \geq \psi\left(\frac{\NlposOne}{N_{\ell'}}\right)N_{\ell'} +
+           \psi\left(\frac{\NlposTwo}{N_{\ell''}}\right) N_{\ell''} \label{eq:tree_5}
+\end{align}
+Chiaramente si dovrà avere che:
+$$ 
+{\color{blue}\frac{N_{\ell''}}{N_{\ell}}} = 1-{\color{red}\frac{N_{\ell'}}{N_{\ell}}}
+$$
+Questo è facilmente verificabile a partire da (\ref{eq:tree_3}). Infine, dati 
+(\ref{eq:tree_4}) e (\ref{eq:tree_5}) si ha:
+$$
+\underbrace{\psi \left(\frac{\Nlpos}{N_{\ell}}\right)N_{\ell}}_{\text{apporto di $\ell$}}
+\geq \underbrace{\psi\left(\frac{\NlposOne}{N_{\ell'}}\right)N_{\ell'}}_{\text{apporto di $\ell'$}} +
+\underbrace{\psi\left(\frac{\NlposTwo}{N_{\ell''}}\right) N_{\ell''}}_{\text{apporto di $\ell''$}}
+$$
 
+Questo dimostra che, \textbf{facendo crescere l'albero, il \textit{training error} non
+aumenta}.
+
+\textbf{Una foglia $\ell$ viene detta pura se non contribuisce ad aumentare il
+\textit{training error}}, ovvero:
+$$ N_{\ell}^+ \in \{0,N_{\ell}\} $$
+
+In qualsiasi albero il \textit{training error} è maggiore di zero ($\ell_S(h_T)>0$)
+almeno che non abbia solo foglie pure.
+
+\subsubsection{Algoritmo generale}
+Verrà ora mostrato un algoritmo generale per la cotruzione di un albero binario a partire
+da un \textit{training set} $S$:
+
+\begin{enumerate}
+    \item \textbf{Inizializzazione:}
+        \begin{enumerate}
+            \item Crea un albero $T$ con solo la radice $\ell$
+            \item $S_{\ell} = S$
+            \item $y_{\ell} = \text{etichetta più frequente in $S_{\ell}$}$
+        \end{enumerate}
+    \item \textbf{\textit{Main loop}:}
+        \begin{enumerate}
+            \item Scegli una foglia $\ell$ e sostituiscila con un nodo interno $v$ e due
+                nuove foglie $\ell'$ e $\ell''$
+            \item Scegli un attributo $i$ e un test $f:\X_i \rightarrow \{1,2\}$
+            \item Associa il test $f$ a $v$ e partiziona $S_{\ell}$ in due sottoinsiemi:
+                $$ S_{\ell'}=\{(x_t,y_t) \in S_{\ell} : f(x_{t,i})=1\} \qquad \text{e} 
+                \qquad S_{\ell''}=\{(x_t,y_t) \in S_{\ell} : f(x_{t,i})=2\} $$
+            \item Associa a $\ell'$ l'etichetta più frequente in $S_{\ell'}$
+            \item Associa a $\ell''$ l'etichetta più frequente in $S_{\ell''}$
+        \end{enumerate}
+\end{enumerate}
