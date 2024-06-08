@@ -29,3 +29,5 @@
 \contentsline {subsubsection}{\numberline {3.2.2}\textit {Training error}}{11}{subsubsection.3.2.2}%
 \contentsline {subsubsection}{\numberline {3.2.3}Crescita dell'albero e \textit {training error}}{13}{subsubsection.3.2.3}%
 \contentsline {subsubsection}{\numberline {3.2.4}Algoritmo generale}{14}{subsubsection.3.2.4}%
+\contentsline {subsection}{\numberline {3.3}\textit {Overfitting}}{14}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Interpretabilità}{15}{subsection.3.4}%

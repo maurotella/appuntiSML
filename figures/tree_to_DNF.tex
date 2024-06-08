@@ -1,0 +1,67 @@
+\usetikzlibrary {shapes.geometric,shadings}
+\pgfdeclarelayer{back}
+\pgfsetlayers{back,main}
+
+\pgfkeys{%
+  /tikz/on layer/.code={
+    \pgfonlayer{#1}\begingroup
+    \aftergroup\endpgfonlayer
+    \aftergroup\endgroup
+  },
+  /tikz/node on layer/.code={
+    \pgfonlayer{#1}\begingroup
+    \expandafter\def\expandafter\tikz@node@finish\expandafter{\expandafter\endgroup\expandafter\endpgfonlayer\tikz@node@finish}%
+  },
+}
+
+\vspace{2em}
+\begin{tikzpicture}[
+    sibling distance=18mm, 
+    level distance=20mm,
+    edge from parent/.style={draw,-latex}
+    ]
+
+    \pgfdeclarehorizontalshading{myshading}{100bp}{
+        color(0bp)=(orange!40);
+        color(42bp)=(orange!40);
+        color(42bp)=(yellow!40);
+        color(58bp)=(yellow!40);
+        color(58bp)=(cyan!40);
+        color(100bp)=(cyan!40)
+    }
+    
+    \node [ellipse,draw,shading=myshading] (r) {\texttt{previsione}}
+        child {node[ellipse,draw,fill=orange!40] (u) {\texttt{umidità}}
+            child {node[rectangle,draw,fill=orange!40] (u1) {$+1$} edge from parent
+            [preaction={
+                draw,orange!40,-,line width=.24cm,line cap=rect,on layer=back
+            }]
+            node[above,rotate=63] {$\leq 70\%$}}
+            child {node[rectangle,draw] (u2) {$-1$} edge from parent node[above,rotate=-65] {$> 70\%$}}
+            edge from parent
+            [preaction={
+                draw,orange!40,-,line width=.24cm,line cap=rect,on layer=back
+            }]            
+            node[above,rotate=46] {sole}
+        }
+        child {node[rectangle,draw,fill=yellow!40] (n) {$+1$} 
+            edge from parent
+            [preaction={
+                draw,yellow!40,-,line width=.24cm,line cap=rect,on layer=back
+            }]
+            node[above,rotate=90] {nuvole}}
+        child {node[ellipse,draw,fill=altcyan] (p) {\texttt{vento}} 
+            child {node[rectangle,draw] (p1) {$-1$} edge from parent node[above,rotate=63] {sì}}
+            child {node[rectangle,draw,fill=altcyan] (p2) {$+1$} edge from parent
+            [preaction={
+                draw,altcyan,-,line width=.24cm,line cap=rect,on layer=back
+            }]
+                node[above,rotate=-65] {no}}
+            edge from parent
+            [preaction={
+                draw,altcyan,-,line width=.24cm,line cap=rect,on layer=back
+            }]
+            node[above,yshift=-.3em,xshift=.2em,rotate=-51] {pioggia}
+        };
+
+\end{tikzpicture}

@@ -316,3 +316,73 @@ da un \textit{training set} $S$:
             \item Associa a $\ell''$ l'etichetta più frequente in $S_{\ell''}$
         \end{enumerate}
 \end{enumerate}
+
+\subsection{\textit{Overfitting}}
+\textbf{Se il numero di nodi dell'albero è troppo alto rispetto alla cardinalità di $S$ si 
+potrà avere dell'\textit{overfitting}. Per questo motivo, la scelta della foglia da
+espandere dovrebbe garantire approssimativamente la riduzione massima del \textit{training
+error}}.
+
+Nella pratica, per calcolare il \textit{training error} si usano funzioni diverse da
+$\psi(p) = \min{\{p,1-p\}}$. Questo perchè $\psi$ può essere problematica in alcuni
+casi. Un esempio è il seguente:
+$$ \begin{aligned}
+p=\frac{\Nlpos}{N_{\ell}}=0.8 \quad & \quad q=\frac{\NlposOne}{N_{\ell'}}=0.6
+& \quad r=\frac{\NlposTwo}{N_{\ell''}}=1 \quad & \quad \alpha=\frac{\NlposOne}{N_{\ell}}=0.5\\
+\end{aligned} $$
+$$ \underbrace{\psi(p)}_{\mathclap{\text{apporto di $\ell$}}} - 
+( \overbrace{\alpha\psi(q)}^{\mathclap{\text{apporto di $\ell'$}}}+
+\underbrace{(1-\alpha)\psi(r)}_{\mathclap{\text{apporto di $\ell''$}}})
+= 0.2-(0.5\cdot0.4+0.5\cdot0) = 0 $$
+
+In questo passaggio il cambiamento che si avrebbe rimpiazzando la foglia $\ell$ sarebbe
+nullo e quindi non verrebbe scelto dall'algoritmo. Potrebbe inoltre succedere che tutte
+le foglie diano questo risultato facendo quindi bloccare l'algoritmo.
+
+Per correggere questo problema vengono usate altre funzioni $\psi$. Queste funzioni sono
+simili a quella già vista in quanto simmetriche attorno a $1/2$ e nulle agli estremi
+($\psi(0)=\psi(1)=0$). Alcune funzioni usate sono:
+
+\begin{itemize}
+    \item \textbf{Funzione di Gini:} $\psi_2(p) = 2p(1-p)$
+    \item \textbf{Entropia scalata:} $\displaystyle \psi_3(p) =
+        -\frac{p}{2}\log_2{(p)}-\frac{1-p}{2}\log_2{(1-p)}$
+    \item $\psi_4(p) = \sqrt{p(1-p)}$
+\end{itemize}
+
+Come si può vedere in figura \ref{fig:tree_psi}, valgono le seguenti disuguaglianze
+($\psi_1(p) = \min{\{p,1-p\}}$):
+$$ \psi_1(p) \leq \psi_2(p) \leq \psi_3(p) \leq \psi_4(p) $$
+
+\begin{center}
+    \captionsetup{type=figure}
+    \input{figures/tree_psi.tex}
+    \captionof{figure}{Grafici delle funzioni $\psi$ \label{fig:tree_psi}} 
+\end{center}
+
+\subsection{Interpretabilità}
+Una proprietà interessante dei \textit{tree predictors} per la classificazione binaria
+è che possono essere rappresentati con una proposizione logica in forma normale
+disgiuntiva (DNF). Questa rappresentazione è ottenuta considerando le clausule
+(congiunzione di predicati) che risultano dai test che si trovano sui percorsi che
+portano ad un etichetta $+1$.
+
+Un esempio è la seguente DNF ricavata dall'albero in figura \ref{fig:tree_dnf}:
+
+$$
+\begin{matrix}
+    \colorbox{orange!40}{$
+        ((\texttt{previsione}=\text{sole}) \ \wedge \ (\texttt{umidità}\leq 70\%))$} \\
+    \vee \\
+    \colorbox{yellow!40}{$(\texttt{previsione}=\text{nuvole})$} \\
+    \vee \\
+    \colorbox{altcyan}{$
+        ((\texttt{previsione}=\text{pioggia}) \ \wedge \ (\texttt{vento}=\text{no}))$} \\
+\end{matrix}
+$$
+
+\begin{center}
+    \captionsetup{type=figure}
+    \input{figures/tree_to_DNF.tex}
+    \captionof{figure}{\textit{Tree predictor}\label{fig:tree_dnf}} 
+\end{center}
