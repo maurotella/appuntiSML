@@ -22,7 +22,7 @@
 \contentsline {subsection}{\numberline {2.2}$k-$Nearest Neighbor ($k-$NN)}{8}{subsection.2.2}%
 \contentsline {subsubsection}{\numberline {2.2.1}Definizione}{8}{subsubsection.2.2.1}%
 \contentsline {subsubsection}{\numberline {2.2.2}Efficienza ed efficacia}{8}{subsubsection.2.2.2}%
-\contentsline {section}{\numberline {3}Tree Predictors}{10}{section.3}%
+\contentsline {section}{\numberline {3}\textit {Tree Predictors}}{10}{section.3}%
 \contentsline {subsection}{\numberline {3.1}Definizione}{10}{subsection.3.1}%
 \contentsline {subsection}{\numberline {3.2}Costruzione di un \textit {tree predictor}}{11}{subsection.3.2}%
 \contentsline {subsubsection}{\numberline {3.2.1}Idea generale}{11}{subsubsection.3.2.1}%
@@ -31,3 +31,4 @@
 \contentsline {subsubsection}{\numberline {3.2.4}Algoritmo generale}{14}{subsubsection.3.2.4}%
 \contentsline {subsection}{\numberline {3.3}\textit {Overfitting}}{14}{subsection.3.3}%
 \contentsline {subsection}{\numberline {3.4}Interpretabilità}{15}{subsection.3.4}%
+\contentsline {section}{\numberline {4}\textit {Statistical Learning}}{17}{section.4}%
