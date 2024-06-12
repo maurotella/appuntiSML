@@ -369,25 +369,31 @@ portano ad un etichetta $+1$.
 
 Un esempio è la seguente DNF ricavata dall'albero in figura \ref{fig:tree_dnf}:
 
-$$
-\begin{matrix}
-    \colorbox{orange!40}{$
-        ((\texttt{previsione}=\text{sole}) \ \wedge \ (\texttt{umidità}\leq 70\%))$} \\
-    \vee \\
-    \colorbox{yellow!40}{$(\texttt{previsione}=\text{nuvole})$} \\
-    \vee \\
-    \colorbox{altcyan}{$
-        ((\texttt{previsione}=\text{pioggia}) \ \wedge \ (\texttt{vento}=\text{no}))$} \\
-\end{matrix}
-$$
+\begin{minipage}{.48\textwidth}
+    \begin{center}
+        \captionsetup{type=figure}
+        \input{figures/tree_to_DNF.tex}
+        \captionof{figure}{\textit{Tree predictor}\label{fig:tree_dnf}} 
+    \end{center}
+    \vspace{1em}
+\end{minipage}
+\begin{minipage}{.48\textwidth}
+    $$
+    \begin{matrix}
+        \colorbox{orange!40}{$
+            ((\texttt{previsione}=\text{sole}) \ \wedge \ (\texttt{umidità}\leq 70\%))$} \\
+        \vee \\
+        \colorbox{yellow!40}{$(\texttt{previsione}=\text{nuvole})$} \\
+        \vee \\
+        \colorbox{altcyan}{$
+            ((\texttt{previsione}=\text{pioggia}) \ \wedge \ (\texttt{vento}=\text{no}))$} \\
+    \end{matrix}
+    $$
+\end{minipage}
 
-\begin{center}
-    \captionsetup{type=figure}
-    \input{figures/tree_to_DNF.tex}
-    \captionof{figure}{\textit{Tree predictor}\label{fig:tree_dnf}} 
-\end{center}
 
-Questa rappresentazione \quotes{logica} dell'albero è molto intuitiva è permette di
-essere manipolata attraverso le regole della logica preposizionale. Soprattutto,
+Questa rappresentazione \quotes{logica} dell'albero è molto intuitiva e permette di
+essere manipolata attraverso le regole della logica preposizionale, permettendo
+quindi una possibile semplificazione del classificatore. Soprattutto,
 questa rappresentazione fornisce una descrizione interpretabile della conoscenza
 del \textit{learning algorithm} estratta dal \textit{training set}.
