@@ -17,25 +17,92 @@ e funziona sorpendentemente bene nella pratica.
 Nel contesto della \textit{statistical learning} un problema è specificato da una coppia
 $(\D,\ell)$, dove $\D$ è la distribuzione e $\ell$ la \textit{loss function}.
 
-\subsubsection{Rischio statistico}
+\subsubsection{Rischio statistico \texorpdfstring{$\ell_{\D}$}{lD}}
 Le prestazioni di un predittore $h:\X \rightarrow \Y$ rispetto a $(\D,\ell)$ è valutata dal
 \textbf{rischio statistico}:
 $$ \ell_{\D}(h) = \E[\ell(Y,h(X))] $$
 che indica il valore atteso della \textit{loss function} su un esempio casuale $(X,Y)$
 estratto da $\D$.
 
-\subsubsection{\textit{Bayes optimal predictor}}
+\subsubsection{Predittore ottimo di Bayes \texorpdfstring{$f^*$}{f*}}
 Data $\D$, il miglior predittore possibile $f^*:\X \rightarrow \Y$ è detto 
-\textbf{\textit{Bayes optimal predictor}}:
+\textbf{predittore ottimo di Bayes}:
 $$ f^*(x) = \argmin_{\hat{y} \in \Y} \E[\ell(Y,\hat{y})\ | \ X=x] $$
 
 \subsubsection{Rischio condizionato}
 L'argomento di $\argmin$ di $f^*$, ovvero $\E[\ell(Y,\hat{y})\ | \ X=x]$, è detto
 \textbf{rischio condizionato}. Il \textit{Bayes optimal predictor} quindi, è la predizione
-che minimizza il rischio condizionato.
+che minimizza il rischio condizionato. Un altro modo per scrivere il rischio condizionato
+di un predittore $f$ è:
+$$ \E[\ell(Y,\hat{y})\ | \ X=x] = \E[\ell(Y,f(X))\ | \ X=x] $$
 
-\subsubsection{Rischio di Bayes}
+\subsubsection{Rischio di Bayes \texorpdfstring{$\ell_{\D}(f^*)$}{lDF*}}
 Essendo $f^*$ il miglior predittore possibile per $\D$ è ragionevole pensare che esso
-abbia il rischio statistico migliore, ed è così; si ha infatti che:
+abbia il rischio statistico migliore, ed è così; si ha infatti che il rischio 
+$\ell_{\D}(f^*)$, detto \textbf{rischio di Bayes}, è il minore tra tutti i predittori:
 $$ \forall h \in \F \quad \ell_{\D}(f^*) \leq \ell_{\D}(h) $$
-$\ell_{\D}(f^*)$ viene detto \textbf{rischio di Bayes}.
+Tipicamente il rischio di Bayes è maggiore di zero vista la casualità delle etichette.
+
+\subsection{\texorpdfstring{$f^*$}{f*} e \texorpdfstring{$\ell_\D$}{lD*} nelle varie \textit{loss function}}
+Si valuteranno ora i predittori ottimi di Bayes per le varie \textit{loss function}.
+\subsubsection{\textit{Quadratic loss}}
+
+$$ \ell(y,\hat{y}) = (y-\hat{y})^2 \qquad \text{con } \Y = \RN $$
+\begin{align}
+    f^*(x) &= \argmin_{\hat{y}\in\RN} \E[(Y-\hat{y})^2 \ | \ X=x]  \notag\\
+           &= \argmin_{\hat{y}\in\RN} \E[Y^2+\hat{y}^2-2\hat{y}Y\ | \ X=x]\notag\\[.6em]
+        \multispan2{Per le varie proprietà del valore atteso si ha:\hfil} \notag\\[.6em]
+           &= \argmin_{\hat{y}\in\RN}
+            \left({\E[Y^2\ | \ X=x]}+\E[\hat{y}^2\ | \ X=x]-\E[2\hat{y}Y\ | \ X=x]\right)
+            \notag\\[.6em]
+           &= \argmin_{\hat{y}\in\RN}
+           \left({\color{red}\E[Y^2\ | \ X=x]}+\E[\hat{y}^2\ | \ X=x]-2\hat{y}\E[Y\ | \ X=x]\right)
+           \notag\\[.6em]
+        \multispan2{Siccome $\argmin$ varia su $\hat{y}$, tutti {\color{red}i fattori che non ne dipendono}\hfil
+        } \notag\\
+        \multispan2{non incidono sul risultato; possono quindi essere tolti:\hfil
+        } \notag\\[.6em]
+        &= \argmin_{\hat{y}\in\RN}
+           \left(\E[{\color{blue}\hat{y}}^2\ | \ X=x]-2\hat{y}\E[Y\ | \ X=x]\right)
+           \notag\\[.6em]
+        \multispan2{Non essendo ${\color{blue}\hat{y}}$ una variabile aleatoria:\hfil
+           } \notag\\[.6em]
+        &= \argmin_{\hat{y}\in\RN}
+            \left({\color{blue}\hat{y}^2}-2\hat{y}\E[Y\ | \ X=x]\right) \notag
+\end{align}
+
+L'argomento di $\argmin$ è una funzione del tipo:
+\begin{equation} F(\hat{y}) = \hat{y}^2 -2\hat{y}q \tag*{$q=\E[Y\ | \ X=x]$}\end{equation}
+Obiettivo di argmin è trovare il valore di $\hat{y}$ che minimizza $F$. Facendo un semplice 
+studio di funzione si può trovare che $F$ è minimizzata quando:
+$$
+\begin{aligned}
+    \multispan2{$F'(\hat{y}) = 2\hat{y}-2q$} \\
+    \multispan2{Cerco il minimo:\hfill}\\
+    F'(\hat{y}) &= 0\\
+    2\hat{y}-2q &= 0\\
+    \hat{y}     &=q\\
+\end{aligned} \qquad \Rightarrow \qquad \hat{y}=\E[Y\ | \ X=x]
+$$
+
+Si può quindi dire che:
+$$ f^*(x) = \E[Y\ | \ X=x]  = \E[Y\ | \ X]$$
+
+Sostituendo il risultato appena mostrato nella formula del rischio condizionato si ha:
+$$ \begin{aligned}
+    \ & \E[\ell(Y,\hat{y})\ | \ X=x] \\ 
+    = \ &\E[(Y-f^*(X))^2\ | \ X=x] \\
+    = \ &\E[(Y-\E[Y \ | \ X ])^2\ | \ X=x] \\
+    = \ & \var[Y \ | \ X]
+\end{aligned} $$
+
+Il rischio di Bayes sarà quindi:
+$$ \ell_\D(f^*) = \E[\var[Y \ | \ X]] \neq \var[Y] $$
+
+Da notare che il valore atteso della varianza dato $X$ sia diverso dalla varianza; per
+la legge della varianza totale si ha infatti che:
+$$ \var[Y]-\E[\var[Y \ | \ X]] = \var[\E[Y \ | \ X]] $$
+
+
+
+\subsubsection{\textit{Zero-one loss}}
