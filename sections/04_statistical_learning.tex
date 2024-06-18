@@ -1,1 +1,35 @@
 \section{\textit{Statistical Learning}}
+
+Per poter analizzare un \textit{learning algorithm} c'è bisogno di definire un modello
+matematico di come gli esempi $(x,y)$ sono generati. Nel contesto della \textit{statistical
+learning} si assumerà che ogni esempio sia ottenuto attraverso un'estrazione indipendente
+da una distribuzione di probabilità fissata su $\X \times \Y$. Si scriverà $(X,Y)$ per
+sottolineare come \textbf{le due componenti di un esempio siano due variabili aleatorie}.
+
+Assumere che ogni esempio $(x,y)$ è la realizzazione di un'estrazione casuale 
+\textbf{indipendente} da un'unica distribuzione $\D$, implica che ogni \textit{dataset} 
+(come \textit{test} e \textit{training set}) è un campione statistico. L'indipendenza dei
+dati è in realtà violata in alcuni domini pratici. Nonostante ciò, l'assunzione di indipendenza
+nei dati è estremamente utile dal punto di vista della tracciabilità analitica del problema,
+e funziona sorpendentemente bene nella pratica.
+
+\subsection{Definizioni}
+Nel contesto della \textit{statistical learning} un problema è specificato da una coppia
+$(\D,\ell)$, dove $\D$ è la distribuzione e $\ell$ la \textit{loss function}.
+
+\subsubsection{Rischio statistico}
+Le prestazioni di un predittore $h:\X \rightarrow \Y$ rispetto a $(\D,\ell)$ è valutata dal
+\textbf{rischio statistico}:
+$$ \ell_{\D}(h) = \E[\ell(Y,h(X))] $$
+che indica il valore atteso della \textit{loss function} su un esempio casuale $(X,Y)$
+estratto da $\D$.
+
+\subsubsection{\textit{Bayes optimal predictor}}
+Data $\D$, il miglior predittore possibile $f^*:\X \rightarrow \Y$ è detto 
+\textbf{\textit{Bayes optimal predictor}}:
+$$ f^*(x) = \argmin_{\hat{y} \in \Y} \E[\ell(Y,\hat{y})\ | \ X=x] $$
+
+\subsubsection{Rischio condizionato}
+L'argomento di $\argmin$ di $f^*$, ovvero $\E[\ell(Y,\hat{y})\ | \ X=x]$, è detto
+\textbf{rischio condizionato}. Il \textit{Bayes optimal predictor} quindi, è la predizione
+che minimizza il rischio condizionato.
