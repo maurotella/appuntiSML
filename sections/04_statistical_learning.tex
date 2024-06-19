@@ -55,6 +55,8 @@ Si valuteranno ora i predittori ottimi di Bayes per le varie \textit{loss functi
 \subsubsection{\textit{Quadratic loss}}
 
 Sia $\ell(y,\hat{y}) = (y-\hat{y})^2 \ \text{con } \Y = \RN $.
+
+Si analizzi il predittore ottimo di Bayes:
 \begin{align}
     f^*(x) &= \argmin_{\hat{y}\in\RN} \E[(Y-\hat{y})^2 \ | \ X=x]  \notag\\
            &= \argmin_{\hat{y}\in\RN} \E[Y^2+\hat{y}^2-2\hat{y}Y\ | \ X=x]\notag\\[.6em]
@@ -77,7 +79,6 @@ Sia $\ell(y,\hat{y}) = (y-\hat{y})^2 \ \text{con } \Y = \RN $.
         &= \argmin_{\hat{y}\in\RN}
             \left({\color{blue}\hat{y}^2}-2\hat{y}\E[Y\ | \ X=x]\right) \notag
 \end{align}
-
 L'argomento di $\argmin$ è una funzione del tipo:
 \begin{equation}
     F(\hat{y}) = \hat{y}^2 -2\hat{y}q \tag*{$q=\E[Y\ | \ X=x]$}
@@ -94,7 +95,7 @@ $$
 \end{aligned} \qquad \Rightarrow \qquad \hat{y}=\E[Y\ | \ X=x]
 $$
 
-Si può quindi dire che:
+\textbf{Si può quindi dire che}:
 $$ f^*(x) = \E[Y\ | \ X=x]  = \E[Y\ | \ X]$$
 
 Sostituendo il risultato appena mostrato nella formula del rischio condizionato
@@ -106,7 +107,7 @@ $$ \begin{aligned}
     = \ & \var[Y \ | \ X]
 \end{aligned} $$
 
-Il rischio di Bayes sarà quindi:
+\textbf{Il rischio di Bayes sarà quindi}:
 $$ \ell_\D(f^*) = \E[\var[Y \ | \ X]] \neq \var[Y] $$
 
 Da notare che il valore atteso della varianza dato $X$ sia diverso dalla varianza;
@@ -114,7 +115,25 @@ per la legge della varianza totale si ha infatti che:
 $$ \var[Y]-\E[\var[Y \ | \ X]] = \var[\E[Y \ | \ X]] $$
 
 \subsubsection{\textit{Zero-one loss}}
+Si guarderà ora la classificazione binaria dove $\Y = \{-1,1\}$.
+
 Si definiscano due funzioni:
-$$\begin{aligned}
-\eta(x) = P(Y=1 \ | \ X=x)
-\end{aligned}$$
+\begin{align}
+\eta(x) = \Prob(Y=1 \ | \ X=x) \tag{\Prob \ è la funzione di probabilità}\\
+\I\{A\} = \begin{cases}
+1 & \text{si verifica $A$} \\
+0 & \text{altrimenti}\\
+\end{cases}\tag{$A$ è un evento}
+\end{align}
+
+La funziona \textit{zero-one loss} si potrà ora definire:
+$$ \ell(y,\hat{y}) = \I\{\hat{y}\neq y\} $$
+\textbf{Si analizzi il rischio statistico}:
+$$
+\begin{aligned}
+    \ell_\D(h) &= \E[\ell(Y,h(X))]\\
+               &= \E[\I\{h(X)\neq Y\}]\\
+               &= \Prob(h(X)\neq Y)\\
+\end{aligned}
+$$
+Di conseguenza \textbf{il predittore ottimo di Bayes è}:
