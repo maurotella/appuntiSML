@@ -1,28 +1,30 @@
 \section{\textit{Statistical Learning}}
 
-Per poter analizzare un \textit{learning algorithm} c'è bisogno di definire un modello
-matematico di come gli esempi $(x,y)$ siano generati. Nel contesto della \textit{statistical
-learning} si assumerà che ogni esempio sia ottenuto attraverso un'estrazione indipendente
-da una distribuzione di probabilità fissata su $\X \times \Y$. Si scriverà $(X,Y)$ per
-sottolineare come \textbf{le due componenti di un esempio siano due variabili aleatorie}.
+Per poter analizzare un \textit{learning algorithm} c'è bisogno di definire un 
+modello matematico di come gli esempi $(x,y)$ siano generati. Nel contesto della
+\textit{statistical learning} si assumerà che ogni esempio sia ottenuto attraverso
+un'estrazione indipendente da una distribuzione di probabilità fissata su
+$\X \times \Y$. Si scriverà $(X,Y)$ per sottolineare come 
+\textbf{le due componenti di un esempio siano due variabili aleatorie}.
 
 Assumere che ogni esempio $(x,y)$ sia la realizzazione di un'estrazione casuale 
-\textbf{indipendente} da un'unica distribuzione $\D$, implica che ogni \textit{dataset} 
-(come \textit{test} e \textit{training set}) sia un campione statistico. L'indipendenza dei
-dati è in realtà violata in alcuni domini pratici. Nonostante ciò, l'assunzione di indipendenza
-nei dati è estremamente utile dal punto di vista della tracciabilità analitica del problema
-e funziona sorpendentemente bene nella pratica.
+\textbf{indipendente} da un'unica distribuzione $\D$, implica che ogni 
+\textit{dataset} (come \textit{test} e \textit{training set}) sia un campione
+statistico. L'indipendenza dei dati è in realtà violata in alcuni domini pratici.
+Nonostante ciò, l'assunzione di indipendenza nei dati è estremamente utile dal
+punto di vista della tracciabilità analitica del problema e funziona
+sorpendentemente bene nella pratica.
 
 \subsection{Definizioni}
-Nel contesto della \textit{statistical learning} un problema è specificato da una coppia
-$(\D,\ell)$, dove $\D$ è la distribuzione e $\ell$ la \textit{loss function}.
+Nel contesto della \textit{statistical learning} un problema è specificato da una
+coppia $(\D,\ell)$, dove $\D$ è la distribuzione e $\ell$ la \textit{loss function}.
 
 \subsubsection{Rischio statistico \texorpdfstring{$\ell_{\D}$}{lD}}
-Le prestazioni di un predittore $h:\X \rightarrow \Y$ rispetto a $(\D,\ell)$ è valutata dal
-\textbf{rischio statistico}:
+Le prestazioni di un predittore $h:\X \rightarrow \Y$ rispetto a $(\D,\ell)$ è 
+valutata dal \textbf{rischio statistico}:
 $$ \ell_{\D}(h) = \E[\ell(Y,h(X))] $$
-che indica il valore atteso della \textit{loss function} su un esempio casuale $(X,Y)$
-estratto da $\D$.
+che indica il valore atteso della \textit{loss function} su un esempio casuale 
+$(X,Y)$ estratto da $\D$.
 
 \subsubsection{Predittore ottimo di Bayes \texorpdfstring{$f^*$}{f*}}
 Data $\D$, il miglior predittore possibile $f^*:\X \rightarrow \Y$ è detto 
@@ -31,23 +33,28 @@ $$ f^*(x) = \argmin_{\hat{y} \in \Y} \E[\ell(Y,\hat{y})\ | \ X=x] $$
 
 \subsubsection{Rischio condizionato}
 L'argomento di $\argmin$ di $f^*$, ovvero $\E[\ell(Y,\hat{y})\ | \ X=x]$, è detto
-\textbf{rischio condizionato}. Il \textit{Bayes optimal predictor} quindi, è la predizione
-che minimizza il rischio condizionato. Un altro modo per scrivere il rischio condizionato
-di un predittore $f$ è:
+\textbf{rischio condizionato}. Il \textit{Bayes optimal predictor} quindi, è la 
+predizione che minimizza il rischio condizionato. Un altro modo per scrivere il
+rischio condizionato di un predittore $f$ è:
 $$ \E[\ell(Y,\hat{y})\ | \ X=x] = \E[\ell(Y,f(X))\ | \ X=x] $$
 
 \subsubsection{Rischio di Bayes \texorpdfstring{$\ell_{\D}(f^*)$}{lDF*}}
-Essendo $f^*$ il miglior predittore possibile per $\D$ è ragionevole pensare che esso
-abbia il rischio statistico migliore, ed è così; si ha infatti che il rischio 
-$\ell_{\D}(f^*)$, detto \textbf{rischio di Bayes}, è il minore tra tutti i predittori:
+Essendo $f^*$ il miglior predittore possibile per $\D$ è ragionevole pensare che
+esso abbia il rischio statistico migliore, ed è così; si ha infatti che il rischio 
+$\ell_{\D}(f^*)$, detto \textbf{rischio di Bayes}, è il minore tra tutti i
+predittori:
 $$ \forall h \in \F \quad \ell_{\D}(f^*) \leq \ell_{\D}(h) $$
-Tipicamente il rischio di Bayes è maggiore di zero vista la casualità delle etichette.
+Tipicamente il rischio di Bayes è maggiore di zero vista la casualità delle
+etichette.
 
-\subsection{\texorpdfstring{$f^*$}{f*} e \texorpdfstring{$\ell_\D$}{lD*} nelle varie \textit{loss function}}
+\subsection{
+    \texorpdfstring{$f^*$}{f*} e \texorpdfstring{$\ell_\D$}{lD*} nelle varie
+    \textit{loss function}
+}
 Si valuteranno ora i predittori ottimi di Bayes per le varie \textit{loss function}.
 \subsubsection{\textit{Quadratic loss}}
 
-$$ \ell(y,\hat{y}) = (y-\hat{y})^2 \qquad \text{con } \Y = \RN $$
+Sia $\ell(y,\hat{y}) = (y-\hat{y})^2 \ \text{con } \Y = \RN $.
 \begin{align}
     f^*(x) &= \argmin_{\hat{y}\in\RN} \E[(Y-\hat{y})^2 \ | \ X=x]  \notag\\
            &= \argmin_{\hat{y}\in\RN} \E[Y^2+\hat{y}^2-2\hat{y}Y\ | \ X=x]\notag\\[.6em]
@@ -72,9 +79,11 @@ $$ \ell(y,\hat{y}) = (y-\hat{y})^2 \qquad \text{con } \Y = \RN $$
 \end{align}
 
 L'argomento di $\argmin$ è una funzione del tipo:
-\begin{equation} F(\hat{y}) = \hat{y}^2 -2\hat{y}q \tag*{$q=\E[Y\ | \ X=x]$}\end{equation}
-Obiettivo di argmin è trovare il valore di $\hat{y}$ che minimizza $F$. Facendo un semplice 
-studio di funzione si può trovare che $F$ è minimizzata quando:
+\begin{equation}
+    F(\hat{y}) = \hat{y}^2 -2\hat{y}q \tag*{$q=\E[Y\ | \ X=x]$}
+\end{equation}
+Obiettivo di argmin è trovare il valore di $\hat{y}$ che minimizza $F$. Facendo 
+un semplice studio di funzione si può trovare che $F$ è minimizzata quando:
 $$
 \begin{aligned}
     \multispan2{$F'(\hat{y}) = 2\hat{y}-2q$} \\
@@ -88,7 +97,8 @@ $$
 Si può quindi dire che:
 $$ f^*(x) = \E[Y\ | \ X=x]  = \E[Y\ | \ X]$$
 
-Sostituendo il risultato appena mostrato nella formula del rischio condizionato si ha:
+Sostituendo il risultato appena mostrato nella formula del rischio condizionato
+si ha:
 $$ \begin{aligned}
     \ & \E[\ell(Y,\hat{y})\ | \ X=x] \\ 
     = \ &\E[(Y-f^*(X))^2\ | \ X=x] \\
@@ -99,10 +109,12 @@ $$ \begin{aligned}
 Il rischio di Bayes sarà quindi:
 $$ \ell_\D(f^*) = \E[\var[Y \ | \ X]] \neq \var[Y] $$
 
-Da notare che il valore atteso della varianza dato $X$ sia diverso dalla varianza; per
-la legge della varianza totale si ha infatti che:
+Da notare che il valore atteso della varianza dato $X$ sia diverso dalla varianza;
+per la legge della varianza totale si ha infatti che:
 $$ \var[Y]-\E[\var[Y \ | \ X]] = \var[\E[Y \ | \ X]] $$
 
-
-
 \subsubsection{\textit{Zero-one loss}}
+Si definiscano due funzioni:
+$$\begin{aligned}
+\eta(x) = P(Y=1 \ | \ X=x)
+\end{aligned}$$
