@@ -137,3 +137,25 @@ $$
 \end{aligned}
 $$
 Di conseguenza \textbf{il predittore ottimo di Bayes è}:
+\begin{align}
+    f^*(x) &= \argmin_{\hat{y}\in\{-1,1\}} \E[(Y-\hat{y})^2 \ | \ X=x]  \notag\\
+    &= \argmin_{\hat{y}\in\{-1,1\}} \E[
+        \I\{Y=1\}\I\{\hat{y}=-1\}+\I\{Y=-1\}\I\{\hat{y}=1 \} \ | \ X=x
+        ]  \notag\\[.6em]
+        \multispan2{Si applichi la definizione di valore atteso:\hfill}\notag\\[.6em]
+    &= \argmin_{\hat{y}\in\{-1,1\}} \Bigl(
+        {\color{red}\Prob(Y=1 \ | \ X=x)}\I\{\hat{y}=-1\}+{\color{blue}\Prob(Y=-1 \ | \ X=x)}\I\{\hat{y}=1\}
+    \Bigl)\notag\\
+    &= \argmin_{\hat{y}\in\{-1,1\}} \Bigl(
+        {\color{red}\eta(x)}\I\{\hat{y}=-1\}+{\color{blue}(1-\eta(x))}\I\{\hat{y}=1\}
+    \Bigl)\notag\\
+    &= \begin{cases}
+        -1 & \eta(x)<1/2\\ 
+        +1 & \eta(x)\geq1/2\\
+    \end{cases}\notag
+\end{align}
+$f^*(x)$ predirrà quindi l'etichetta con la maggior probabilità quando condizionata
+dall'istanza.
+
+Infine è facile verificare che \textbf{il rischio di Bayes è}:
+$$ \ell_\D(f^*)=\E[\min\{\eta(X),1-\eta(X)\}] $$
