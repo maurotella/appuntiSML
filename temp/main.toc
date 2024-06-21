@@ -1,42 +1,44 @@
 \babel@toc {italian}{}\relax 
 \babel@toc {italian}{}\relax 
-\contentsline {section}{\numberline {1}Introduzione}{2}{section.1}%
-\contentsline {subsection}{\numberline {1.1}Definizioni fondamentali}{2}{subsection.1.1}%
-\contentsline {subsubsection}{\numberline {1.1.1}\textit {Label set} $\ensuremath {\mathcal {Y}}$}{2}{subsubsection.1.1.1}%
-\contentsline {subsubsection}{\numberline {1.1.2}\textit {Loss function} $\ensuremath {\ell }$}{2}{subsubsection.1.1.2}%
-\contentsline {subsubsection}{\numberline {1.1.3}\textit {Data domain} $\ensuremath {\mathcal {X}}$}{3}{subsubsection.1.1.3}%
-\contentsline {subsubsection}{\numberline {1.1.4}Predittori $f$}{4}{subsubsection.1.1.4}%
-\contentsline {subsubsection}{\numberline {1.1.5}Esempi}{4}{subsubsection.1.1.5}%
-\contentsline {subsubsection}{\numberline {1.1.6}\textit {Test set} e \textit {test error}}{4}{subsubsection.1.1.6}%
-\contentsline {subsubsection}{\numberline {1.1.7}\textit {Learning algorithm} $A$}{4}{subsubsection.1.1.7}%
-\contentsline {subsubsection}{\numberline {1.1.8}\textit {Training error} $\ensuremath {\ell }_S$}{4}{subsubsection.1.1.8}%
-\contentsline {subsection}{\numberline {1.2}Empirical Risk Minimization (ERM)}{5}{subsection.1.2}%
-\contentsline {subsubsection}{\numberline {1.2.1}Definizione}{5}{subsubsection.1.2.1}%
-\contentsline {subsubsection}{\numberline {1.2.2}Predittori con \textit {test error} elevato}{5}{subsubsection.1.2.2}%
-\contentsline {subsubsection}{\numberline {1.2.3}\textit {Overfitting} e \textit {underfitting}}{6}{subsubsection.1.2.3}%
-\contentsline {subsubsection}{\numberline {1.2.4}Etichette rumorose}{6}{subsubsection.1.2.4}%
-\contentsline {section}{\numberline {2}Gli algoritmi \textit {Nearest Neighbor}}{7}{section.2}%
-\contentsline {subsection}{\numberline {2.1}\textit {Nearest Neighbor} (NN)}{7}{subsection.2.1}%
-\contentsline {subsubsection}{\numberline {2.1.1}Definizione}{7}{subsubsection.2.1.1}%
-\contentsline {subsubsection}{\numberline {2.1.2}Efficienza ed efficacia}{8}{subsubsection.2.1.2}%
-\contentsline {subsection}{\numberline {2.2}$k-$Nearest Neighbor ($k-$NN)}{8}{subsection.2.2}%
-\contentsline {subsubsection}{\numberline {2.2.1}Definizione}{8}{subsubsection.2.2.1}%
-\contentsline {subsubsection}{\numberline {2.2.2}Efficienza ed efficacia}{8}{subsubsection.2.2.2}%
-\contentsline {section}{\numberline {3}\textit {Tree Predictors}}{10}{section.3}%
-\contentsline {subsection}{\numberline {3.1}Definizione}{10}{subsection.3.1}%
-\contentsline {subsection}{\numberline {3.2}Costruzione di un \textit {tree predictor}}{11}{subsection.3.2}%
-\contentsline {subsubsection}{\numberline {3.2.1}Idea generale}{11}{subsubsection.3.2.1}%
-\contentsline {subsubsection}{\numberline {3.2.2}\textit {Training error}}{11}{subsubsection.3.2.2}%
-\contentsline {subsubsection}{\numberline {3.2.3}Crescita dell'albero e \textit {training error}}{13}{subsubsection.3.2.3}%
-\contentsline {subsubsection}{\numberline {3.2.4}Algoritmo generale}{14}{subsubsection.3.2.4}%
-\contentsline {subsection}{\numberline {3.3}\textit {Overfitting}}{14}{subsection.3.3}%
-\contentsline {subsection}{\numberline {3.4}Interpretabilità}{15}{subsection.3.4}%
-\contentsline {section}{\numberline {4}\textit {Statistical Learning}}{16}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Definizioni}{16}{subsection.4.1}%
-\contentsline {subsubsection}{\numberline {4.1.1}Rischio statistico $\ell _{\ensuremath {\mathcal {D}}}$}{16}{subsubsection.4.1.1}%
-\contentsline {subsubsection}{\numberline {4.1.2}Predittore ottimo di Bayes $f^*$}{16}{subsubsection.4.1.2}%
-\contentsline {subsubsection}{\numberline {4.1.3}Rischio condizionato}{16}{subsubsection.4.1.3}%
-\contentsline {subsubsection}{\numberline {4.1.4}Rischio di Bayes $\ell _{\ensuremath {\mathcal {D}}}(f^*)$}{16}{subsubsection.4.1.4}%
-\contentsline {subsection}{\numberline {4.2} $f^*$ e $\ell _\ensuremath {\mathcal {D}}$ nelle varie \textit {loss function} }{16}{subsection.4.2}%
-\contentsline {subsubsection}{\numberline {4.2.1}\textit {Quadratic loss}}{17}{subsubsection.4.2.1}%
-\contentsline {subsubsection}{\numberline {4.2.2}\textit {Zero-one loss}}{18}{subsubsection.4.2.2}%
+\contentsline {section}{\numberline {1}Introduzione}{3}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Definizioni fondamentali}{3}{subsection.1.1}%
+\contentsline {subsubsection}{\numberline {1.1.1}\textit {Label set} $\ensuremath {\mathcal {Y}}$}{3}{subsubsection.1.1.1}%
+\contentsline {subsubsection}{\numberline {1.1.2}\textit {Loss function} $\ensuremath {\ell }$}{3}{subsubsection.1.1.2}%
+\contentsline {subsubsection}{\numberline {1.1.3}\textit {Data domain} $\ensuremath {\mathcal {X}}$}{4}{subsubsection.1.1.3}%
+\contentsline {subsubsection}{\numberline {1.1.4}Predittori $f$}{5}{subsubsection.1.1.4}%
+\contentsline {subsubsection}{\numberline {1.1.5}Esempi}{5}{subsubsection.1.1.5}%
+\contentsline {subsubsection}{\numberline {1.1.6}\textit {Test set} e \textit {test error}}{5}{subsubsection.1.1.6}%
+\contentsline {subsubsection}{\numberline {1.1.7}\textit {Learning algorithm} $A$}{5}{subsubsection.1.1.7}%
+\contentsline {subsubsection}{\numberline {1.1.8}\textit {Training error} $\ensuremath {\ell }_S$}{5}{subsubsection.1.1.8}%
+\contentsline {subsection}{\numberline {1.2}Empirical Risk Minimization (ERM)}{6}{subsection.1.2}%
+\contentsline {subsubsection}{\numberline {1.2.1}Definizione}{6}{subsubsection.1.2.1}%
+\contentsline {subsubsection}{\numberline {1.2.2}Predittori con \textit {test error} elevato}{6}{subsubsection.1.2.2}%
+\contentsline {subsubsection}{\numberline {1.2.3}\textit {Overfitting} e \textit {underfitting}}{7}{subsubsection.1.2.3}%
+\contentsline {subsubsection}{\numberline {1.2.4}Etichette rumorose}{7}{subsubsection.1.2.4}%
+\contentsline {section}{\numberline {2}Gli algoritmi \textit {Nearest Neighbor}}{8}{section.2}%
+\contentsline {subsection}{\numberline {2.1}\textit {Nearest Neighbor} (NN)}{8}{subsection.2.1}%
+\contentsline {subsubsection}{\numberline {2.1.1}Definizione}{8}{subsubsection.2.1.1}%
+\contentsline {subsubsection}{\numberline {2.1.2}Efficienza ed efficacia}{9}{subsubsection.2.1.2}%
+\contentsline {subsection}{\numberline {2.2}$k-$Nearest Neighbor ($k-$NN)}{9}{subsection.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.1}Definizione}{9}{subsubsection.2.2.1}%
+\contentsline {subsubsection}{\numberline {2.2.2}Efficienza ed efficacia}{9}{subsubsection.2.2.2}%
+\contentsline {section}{\numberline {3}\textit {Tree Predictors}}{11}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Definizione}{11}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Costruzione di un \textit {tree predictor}}{12}{subsection.3.2}%
+\contentsline {subsubsection}{\numberline {3.2.1}Idea generale}{12}{subsubsection.3.2.1}%
+\contentsline {subsubsection}{\numberline {3.2.2}\textit {Training error}}{12}{subsubsection.3.2.2}%
+\contentsline {subsubsection}{\numberline {3.2.3}Crescita dell'albero e \textit {training error}}{14}{subsubsection.3.2.3}%
+\contentsline {subsubsection}{\numberline {3.2.4}Algoritmo generale}{15}{subsubsection.3.2.4}%
+\contentsline {subsection}{\numberline {3.3}\textit {Overfitting}}{15}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Interpretabilità}{16}{subsection.3.4}%
+\contentsline {section}{\numberline {4}\textit {Statistical Learning}}{17}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Definizioni}{17}{subsection.4.1}%
+\contentsline {subsubsection}{\numberline {4.1.1}Rischio statistico $\ell _{\ensuremath {\mathcal {D}}}$}{17}{subsubsection.4.1.1}%
+\contentsline {subsubsection}{\numberline {4.1.2}Predittore ottimo di Bayes $f^*$}{17}{subsubsection.4.1.2}%
+\contentsline {subsubsection}{\numberline {4.1.3}Rischio condizionato}{17}{subsubsection.4.1.3}%
+\contentsline {subsubsection}{\numberline {4.1.4}Rischio di Bayes $\ell _{\ensuremath {\mathcal {D}}}(f^*)$}{17}{subsubsection.4.1.4}%
+\contentsline {subsection}{\numberline {4.2} $f^*$ e $\ell _\ensuremath {\mathcal {D}}$ nelle varie \textit {loss function} }{17}{subsection.4.2}%
+\contentsline {subsubsection}{\numberline {4.2.1}\textit {Quadratic loss}}{18}{subsubsection.4.2.1}%
+\contentsline {subsubsection}{\numberline {4.2.2}\textit {Zero-one loss}}{19}{subsubsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.3}Limitare il rischio}{19}{subsection.4.3}%
+\contentsline {subsubsection}{\numberline {4.3.1}Stima del rischio}{19}{subsubsection.4.3.1}%

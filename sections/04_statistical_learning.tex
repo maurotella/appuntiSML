@@ -159,3 +159,28 @@ dall'istanza.
 
 Infine è facile verificare che \textbf{il rischio di Bayes è}:
 $$ \ell_\D(f^*)=\E[\min\{\eta(X),1-\eta(X)\}] $$
+
+\subsection{Limitare il rischio}
+Si vedrà ora come limitare il rischio statistico di un predittore.
+
+\subsubsection{Stima del rischio}
+Dato un predittore $h$ \textbf{non si può calcolare direttamente il suo rischio 
+statistico $\ell_\D(h)$}; il motivo è semplice: \textbf{non si conosce $\D$} (se 
+si conoscesse si potrebbe calcolare direttamente il predittore ottimo di Bayes).
+
+Si dovrà quindi procedere ad ottenere una stima del rischio di un predittore $h$.
+Per farlo 
+\textbf{si userà il \textit{test set} $S'=\{(x_1',y_1'),\dots,(x_n',y_n')\}$};
+in particolare si assumerà che $S'$ sia stato generato attraverso estrazioni 
+indipendenti da $\D$ e che quindi:
+\begin{equation}
+    \quad (X_t',Y_t') \sim \D \tag*{$t=1,\dots,n$}
+\end{equation}
+Questo permette di affermare che:
+$$ \E[\ell(Y',h(X'))] = \ell_{\D}(h) $$
+Infine, usando come stimatore la media campionaria del rischio, \textbf{si può
+avere una stima del rischio} attraverso il \textit{test set}, \textbf{ottenendo
+di fatto il \textit{test error}}:
+$$ \ell_{S'}(h) = \frac{1}{n}\sum_{t=1}^n \ell(y_t',h(x_t')) $$
+È importante sottolineare che \textbf{la stima ha senso solo se $h$ non dipende
+in alcun modo dal \textit{test set}}.

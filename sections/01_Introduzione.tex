@@ -136,8 +136,8 @@ Per poter stimare la qualità di un predittore si usa un insieme di esempi detto
 \textbf{\textit{test set}}:
 $$ \{ (x_1',y_1'),\dots, (x_n',y_n')\} $$
 Data una \textit{loss function} $\loss$, il \textit{test set} viene usato per
-calcolare il \textit{\textbf{test error}} di un predittore $\pred$:
-$$ \frac{1}{n}\sum^{n}_{t=1}{
+calcolare il \textit{\textbf{test error}} $\ell_{S'}$ di un predittore $\pred$:
+$$ \ell_{S'}(f) = \frac{1}{n}\sum^{n}_{t=1}{
     \loss(\underbrace{y_t'}_{\mathclap{\text{reale}}},
     \overbrace{\pred(x_t')}^{\mathclap{\text{predetta}}})} $$
 
