@@ -42,3 +42,4 @@
 \contentsline {subsubsection}{\numberline {4.2.2}\textit {Zero-one loss}}{19}{subsubsection.4.2.2}%
 \contentsline {subsection}{\numberline {4.3}Limitare il rischio}{19}{subsection.4.3}%
 \contentsline {subsubsection}{\numberline {4.3.1}Stima del rischio}{19}{subsubsection.4.3.1}%
+\contentsline {subsubsection}{\numberline {4.3.2}Chernoff-Hoeffding}{20}{subsubsection.4.3.2}%

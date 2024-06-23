@@ -184,3 +184,18 @@ di fatto il \textit{test error}}:
 $$ \ell_{S'}(h) = \frac{1}{n}\sum_{t=1}^n \ell(y_t',h(x_t')) $$
 È importante sottolineare che \textbf{la stima ha senso solo se $h$ non dipende
 in alcun modo dal \textit{test set}}.
+
+\subsubsection{Chernoff-Hoeffding}
+Per poter calcolare quanto \quotes{buona} è la stima del rischio si può usare
+il seguente risultato della legge dei grandi numeri.
+
+\newtheorem{lemma}{Lemma}
+
+\begin{lemma}[Chernoff-Hoeffding]
+    Siano $Z_1,\dots,Z_n$ delle variabili aleatorie indipendenti e
+    identicamente distribuite; sia $\mu$ il valore atteso e sia $0\leq Z_t\leq1$
+    per ogni $t=1,\dots,n$. Allora per ogni $\varepsilon>0$ si ha che:
+    $$ \Prob \left(
+        \left| \frac{1}{n}\sum_{t=1}^n Z_t-\mu \right| \geq \varepsilon
+    \right) \leq e^{\displaystyle-2\varepsilon^2n} $$
+\end{lemma}
