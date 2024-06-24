@@ -221,4 +221,34 @@ $$ \Prob \Bigl( |\ell_{S'}(h) - \ell_\D(h)| > \varepsilon \Bigl)
 Questo mostra che \textbf{la probabilità che il \textit{test error} 
 $\ell_{S'}(h)$ differisca dal rischio statistico $\ell_\D(h)$ per più di 
 $\varepsilon$, diminuisce esponenzialmente con il crescere della dimensione $n$ 
-del \textit{test set}}. 
+del \textit{test set}}.
+
+\subsection{\textit{Overfitting} e \textit{underfitting}}
+Si consideri un problema di \textit{learning} $(\D,\ell)$ e un \textit{learning
+algorithm} $A$. Si scriverà $A(S)$ per indicare il predittore generato da $A$
+preso in input il \textit{training set} $S$.
+
+Sia $\Hm = \{h_1,\dots,h_m\}$ l'insieme dei predittori generati da $A$ su 
+\textit{training set} di dimensione $m$; un predittore $h$ appartiene a $\Hm$ se
+e solo se esiste un \textit{training set} $S$ di dimensione $m$ tale che $A(S)=h$:
+$$ h\in\Hm \ \Leftrightarrow \ \exists S : |S|=m \ \wedge \ A(S)=h $$
+
+Sia $h^*$ il miglior predittore di $\Hm$, ovvero il predittore con il rischio minimo
+(ricordando che potrebbero essere più di uno):
+$$ h^* \in \argmin_{h\in\Hm} \ell_\D(h) $$
+
+Fissato un \textit{training set} $S$ di dimensione $m$ si indichi
+$ h_S = A(S) \in \Hm $. Di seguito verrà mostrata la decomposizione
+\textit{bias-variance}:
+\begin{align}
+    \ell_\D(h_S) =& \phantom{+.} \ell_\D(h_S) - \ell_\D(h^*)
+    \tag{{\color{red}errore di stima}}\\ 
+        & +\ell_\D(h^*) - \ell_\D(f^*) \tag{{\color{blue}errore di approssimazione}}\\
+        & +\ell_\D(f^*) \tag{rischio di Bayes}
+\end{align}
+Dove $f^*$ è il predittore ottimo di Bayes.
+\begin{figure}[h]
+    \centering
+    \input{figures/bias_decomposition.tex}
+    \caption{Rappresentazione grafica della decomposizione \textit{bias-variance}}
+\end{figure}
