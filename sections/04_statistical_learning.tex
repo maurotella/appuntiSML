@@ -189,13 +189,36 @@ in alcun modo dal \textit{test set}}.
 Per poter calcolare quanto \quotes{buona} è la stima del rischio si può usare
 il seguente risultato della legge dei grandi numeri.
 
-\newtheorem{lemma}{Lemma}
-
 \begin{lemma}[Chernoff-Hoeffding]
     Siano $Z_1,\dots,Z_n$ delle variabili aleatorie indipendenti e
     identicamente distribuite; sia $\mu$ il valore atteso e sia $0\leq Z_t\leq1$
     per ogni $t=1,\dots,n$. Allora per ogni $\varepsilon>0$ si ha che:
     $$ \Prob \left(
-        \left| \frac{1}{n}\sum_{t=1}^n Z_t-\mu \right| \geq \varepsilon
+        \frac{1}{n}\sum_{t=1}^n Z_t > \mu + \varepsilon
+    \right) \leq e^{\displaystyle-2\varepsilon^2n}
+    \qquad \text{e} \qquad
+    \Prob \left(
+        \frac{1}{n}\sum_{t=1}^n Z_t < \mu - \varepsilon
     \right) \leq e^{\displaystyle-2\varepsilon^2n} $$
 \end{lemma}
+\vspace{1em}
+
+Applicando il precedente lemma con $Z_t = \ell(Y_t',h(X_t')) \in [0,1]$ si
+può trovare un intervallo di confidenza del rischio statistico:
+$$\begin{aligned}
+    \Prob \Bigl( |\ell_{S'}(h) - \ell_\D(h)| > \varepsilon \Bigl) &= 
+        \Prob\Bigl((\ell_{S'}(h) > \ell_\D(h)+\varepsilon) \ \cup \ 
+        (\ell_{S'}(h) < \ell_\D(h)-\varepsilon) \Bigl)\\
+    &= \underbrace{\Prob\Bigl(\ell_{S'}(h) > \ell_\D(h)+\varepsilon\Bigl)}
+        _{\leq \ e^{-2\varepsilon^2n}} \ + \
+       \underbrace{\Prob\Bigl(\ell_{S'}(h) < \ell_\D(h)-\varepsilon \Bigl)}
+       _{\leq \ e^{-2\varepsilon^2n}}
+\end{aligned}$$
+$$ \Downarrow $$
+$$ \Prob \Bigl( |\ell_{S'}(h) - \ell_\D(h)| > \varepsilon \Bigl) 
+ \ \leq \ 2e^{\displaystyle-2\varepsilon^2n} $$
+
+Questo mostra che \textbf{la probabilità che il \textit{test error} 
+$\ell_{S'}(h)$ differisca dal rischio statistico $\ell_\D(h)$ per più di 
+$\varepsilon$, diminuisce esponenzialmente con il crescere della dimensione $n$ 
+del \textit{test set}}. 
