@@ -242,8 +242,9 @@ $ h_S = A(S) \in \Hm $. Di seguito verrà mostrata la decomposizione
 \textit{bias-variance}:
 \begin{align}
     \ell_\D(h_S) =& \phantom{+.} \ell_\D(h_S) - \ell_\D(h^*)
-    \tag{{\color{red}errore di stima}}\\ 
-        & +\ell_\D(h^*) - \ell_\D(f^*) \tag{{\color{blue}errore di approssimazione}}\\
+    \tag{{\color{red}errore di stima o di variazione}}\\ 
+        & +\ell_\D(h^*) - \ell_\D(f^*)
+            \tag{{\color{blue}errore di approssimazione o di bias}}\\
         & +\ell_\D(f^*) \tag{rischio di Bayes}
 \end{align}
 Dove $f^*$ è il predittore ottimo di Bayes.
