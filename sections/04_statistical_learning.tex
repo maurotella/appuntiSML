@@ -189,7 +189,7 @@ in alcun modo dal \textit{test set}}.
 Per poter calcolare quanto \quotes{buona} è la stima del rischio si può usare
 il seguente risultato della legge dei grandi numeri.
 
-\begin{lemma}[Chernoff-Hoeffding]
+\begin{lemma}[Chernoff-Hoeffding]\label{lem:chern-hoeff}
     Siano $Z_1,\dots,Z_n$ delle variabili aleatorie indipendenti e
     identicamente distribuite; sia $\mu$ il valore atteso e sia $0\leq Z_t\leq1$
     per ogni $t=1,\dots,n$. Allora per ogni $\varepsilon>0$ si ha che:
@@ -223,7 +223,7 @@ $\ell_{S'}(h)$ differisca dal rischio statistico $\ell_\D(h)$ per più di
 $\varepsilon$, diminuisce esponenzialmente con il crescere della dimensione $n$ 
 del \textit{test set}}.
 
-\subsection{\textit{Overfitting} e \textit{underfitting}}
+\subsection{Decomposizione \textit{bias-variance}}
 Si consideri un problema di \textit{learning} $(\D,\ell)$ e un \textit{learning
 algorithm} $A$. Si scriverà $A(S)$ per indicare il predittore generato da $A$
 preso in input il \textit{training set} $S$.
@@ -262,3 +262,97 @@ Si noti che:
     \item L'errore di stima è grande quando $S$ non contiene abbastanza informazioni
         necessarie ad identificare $h^*$.
 \end{itemize}
+
+\subsection{\textit{Overfitting} e \textit{underfitting}}
+Obiettivo di questo paragrafo è stabilire una connessione tra la decomposizione
+\textit{bias-variance} e \textit{overfitting/underfitting}. Per farlo si prenda come
+$A$ il \textit{learning algorithm} ERM su una classe di predittori arbritraria 
+$\Hpred$  :
+$$ A(S) = h_S = \argmin_{h \in \Hpred}\ell_S(h) $$
+Si tenga poi conto del predittore ottimo $h^*$ di $\Hpred$:
+$$ h^* \in \argmin_{h\in\Hpred} \ell_\D(h) $$
+
+Si noti che $h_S$ è il miglior predittore che ERM riesce a trovare basando la stima
+del rischio su $S$, mentre $h^*$ è il miglior predittore possibile esistente in
+$\Hpred$, \textbf{che non dipende quindi da $S$}.
+
+Il lemma \ref{lem:chern-hoeff} non può essere applicato direttamente in quanto 
+$\ell_S(h_S)$ e $\ell_D(h_S)$ sono entrambi variabili aleatorie il cui valore atteso
+non coincide necessariamente. Per poter quindi analizzare formalmente l'errore
+di variazione di ERM si proceda come segue.
+
+Per ogni \textit{training set} $S$ di dimensione $m$ si ha che:
+\begin{align}
+    \ell_D(h_S)-\ell_D(h^*) &= \phantom{|}\ell_D(h_S)-\ell_S(h_S)\phantom{|}
+                +\phantom{|}\ell_S(h_S)-\ell_D(h^*) \notag\\[.6em]
+                \multispan2{Per definizione $h_S$ minimizza il rischio stimato su $S$,
+                si ha quindi\hfill}\notag\\
+                \multispan2{che $\ell_S(h_S)\leq\ell_S(h^*)$:
+                \hfill}\notag\\[.6em]
+           &\leq\phantom{|}\ell_D(h_S)-\ell_S(h_S)\phantom{|}+\phantom{|}
+                \ell_S(h^*)-\ell_D(h^*)\phantom{|} \notag\\
+           &\leq |\ell_D(h_S)-\ell_S(h_S)|+|\ell_S(h^*)-\ell_D(h^*)| \notag\\
+           &\leq 2\max_{h \in \Hpred} |\ell_S(h)-\ell_D(h)| \label{eq:var_err}
+\end{align}
+Concentrandosi ora sull'errore di variazione, si vuole capire quando, per ogni
+$\varepsilon > 0$ si ha:
+\begin{equation}
+\ell_D(h_S)-\ell_D(h^*)>\varepsilon
+\label{eq:var_err2}
+\end{equation}
+Unendo la disuguaglianza appena vista con (\ref{eq:var_err}) si ha:
+$$
+2\max_{h \in \Hpred} |\ell_S(h)-\ell_D(h)| \geq \ell_D(h_S)-\ell_D(h^*)
+> \varepsilon
+$$
+Da cui:
+\begin{align}
+    2\max_{h \in \Hpred} |\ell_S(h)-\ell_D(h)| &> \varepsilon\notag\\
+    \max_{h \in \Hpred} |\ell_S(h)-\ell_D(h)| &> \frac{\varepsilon}{2}\label{eq:var_err3}
+\end{align}
+$$ \Downarrow $$
+\begin{equation}
+    \exists h \in \Hpred : |\ell_S(h)-\ell_D(h)| > \frac{\varepsilon}{2}
+    \label{eq:var_err4}
+\end{equation}
+
+Dai risultati (\ref{eq:var_err2}) e (\ref{eq:var_err4}) si 
+evince che:
+\begin{align}
+    (\ref{eq:var_err2}) \quad &\Rightarrow \quad (\ref{eq:var_err4})\notag\\
+    \ell_D(h_S)-\ell_D(h^*)>\varepsilon 
+    \quad &\Rightarrow \quad \exists h \in \Hpred : |\ell_S(h)-\ell_D(h)|
+    > \frac{\varepsilon}{2}\label{eq:var_err5}
+\end{align}
+
+La figura \ref{fig:prob_implication} mostra come:
+\begin{equation}
+    A \Rightarrow B \ \rightarrow \ \Prob(A) \leq \Prob(B) \label{eq:prob_impl}
+\end{equation}
+
+\begin{figure}[h]
+    \centering
+    \input{figures/prob_implication.tex}
+    \caption{\label{fig:prob_implication}}
+\end{figure}
+
+Da (\ref{eq:var_err5}) e (\ref{eq:prob_impl}) si ottiene che:
+\begin{equation}
+    \Prob(\ell_D(h_S)-\ell_D(h^*)>\varepsilon) \leq
+    \Prob\left(\exists h \in \Hpred : |\ell_S(h)-\ell_D(h)|>\frac{\varepsilon}{2}
+    \right)
+\end{equation}
+
+Si guardi solo il caso in cui $\Hpred$ è finito ($|\Hpred|<\infty$). L'evento:
+$$ \exists h \in \Hpred : |\ell_S(h)-\ell_D(h)|>\frac{\varepsilon}{2} $$
+è l'unione su $h \in \Hpred$ degli eventi $|\ell_S(h)-\ell_D(h)|>\varepsilon/2$:
+$$ \Prob\left(\exists h \in \Hpred : |\ell_S(h)-\ell_D(h)|>\frac{\varepsilon}{2}\right)
+= \Prob\left(\bigcup_{h\in\Hpred} \left(|\ell_S(h)-\ell_D(h)|>
+\frac{\varepsilon}{2}\right)\right)
+$$
+
+\begin{figure}[h]
+    \centering
+    \input{figures/prob_union.tex}
+    \caption{\label{fig:prob_implication}}
+\end{figure}
