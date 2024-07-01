@@ -271,7 +271,6 @@ $\Hpred$  :
 $$ A(S) = h_S = \argmin_{h \in \Hpred}\ell_S(h) $$
 Si tenga poi conto del predittore ottimo $h^*$ di $\Hpred$:
 $$ h^* \in \argmin_{h\in\Hpred} \ell_\D(h) $$
-
 Si noti che $h_S$ è il miglior predittore che ERM riesce a trovare basando la stima
 del rischio su $S$, mentre $h^*$ è il miglior predittore possibile esistente in
 $\Hpred$, \textbf{che non dipende quindi da $S$}.
@@ -315,22 +314,18 @@ $$ \Downarrow $$
     \exists h \in \Hpred : |\ell_S(h)-\ell_D(h)| > \frac{\varepsilon}{2}
     \label{eq:var_err4}
 \end{equation}
-
-Dai risultati (\ref{eq:var_err2}) e (\ref{eq:var_err4}) si 
-evince che:
+Dai risultati (\ref{eq:var_err2}) e (\ref{eq:var_err4}) si evince che:
 \begin{align}
     (\ref{eq:var_err2}) \quad &\Rightarrow \quad (\ref{eq:var_err4})\notag\\
     \ell_D(h_S)-\ell_D(h^*)>\varepsilon 
     \quad &\Rightarrow \quad \exists h \in \Hpred : |\ell_S(h)-\ell_D(h)|
     > \frac{\varepsilon}{2}\label{eq:var_err5}
 \end{align}
-
 La figura \ref{fig:prob_implication} mostra come:
 \begin{equation}
     A \Rightarrow B \ \rightarrow \ \Prob(A) \leq \Prob(B) \label{eq:prob_impl}
 \end{equation}
-
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \input{figures/prob_implication.tex}
     \caption{\label{fig:prob_implication}}
@@ -340,19 +335,68 @@ Da (\ref{eq:var_err5}) e (\ref{eq:prob_impl}) si ottiene che:
 \begin{equation}
     \Prob(\ell_D(h_S)-\ell_D(h^*)>\varepsilon) \leq
     \Prob\left(\exists h \in \Hpred : |\ell_S(h)-\ell_D(h)|>\frac{\varepsilon}{2}
-    \right)
+    \right) \label{eq:stat_risk_bound}
 \end{equation}
 
-Si guardi solo il caso in cui $\Hpred$ è finito ($|\Hpred|<\infty$). L'evento:
-$$ \exists h \in \Hpred : |\ell_S(h)-\ell_D(h)|>\frac{\varepsilon}{2} $$
-è l'unione su $h \in \Hpred$ degli eventi $|\ell_S(h)-\ell_D(h)|>\varepsilon/2$:
-$$ \Prob\left(\exists h \in \Hpred : |\ell_S(h)-\ell_D(h)|>\frac{\varepsilon}{2}\right)
-= \Prob\left(\bigcup_{h\in\Hpred} \left(|\ell_S(h)-\ell_D(h)|>
-\frac{\varepsilon}{2}\right)\right)
-$$
-
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \input{figures/prob_union.tex}
-    \caption{\label{fig:prob_implication}}
+    \caption{\label{fig:prob_union}}
 \end{figure}
+
+\textbf{Si guardi solo il caso in cui $\Hpred$ è finito ($|\Hpred|<\infty$)}.
+\begin{align}
+\Prob\left(\exists h \in \Hpred : |\ell_S(h)-\ell_D(h)|>\frac{\varepsilon}{2}\right)
+&= \Prob\left(\bigcup_{h\in\Hpred} \left(|\ell_S(h)-\ell_D(h)|>
+\frac{\varepsilon}{2}\right)\right)\notag\\
+\multispan2{La probabilità dell'unione di più eventi non è uguale alla somma delle}\notag\\
+\multispan2{probabilità dei singoli eventi in quanto alcuni eventi si potrebbero}\notag\\
+\multispan2{sovrapporre come mostrato in figura \ref{fig:prob_union}. 
+Tuttavia rappresenta un limite}\notag\\
+\multispan2{superiore:\hfill}\notag\\
+&\leq \sum_{h\in\Hpred}\Prob\left(|\ell_S(h)-\ell_D(h)|>\frac{\varepsilon}{2}\right)\notag\\
+\multispan2{Si applichi il lemma \ref{lem:chern-hoeff}:\hfill}\notag\\
+&\leq \sum_{h\in\Hpred}  2e^{\displaystyle-2\frac{\varepsilon^2}{4}m}\notag\\
+&\leq \sum_{h\in\Hpred}  2e^{\displaystyle-\frac{\varepsilon^2m}{2}}\notag\\
+&\leq |\Hpred|  2e^{\displaystyle-\frac{\varepsilon^2m}{2}}\label{eq:stat_risk_bound_2}
+\end{align}
+Da (\ref{eq:stat_risk_bound}) e (\ref{eq:stat_risk_bound_2}) si ha che:
+\begin{equation}
+\Prob(\ell_D(h_S)-\ell_D(h^*)>\varepsilon) \leq
+|\Hpred|2e^{-m\varepsilon^2/2}
+\label{eq:stat_risk_bound_3}
+\end{equation}
+Si chiami il lato destro $\delta$ e si isoli la $\varepsilon$:
+\begin{align}
+    2|\Hpred|e^{-m\varepsilon^2/2} &= \delta\label{eq:stat_risk_bound_3}\\[.15cm]
+    e^{-m\varepsilon^2/2} &= \frac{\delta}{2|\Hpred|}\notag\\[.15cm]
+    e^{m\varepsilon^2/2} &= \frac{2|\Hpred|}{\delta}\notag\\[.15cm]
+    \frac{m\varepsilon^2}{2} &= \ln{\frac{2|\Hpred|}{\delta}}\notag\\[.15cm]
+    \varepsilon^2 &= \frac{2}{m}\ln{\frac{2|\Hpred|}{\delta}}\notag\\[.15cm]
+    \varepsilon &= \sqrt{\frac{2}{m}\ln{\frac{2|\Hpred|}{\delta}}}\label{eq:stat_risk_bound_4}
+\end{align}
+Concludendo, da (\ref{eq:stat_risk_bound_3}) si ha che:
+\begin{align}
+\Prob(\ell_D(h_S)\leq\ell_D(h^*)+\varepsilon) &\geq 1-|\Hpred|2e^{-m\varepsilon^2/2}\notag\\[.2cm]
+\multispan2{Applicando (\ref{eq:stat_risk_bound_3}) e (\ref{eq:stat_risk_bound_4})
+si ottiene:\hfill}\notag\\
+\Prob\left(\ell_D(h_S)\leq\ell_D(h^*)+\sqrt{\frac{2}{m}\ln{\frac{2|\Hpred|}{\delta}}}\right) 
+    &\geq 1-\delta\notag
+\end{align}
+Si ricordi che $m$ è la dimensione del \textit{training set}.
+
+Fissato $m$, per poter diminuire lo scarto 
+$\sqrt{\frac{2}{m}\ln{\frac{2|\Hpred|}{\delta}}}$ dell'errore di variazione di 
+ERM, \textbf{bisogna diminuire $|\Hpred|$}. Diminuendo $|\Hpred|$ però si
+incrementerebbe $\ell_D(h^*)$, il che farebbe aumentare l'errore di bias.
+
+Alla luce di quest'analisi statistica, si può concludere che gli algoritmi ERM
+generano predittori con un alto rischio (rispetto al rischio di Bayes) quando
+c'è uno sbilanciamento tra l'errore di variazione e quello di bias.
+In particolare:
+\begin{itemize}
+    \item Si verifica \textit{overfitting} quando l'errore di variazione domina
+        l'errore di bias;
+    \item Si verifica \textit{underfitting} quando l'errore di bias domina
+        l'errore di variazione;
+\end{itemize}
