@@ -368,17 +368,17 @@ Da (\ref{eq:stat_risk_bound}) e (\ref{eq:stat_risk_bound_2}) si ha che:
 \end{equation}
 Si chiami il lato destro $\delta$ e si isoli la $\varepsilon$:
 \begin{align}
-    2|\Hpred|e^{-m\varepsilon^2/2} &= \delta\label{eq:stat_risk_bound_3}\\[.15cm]
+    2|\Hpred|e^{-m\varepsilon^2/2} &= \delta\label{eq:stat_risk_bound_4}\\[.15cm]
     e^{-m\varepsilon^2/2} &= \frac{\delta}{2|\Hpred|}\notag\\[.15cm]
     e^{m\varepsilon^2/2} &= \frac{2|\Hpred|}{\delta}\notag\\[.15cm]
     \frac{m\varepsilon^2}{2} &= \ln{\frac{2|\Hpred|}{\delta}}\notag\\[.15cm]
     \varepsilon^2 &= \frac{2}{m}\ln{\frac{2|\Hpred|}{\delta}}\notag\\[.15cm]
-    \varepsilon &= \sqrt{\frac{2}{m}\ln{\frac{2|\Hpred|}{\delta}}}\label{eq:stat_risk_bound_4}
+    \varepsilon &= \sqrt{\frac{2}{m}\ln{\frac{2|\Hpred|}{\delta}}}\label{eq:stat_risk_bound_5}
 \end{align}
 Concludendo, da (\ref{eq:stat_risk_bound_3}) si ha che:
 \begin{align}
 \Prob(\ell_D(h_S)\leq\ell_D(h^*)+\varepsilon) &\geq 1-|\Hpred|2e^{-m\varepsilon^2/2}\notag\\[.2cm]
-\multispan2{Applicando (\ref{eq:stat_risk_bound_3}) e (\ref{eq:stat_risk_bound_4})
+\multispan2{Applicando (\ref{eq:stat_risk_bound_4}) e (\ref{eq:stat_risk_bound_5})
 si ottiene:\hfill}\notag\\
 \Prob\left(\ell_D(h_S)\leq\ell_D(h^*)+\sqrt{\frac{2}{m}\ln{\frac{2|\Hpred|}{\delta}}}\right) 
     &\geq 1-\delta\notag
