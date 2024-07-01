@@ -43,5 +43,7 @@
 \contentsline {subsection}{\numberline {4.3}Limitare il rischio}{19}{subsection.4.3}%
 \contentsline {subsubsection}{\numberline {4.3.1}Stima del rischio}{19}{subsubsection.4.3.1}%
 \contentsline {subsubsection}{\numberline {4.3.2}Chernoff-Hoeffding}{20}{subsubsection.4.3.2}%
-\contentsline {subsection}{\numberline {4.4}Decomposizione \textit {bias-variance}}{20}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.4}Decomposizione \textit {bias-variance}}{21}{subsection.4.4}%
 \contentsline {subsection}{\numberline {4.5}\textit {Overfitting} e \textit {underfitting}}{21}{subsection.4.5}%
+\contentsline {section}{\numberline {5}Analisi del rischio sui \textit {tree predictor}}{25}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Limitare il numero di nodi}{25}{subsection.5.1}%

@@ -215,13 +215,29 @@ $$\begin{aligned}
        _{\leq \ e^{-2\varepsilon^2n}}
 \end{aligned}$$
 $$ \Downarrow $$
-$$ \Prob \Bigl( |\ell_{S'}(h) - \ell_\D(h)| > \varepsilon \Bigl) 
- \ \leq \ 2e^{\displaystyle-2\varepsilon^2n} $$
+\begin{equation} \Prob \Bigl( |\ell_{S'}(h) - \ell_\D(h)| > \varepsilon \Bigl) 
+ \ \leq \ 2e^{\displaystyle-2\varepsilon^2n} \label{eq:stat_risk_test}\end{equation}
 
 Questo mostra che \textbf{la probabilità che il \textit{test error} 
 $\ell_{S'}(h)$ differisca dal rischio statistico $\ell_\D(h)$ per più di 
 $\varepsilon$, diminuisce esponenzialmente con il crescere della dimensione $n$ 
 del \textit{test set}}.
+
+Andando più nello specifico, si prenda un valore $\delta\in (0,1)$, uguale a
+$2e^{-2\varepsilon^2n}$, e si isoli la $\varepsilon$:
+\begin{align}
+    2e^{-2\varepsilon^2n} &= \delta\notag\\[.15cm]
+    e^{2\varepsilon^2n} &= \frac{2}{\delta}\notag\\[.15cm]
+    2\varepsilon^2n &= \ln{\frac{2}{\delta}}\notag\\[.15cm]
+    \varepsilon^2 &= \frac{1}{2n}\ln{\frac{2}{\delta}}\notag\\[.15cm]
+    \varepsilon &= \sqrt{\frac{1}{2n}\ln{\frac{2}{\delta}}}\notag
+\end{align}
+
+Applicando i risultati appena mostrati su (\ref{eq:stat_risk_test}) si ottiene
+infine:
+$$ \Prob\left(|\ell_\D(h)-\ell_{S'}(h)| \leq 
+\sqrt{\frac{1}{2n}\ln{\frac{2}{\delta}}}\right) \geq
+1-\delta $$
 
 \subsection{Decomposizione \textit{bias-variance}}
 Si consideri un problema di \textit{learning} $(\D,\ell)$ e un \textit{learning

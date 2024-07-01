@@ -1,0 +1,55 @@
+\section{Analisi del rischio sui \textit{tree predictor}}
+
+L'analisi del rischio per ERM su una classe finita $\Hpred$ di predittori dice che,
+con probabilità di almeno $1-\delta$ rispetto all'estrazione casuale di un
+\textit{training set} di dimensione $m$, si ha:
+$$ \ell_\D(h_S) \leq \ell_\D(h^*)
++\sqrt{\frac{2}{m}\ln{\frac{2|\Hpred|}{\delta}}} $$
+
+Si proverà in questa sezione ad applicare questo risultato alla classe dei
+predittori calcolati da \textit{tree classifier} binari su $\X=\{0,1\}^d$.
+\textbf{Si considereranno solo alberi binari completi ovvero alberi i cui nodi
+hanno o zero o due figli}. Un albero completo in cui le foglie si trovano tutte
+alla stessa profondità si dice albero binario perfetto. Un albero binario completo
+con $N$ nodi ha sempre $(N+1)/2$ foglie.
+
+\begin{observation}
+Per ogni funzione $h:\{0,1\}^d \rightarrow \{-1,1\}$ esiste un
+\textit{tree classifier} binario con almeno $2^{d+1}-1$ nodi che calcolano $h$.
+\end{observation}
+\begin{proof}
+    Si prenda l'albero binario perfetto che calcoli il predittore
+    $h:\{0,1\}^d \rightarrow \{-1,1\}$. Per ogni possibile $x\in\{0,1\}^d$ ci dovrà
+    essere una corrispettiva etichetta. Ci sono $2^d$ possibili punti. Di conseguenza
+    l'albero avrà $2^d$ foglie. Essendo l'albero completo ed avendo $2^d$ foglie
+    avrà $2^{d+1}-1$ nodi.
+\end{proof}
+
+Siccome ci sono $2^{2^d}$ funzioni binarie su $\{0,1\}^d$, si può eseguire ERM con
+una classe $\Hpred$ contenente $2^{2^d}$ \textit{tree classifier}. Contenendo tutte
+le possibili funzioni, si avrà che $f^*\in\Hpred$ e quindi verrà scelto da ERM 
+avendo così un errore di bias nullo. Analizzando il limite superiore dell'errore di
+variazione si ha:
+\begin{align}
+    \ell_\D(h_S) &\leq \ell_\D(h^*)
+        +\sqrt{\frac{2}{m}\ln{\frac{2\cdot2^{2^d}}{\delta}}}\notag\\
+    \ell_\D(h_S) &\leq \ell_\D(h^*)
+        +\sqrt{\frac{2}{m}\left(\ln{2^{2^d}}+\ln{\frac{2}{\delta}}\right)}\notag\\
+    \ell_\D(h_S) &\leq \ell_\D(h^*)
+        +\sqrt{\frac{2}{m}\left(2^d\ln{2}+\ln{\frac{2}{\delta}}\right)}\notag
+\end{align}
+Questo mostra che per controllare l'errore di variazione di ERM, il \textit{training
+set} deve contenere un numero $m$ di esempi dell'ordine di grandezza di $2^d$. Questo
+è un caso estremo di \textit{overfitting} creato scegliendo $\Hpred$ talmente grande
+da azzerare l'errore di bias.
+
+\subsection{Limitare il numero di nodi}
+Per cercare di ridurre l'\textit{overfitting}, si può incrementare l'errore di bias
+riducendo la dimensione di $\Hpred$, guardando quindi una classe di alberi ridotta.
+
+Si consideri l'insieme $\Hpred_N$ di tutti i classificatori calcolati da
+\textit{tree predictor} binari completi con esattamente $N$ nodi, dove $N\ll 2^d$.
+
+\begin{observation}
+    $|\Hpred_N| \leq (2de)^N$
+\end{observation}
