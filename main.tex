@@ -6,6 +6,7 @@
 \usepackage{parskip}
 \usepackage{hyperref}
 \usepackage{amsmath}
+\usepackage[italiano,boxed]{algorithm2e}
 \usepackage{amsthm}
 \usepackage{amssymb}
 \usepackage{cancel}
@@ -47,6 +48,10 @@
 \newcommand{\I}{\ensuremath{\mathbb{I}}}
 \newcommand{\Hm}{\ensuremath{\mathcal{H}_m}}
 \newcommand{\Hpred}{\ensuremath{\mathcal{H}}}
+\newcommand{\cvEst}{\ensuremath{\ell_S^{\text{cv}}}}
+
+\setlength{\algomargin}{1.5em}
+\SetAlCapSkip{.5em}
 
 \newtheorem{lemma}{Lemma}
 \newtheorem{observation}{Osservazione}
@@ -74,6 +79,8 @@
 \input{sections/04_statistical_learning.tex}
 \clearpage
 \input{sections/05_risk_tree.tex}
+\clearpage
+\input{sections/06_hyperparameter_tuning.tex}
 \clearpage
 
 \end{document}

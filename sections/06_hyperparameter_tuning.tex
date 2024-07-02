@@ -1,0 +1,107 @@
+\section{Iperparametri e stima del rischio}
+
+I \textit{learning algorithm} spesso hanno degli iperparametri; un'esempio è il
+parametro $k$ degli algoritmi \kNN. Il loro valore deve essere determinato prima
+della fase di \textit{training}. \textbf{I valori degli iperparametri sono di 
+cruciale importanza per il controllo dell'\textit{underfitting} e
+dell'\textit{underfitting}}.
+
+Un \textit{learning algorithm} con uno o più iperparametri non è un algoritmo, ma
+piuttosto una famiglia di algoritmi, uno per ogni possibile valore degli
+iperparametri. Sia $\{A_\theta : \theta \in \Theta\}$ una famiglia di
+\textit{learning algorithm}, dove $\Theta$ è l'insieme di tutti i possibili valori
+degli iperparametri.
+
+Si fissi un \textit{learning problem} $(\D,\ell)$ e sia $A_\theta(S)$ il
+predittore generato da $A_\theta$ sul \textit{training set} $S$.
+
+\subsection{Valutazione tramite \textit{cross-validation} esterna}
+Si fissi l'iperparametro $\theta$; \textbf{si vogliono stimare le performance di 
+$A_\theta$ stimando $\E[\ell_\D(A_\theta(S))]$}. Per farlo si userà una tecnica
+chiamata $K$-fold \textit{cross-validation} (esterna).
+
+Sia $S$ l'intero \textit{data set}. Si partizioni $S$ in $K$ sottoinsiemi
+(\textit{folds}) $S_1,\dots,S_K$ ognuno di dimensione $m/K$ (assumendo per
+semplicità che $K$ divida $m$).
+
+Sia $S_{-i} = S \setminus S_i$. Si chiamerà $S_i$ la
+\textbf{parte di \textit{testing}} dell'$i$-esima \textit{fold} mentre $S_{-i}$
+la \textbf{parte di \textit{training}}.
+
+Per esempio, si partizioni $S=\{(x_1,y_1),\dots,(x_{20},y_{20})\}$ in $K=4$
+sottoinsiemi:
+$$\begin{aligned}
+    &S_1 = \{(x_1,y_1),\dots,(x_{5},y_{5})\} \\
+    &S_2 = \{(x_6,y_6),\dots,(x_{10},y_{10})\} \\
+    &S_3 = \{(x_{11},y_{11}),\dots,(x_{15},y_{15})\} \\
+    &S_4 = \{(x_{16},y_{16}),\dots,(x_{20},y_{20})\} \\
+    &S_{-2} = S_1 \cup S_3 \cup S_4
+\end{aligned}$$
+
+La stima di $A$ su $S$ ottenuta tramite $K$-fold $CV$, detta $\cvEst(A)$, viene
+calcolata come segue:
+\begin{itemize}
+    \item Si esegue $A$ su ogni $S_{-i}$ con $i=1,\dots,K$, ottenendo dei
+        predittori $h_1,\dots,h_K$;
+    \item Si calcola l'errore medio sulla parte di \textit{testing} di ogni
+        \textit{fold} ottenendo $\ell_{S_1}(h_1),\dots,\ell_{S_K}(h_K)$ dove:
+        $$ \ell_{S_i}(h_i) = \frac{K}{m}\sum_{(x,y)\in S_i} \ell(y,h_i(x)) $$
+    \item Infine, si calcola la stima facendo una media degli errori ottenuti
+        nel precedente punto: 
+        $$ \cvEst(A) = \frac{1}{K} \sum_{i=1}^{K} \ell_{S_i}(h_i) $$
+\end{itemize}
+
+\subsection{Modifica degli iperparametri}
+Obiettivo di questa sezione è scegliere gli iperparametri in modo da ottenere
+un predittore con un rischio basso. Questo è tipicamente fatto minimizzando la
+stima del rischio sui dati di \textit{training}.
+
+Siccome $\Theta$ può essere molto grande, se non infinito, si cercherà di 
+minimizzare su un sottoinsieme opportuno $\Theta_0\subset\Theta$. Sia $S$ il
+\textit{training set}, si vuole trovare $\theta^*\in\Theta_0$ tale che:
+\begin{equation} \label{eq:hyper_min}
+    \ell_\D(A_{\theta^*}(S)) = \min_{\theta\in\Theta_0}\ell_D(A_\theta(S))
+\end{equation}
+Questa stima è fatta dividendo i dati di \textit{training} in due sottoinsiemi
+$S_{\text{train}}$ e $S_{\text{dev}}$. $S_{\text{dev}}$ (detto insieme di
+\text{validazione}) è usato come sostituto del \textit{test set}. L'algoritmo
+è eseguito su $S_{\text{train}}$ per ogni valore dell'iperparametro $\Theta_0$.
+I predittori risultanti sono testati su $S_{\text{dev}}$ per trovare il valore
+$\theta^*$ che minimizza l'errore. Una volta trovato $\theta^*$ si esegue 
+$A_{\theta^*}$ sul \textit{training set} originale, ottenendo il predittore
+finale.
+
+
+\subsection{Modifica dei parametri tramite \textit{nested cross-validation}}
+Si vuole stimare (\ref{eq:hyper_min}):
+\begin{equation}\label{eq:hyper_mean}
+    \E\left[ \min_{\theta\in\Theta_0}\ell_\D(A_\theta(S)) \right]
+\end{equation}
+o, in altre parole, si vogliono stimare le performance di $A_\theta$ su un
+\textit{training set} di dimensione fissata quando $\theta$ è scelto in base
+al \textit{training set}.
+
+Dato $S$, un modo veloce di stimare (\ref{eq:hyper_mean}) è usare il miglior
+stimatore CV su $\{A_\theta:\theta\in\Theta_0\}$:
+$$ \min_{\theta\in\Theta_0}\cvEst(A_\theta) $$
+Nonostante questa stima tenda a sottostimare (\ref{eq:hyper_mean}), in pratica
+la differenza è tipicamente piccola.
+
+Una miglior stima, seppur computazionalmente più pesante, è ottenuta tramite
+la \textit{nested} CV:
+
+\begin{algorithm}[h]
+    \DontPrintSemicolon
+    \KwData{\textit{dataset} $S$}
+    Dividi $S$ in $S_1,\dots,S_K$\;
+    \For{$i=1,\dots,K$}{
+        $S_{-i} = S \setminus S_i$\;
+        Esegui CV su $S_{-i}$ per ogni $\theta\in\Theta_0$ e trova
+        $\theta_i = \displaystyle
+        \argmin_{\theta\in\Theta_0}\ell_{S_{-i}}^{\text{cv}}(A_\theta)$\;
+        $h_i = A_{\theta_i}(S_{-i})$\;
+        $\varepsilon_i = \ell_{S_i}(h_i)$\;
+    }
+    \KwOut{$(\varepsilon_1+\dots+\varepsilon_K)/K$}
+    \caption{$K$-fold \textit{nested cross-validation}}
+\end{algorithm}

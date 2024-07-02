@@ -50,3 +50,7 @@
 \contentsline {subsection}{\numberline {5.2}Limite superiore più dettagliato}{26}{subsection.5.2}%
 \contentsline {subsubsection}{\numberline {5.2.1}\textit {Structural Risk Minimization} (SRM)}{26}{subsubsection.5.2.1}%
 \contentsline {subsubsection}{\numberline {5.2.2}Funzione peso $w$}{26}{subsubsection.5.2.2}%
+\contentsline {section}{\numberline {6}Iperparametri e stima del rischio}{28}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Valutazione tramite \textit {cross-validation} esterna}{28}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Modifica degli iperparametri}{28}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}Modifica dei parametri tramite \textit {nested cross-validation}}{29}{subsection.6.3}%
