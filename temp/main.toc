@@ -47,3 +47,6 @@
 \contentsline {subsection}{\numberline {4.5}\textit {Overfitting} e \textit {underfitting}}{21}{subsection.4.5}%
 \contentsline {section}{\numberline {5}Analisi del rischio sui \textit {tree predictor}}{25}{section.5}%
 \contentsline {subsection}{\numberline {5.1}Limitare il numero di nodi}{25}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Limite superiore più dettagliato}{26}{subsection.5.2}%
+\contentsline {subsubsection}{\numberline {5.2.1}\textit {Structural Risk Minimization} (SRM)}{26}{subsubsection.5.2.1}%
+\contentsline {subsubsection}{\numberline {5.2.2}Funzione peso $w$}{26}{subsubsection.5.2.2}%

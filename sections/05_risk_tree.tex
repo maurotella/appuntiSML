@@ -50,6 +50,87 @@ riducendo la dimensione di $\Hpred$, guardando quindi una classe di alberi ridot
 Si consideri l'insieme $\Hpred_N$ di tutti i classificatori calcolati da
 \textit{tree predictor} binari completi con esattamente $N$ nodi, dove $N\ll 2^d$.
 
-\begin{observation}
+\begin{observation}\label{eq:risk_tree_reduce_node}
     $|\Hpred_N| \leq (2de)^N$
 \end{observation}
+
+Dall'osservazione \ref{eq:risk_tree_reduce_node} si trova che:
+$$ \ell_\D(h_S) \leq \ell_\D(h^*)
++\sqrt{\frac{2}{m}\left(N(1+\ln{(2d)})+\ln{\frac{2}{\delta}}\right)} $$
+Da qui si può dedurre che un \textit{training set} con delle dimensioni dell'ordine
+di $N\ln{d}$ è abbastanza a controllare il rischio dei predittori $h\in\Hpred$.
+
+\subsection{Limite superiore più dettagliato}
+\subsubsection{\textit{Structural Risk Minimization} (SRM)}
+Dalle conclusioni fatte fino ad ora non si capisce bene che valore $N$ debba assumere
+nella pratica; si vedrà quindi un limite dell'errore più dettagliato.
+
+Precedentemente si è controllato l'errore di variazione di ERM controllando quando
+il rischio di ogni predittore possa eccedere il suo \textit{training error} di almeno
+$\varepsilon$. \textbf{Si vedrà ora un approccio differente: si limitera superiormente
+il rischio di un \textit{tree predictor} $h$ dal suo \textit{training error} più una
+quantità $\varepsilon_h$ che dipende dalla dimensione dell'albero}.
+
+Si introdurrà una funzione $w:\Hpred \rightarrow [0,1]$ e sia $w(h)$ il peso del
+\textit{tree predictor} $h$. Si assuma che:
+\begin{equation} \sum_{h\in\Hpred} w(h) \leq 1 \label{eq:tree_weight}\end{equation}
+Si può quindi scrivere che:
+\begin{align}
+    \Prob(\exists h\in\Hpred : |\ell_S(h)-\ell_D(h)|>\varepsilon_h)
+    &\leq \sum_{h\in\Hpred}\Prob(|\ell_S(h)-\ell_D(h)|>\varepsilon_h) \notag\\ 
+    \multispan2{Si applichi il lemma \ref{lem:chern-hoeff}
+    (Chernoff-Hoeffding):\hfill}\notag\\
+    &\leq \sum_{h\in\Hpred}2e^{\displaystyle-2m\varepsilon_h^2} \notag
+\end{align}
+Scegliendo:
+$$ \varepsilon_h = \sqrt{\frac{1}{2m}\left(\ln{\frac{1}{w(h)}
++\ln{\frac{2}{\delta}}}\right)} $$
+Si ottiene che:
+$$
+    \Prob(\exists h\in\Hpred : |\ell_S(h)-\ell_D(h)|>\varepsilon_h)
+    \leq \sum_{h\in\Hpred}\delta w(h) \
+    {\color{blue}\leq} \ \delta \notag
+$$
+Dove nell'{\color{blue}ultimo passaggio} si è usata l'assunzione
+(\ref{eq:tree_weight}). Una coseguenza di ciò è che per ogni 
+\textit{tree predictor} $h\in\Hpred$ si ha che:
+$$ \Prob\left(\ell_D(h)\leq\ell_S(h)+
+\sqrt{\frac{1}{2m}\left(\ln{\frac{1}{w(h)}
++\ln{\frac{2}{\delta}}}\right)}\right) \geq 1-\delta $$
+Questo suggerisce un algoritmo alternativo a ERM per la minimizzazione del
+\textit{training error}: \textbf{la \textit{Structural Risk Minimization} (SRM):}
+$$ h_S = \argmin_{h\in\Hpred}\left(
+    \ell_S(h)+\sqrt{\frac{1}{2m}\left(\ln{\frac{1}{w(h)}}
+    +\ln{\frac{2}{\delta}}\right)}
+\right)  $$
+La funzione $w$ può essere vista come una misura della complessità del
+\textit{tree predictor} $h$. Più il predittore è complesso più c'è il rischio
+che avvenga \textit{overfitting}. \textbf{SRM punta ad ottenere un predittore che
+minimizza sia il \textit{training error} che la complessità del predittore}.
+
+\subsubsection{Funzione peso \texorpdfstring{$w$}{w}}
+Una possibile funzione $w$ si può ottenere come segue: utilizzando tecniche teoriche
+di codifica, si può codificare ogni \textit{tree predictor} $h$ con $N_h$ nodi,
+utilizzando una stringa binaria $\sigma(h)$. La lunghezza della stringa sarà:
+$$|\sigma(h)|=(N_h+1)\lceil\log_2{(d+3)}\rceil+2\lfloor\log_2{N_h}\rfloor+1
+=O(N_h\log{d})$$
+La codifica deve garantire che non esistano due \textit{tree predictor} tali che la
+codifica di uno sia prefisso della codifica dell'altro. Questo tipo di codifica è
+detta istantanea è garantisce che:
+$$ \sum_{h\in\Hpred} 2^{-|\sigma(h)|} \leq 1 $$
+\textbf{Si può quindi assegnare alla funzione peso:}
+$$ w(h) = 2^{\displaystyle-|\sigma(h)|} $$
+Si può quindi introdurre un \textit{learning algorithm} per \textit{tree predictor}
+che controlla l'\textit{overfitting} generando predittori così definiti:
+\begin{equation} h_S = \argmin_{h\in\Hpred}\left(
+    \ell_S(h)+\sqrt{\frac{1}{2m}\left(|\sigma(h)|
+    +\ln{\frac{2}{\delta}}\right)}
+\right) \tag{con $|\sigma(h)| = O(N_h\log{d})$} \end{equation}
+
+Si noti come la scelta della funzione peso $w$ non sia determinata dall'analisi
+fatta. Si potrebbe scegliere qualsiasi altra funzione $w$ che soddisfi
+(\ref{eq:tree_weight}). La funzione $w$ andrebbe interpretata come un termine di
+bias, preferendo alcuni alberi rispetto ad altri. Un bias verso alberi più piccoli
+è un esempio del principio Occam Razor: se due spiegazioni concordano con una serie
+di osservazioni, la spiegazione più breve è quella con la migliore \quotes{potenza
+predittiva}.
