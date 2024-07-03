@@ -54,3 +54,11 @@
 \contentsline {subsection}{\numberline {6.1}Valutazione tramite \textit {cross-validation} esterna}{28}{subsection.6.1}%
 \contentsline {subsection}{\numberline {6.2}Modifica degli iperparametri}{28}{subsection.6.2}%
 \contentsline {subsection}{\numberline {6.3}Modifica dei parametri tramite \textit {nested cross-validation}}{29}{subsection.6.3}%
+\contentsline {section}{\numberline {7}Consistenza e algoritmi non parametrici}{30}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Consistenza}{30}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Algoritmi non parametrici}{30}{subsection.7.2}%
+\contentsline {subsubsection}{\numberline {7.2.1}$k-$NN}{30}{subsubsection.7.2.1}%
+\contentsline {subsubsection}{\numberline {7.2.2}Algoritmo greedy per \textit {tree classifier}}{30}{subsubsection.7.2.2}%
+\contentsline {subsection}{\numberline {7.3}Algoritmi non consistenti e non parametrici}{31}{subsection.7.3}%
+\contentsline {subsubsection}{\numberline {7.3.1}Teorema \textit {No Free Lunch}}{31}{subsubsection.7.3.1}%
+\contentsline {subsection}{\numberline {7.4}Maledizione della dimensionalità}{31}{subsection.7.4}%

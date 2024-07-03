@@ -1,0 +1,100 @@
+\section{Consistenza e algoritmi non parametrici}
+\subsection{Consistenza}
+La consistenza è una proprietà asintotica che certifica che il rishio statistico
+del predittore generato da un \textit{learning algorithm} converga al rischio di
+Bayes all'aumentare della dimensione del \textit{training set}. Ricordando che 
+$A(S_m)$ è il predittore generato dal \textit{learning algorithm} $A$ sul
+\textit{training set} $S_m$ di dimensione $m$, \textbf{un
+\textit{learning algorithm} $A$ è consistente rispetto alla funzione di loss
+$\ell$ se per ogni distribuzione $D$ si ha che:}
+$$ \lim_{m\rightarrow\infty} \E\left[\ell_\D(A(S_m))\right]=\ell_\D(f^*) $$
+In alcuni casi si può definire la consistenza rispetto ad una classe limitata di
+distribuzioni $\D$. Per esempio, nella classificazione binaria ci si può limitare
+a tutte le distribuzioni $\D$ tali che la funzione $\eta(x)=\Prob(Y=1 \ | \ X=x)$
+sia una funzione di Lipschitz su $\X$. Questo avviene quando:
+$$ \exists c: 0<c<\infty \wedge |\eta(x)-\eta(x')|\leq c\|x-x'\| 
+\qquad \forall x,x' \in \X$$
+
+\subsection{Algoritmi non parametrici}
+Dato un \textit{learning algorithm} $A$, sia $\Hpred_m$ l'insieme dei predittori
+generati da $A$ su \textit{training set} di dimensione $m$. \textbf{$A$ è
+non parametrico se il suo errore di approssimazione si annulla al crescere
+si $m$.} Formalmente:
+$$ \lim_{m\rightarrow\infty} \min_{h\in\Hpred_m}\ell_\D(h)=\ell_\D(f^*) $$
+Gli algoritmi non parametrici si riconoscono per:
+\begin{itemize}
+    \item La dimensione in memoria dei loro predittori tende a crescere insieme
+        alla dimensione del \textit{training set};
+    \item Per valori sufficientemente grandi di $m$, ci sono predittori in
+        $\Hpred_m$ con un \textit{training error} vicino alla zero.
+\end{itemize}
+Due esempi di algoritmi non parametrici sono \kNN \ e l'algoritmo greedy per
+i classificatori ad albero decisionale.
+
+\subsubsection{\texorpdfstring{\kNN}{kNN}}
+L'algoritmo \kNN classico è non parametrico ma non si conosce se sia
+consistente per valori fissati di $k$. L'unica cosa che si conosce è che,
+per ogni distribuzione $\D$ si ha:
+$$ \lim_{m\rightarrow\infty} \E[\ell_\D(k\text{-NN}(S_m))]\leq
+\ell_\D(f^*)+2\sqrt{\frac{\ell_\D(f^*)}{k}} $$
+Tuttavia, se si sceglie $k$ come una funzione $k_m$ della dimensione del
+\textit{training set}, allora l'algoritmo diventerebbe consistente a patto
+che $k_m \rightarrow\infty$ e $k_m=o(m)$.
+
+\subsubsection{Algoritmo greedy per \textit{tree classifier}}
+Siano: 
+$$\X_\ell=\{x\in\RN^d:\text{$x$ è indirizzato a $\ell$}\}$$
+$$ N_\ell = |\{x\in S:\text{$x$ è indirizzato a $\ell$}\}| $$
+L'algoritmo greedy per la costruzione di \textit{tree classifier} è consistente
+quando, per $m\rightarrow\infty$, le seguenti due condizioni sono rispettate:
+\begin{enumerate}
+    \item Il diametro di $\X_\ell$ va a zero;
+    \item $N_\ell\rightarrow\infty$.
+\end{enumerate}
+In altre parole, l'albero deve crescere senza limiti ma non troppo velocemente.
+
+\subsection{Algoritmi non consistenti e non parametrici}
+Se un algoritmo è non parametrico non è detto sia consistente. Un esempio di
+algoritmo non parametrico e non consistente è l'algoritmo greedy per
+\textit{tree classifier} binari che utilizza il rischio statistico come
+criterio di separazione. In altre parole, invece di sostituire la foglia che
+provoca il maggior calo del \textit{training error}, si assume che l'algoritmo
+è in grado di scegliere la foglia che provoca il maggior calo nel rischio per
+la funzione di \textit{zero-one loss}.
+
+\textbf{La consistenza di un algoritmo è sempre preferibile? Nella pratica no.}
+Può infatti succedere che la velocità di convergenza di un algoritmo consistente
+sia più bassa di quella di un algoritmo non consistente. 
+
+\subsubsection{Teorema \textit{No Free Lunch}}
+\begin{theorem}[\textit{No Free Lunch}] Per qualsiasi sequenza $a_1,a_2,\dots$
+    di numeri positivi che converge a 0, che rispetta:
+    $$ \frac{1}{16}\geq a_1\geq a_2\geq\dots\geq 0 $$
+    e per ogni \textit{learning algorithm} $A$ consistente per la classificazione
+    binaria con la \textit{zero-one loss}, esiste una distribuzione $\D$ tale che:
+    $$ \forall m\geq 1 \qquad \ell_\D(f^*)=0 \ \wedge
+    \ \E[\ell_\D(A(S_m))]\geq a_m $$
+\end{theorem}
+Questo teorema non previene che un algoritmo consistente converga rapidamente
+al rischio di Bayes su una distribuzione $\D$. Quello che il teorema mostra è che
+se $A$ converge al rischio di Bayes per una qualsiasi distribuzione, allora
+convergerà in modo arbitrariamente lento per alcune di queste distribuzioni.
+
+\subsection{Maledizione della dimensionalità}
+Per la classificazione binaria, si può riassumere la situazione come segue:
+\begin{itemize}
+    \item Senza assunzioni su $\eta$, non c'è garanzia di convergenza a 
+        $\ell_\D(f^*)$ e il tipico tasso di convergenza in una classe
+        parametrica (o finita) $\Hpred$ è $m^{-1/2}$;
+    \item Con l'assunzione di Lipschitz su $\eta$, il tipico tasso di convergenza
+        a $\ell_\D(f^*)$ è $m^{-1/(d+1)}$, esponenzialmente più lenta del caso
+        parametrico del punto precedente;
+\end{itemize}
+Si noti che il tasso di convergenza $m^{-1/(d+1)}$ implica che per andare vicino
+al rischio di Bayes di massimo $\varepsilon$, c'è bisogno di un \textit{training
+set} di dimensioni dell'ordine di $\varepsilon^{-(d+1)}$. \textbf{Questa 
+dipendenza esponenziale dal numero di \textit{feature} è conosciuta come
+maledizione della dimensionalità (\textit{curse of dimensionality}) e si 
+riferisce alla difficoltà di apprendimento in un contesto non parametrico quando
+i \textit{data point} si trovano in uno spazio ad alta dimensione (con tante
+\textit{feature})}.
