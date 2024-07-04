@@ -63,3 +63,7 @@
 \contentsline {subsubsection}{\numberline {7.3.1}Teorema \textit {No Free Lunch}}{31}{subsubsection.7.3.1}%
 \contentsline {subsection}{\numberline {7.4}Maledizione della dimensionalità}{31}{subsection.7.4}%
 \contentsline {section}{\numberline {8}Analisi del rischio per gli algoritmi NN}{32}{section.8}%
+\contentsline {subsection}{\numberline {8.1}Rischio statistico di 1-NN}{32}{subsection.8.1}%
+\contentsline {section}{\numberline {9}Predittori lineari}{33}{section.9}%
+\contentsline {subsection}{\numberline {9.1}Iperpiani}{33}{subsection.9.1}%
+\contentsline {subsection}{\numberline {9.2}\textit {Training} di classificatori lineari}{33}{subsection.9.2}%

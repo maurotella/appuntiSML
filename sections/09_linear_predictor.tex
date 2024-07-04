@@ -1,0 +1,53 @@
+\section{Predittori lineari}
+Un predittore lineare su $\X=\RN^d$ è una funzione $h:\RN^d\rightarrow\RN$
+tale che $h(x)=f(w^\top x)$ con $w\in\RN^d$; $f:\RN\rightarrow\RN$ è
+detta funzione di attivazione. 
+
+Nelle attività di regressione lineare, $f$ è la funzione identità, e quindi
+$h(x)=w^\top x$.
+
+In quelle di classificazione lineare invece, $h(x)=\sgn(w^\top x-c)$ con
+$c\in\RN$, dove:
+$$ \sgn(z) = \begin{cases}1&z>0\\0&\text{altrimenti}\end{cases} $$
+
+\subsection{Iperpiani}
+Un iperpiano può essere descritto da un'equazione lineare della seguente
+forma:
+$$ w_1x_1+w_2x_2+\dots+w_nx_n=c $$
+$$ \downarrow $$
+$$ \underbrace{\begin{bmatrix}w_1\\w_2\\\vdots\\w_n\end{bmatrix}^\top}
+      _{\displaystyle w}\cdot
+   \underbrace{\begin{bmatrix}x_1\\x_2\\\vdots\\x_n\end{bmatrix}}
+      _{\displaystyle x}=c
+$$
+$$ \downarrow $$
+$$ w^\top x = c $$
+Si può quindi dire che un iperpiano con coefficienti $(w,c)$ è definito da
+$\{x\in\RN^d:w^\top x=c\}$ dove:
+\begin{equation}
+   w^\top x = \|w\|\cdot\|x\|\cos\theta\label{eq:hyperplane_eq}
+\end{equation}
+e $\theta$ è l'angolo tra $w$ e $x$.
+
+I sempispazi $H^+$ e $H^-$ definiti dall'iperpiano $\{x\in\RN^d:w^\top x=c\}$
+sono:
+$$ H^+=\{x\in\RN^d:w^\top x>c\} $$
+$$ H^-=\{x\in\RN^d:w^\top x\leq c\} $$
+
+Geometricamente, un classificatore lineare è definito da:
+$$ h(x) = \begin{cases}
++1 & x\in H^+\\
+-1 & x\in H^-\\
+\end{cases} $$
+
+\subsection{\textit{Training} di classificatori lineari}
+Si ricordi che un classificatore lineare è un predittore $h$ tale che
+$h(x)=\sgn(w^\top x)$. Applicando (\ref{eq:hyperplane_eq}) si ottiene che:
+$$ \begin{aligned}
+   h(x)&=\sgn(w^\top x)\\
+   &=\sgn(\|w\|\cdot\|x\|\cos\theta)\\
+   &=\sgn(\cos\theta)\\
+\end{aligned} $$
+Questo ci mostra che il valore di $\|w\|$ è irrilevante e si dovrebbe
+prendere $\|w\|=1$. Inoltre la \textit{zero-one loss} $\I\{h(x_t)\neq y_t\}$
+può essere riscritta come $\I\{y_tw^\top x_t\leq 0\}$.
