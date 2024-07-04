@@ -1,0 +1,23 @@
+\section{Analisi del rischio per gli algoritmi \texorpdfstring{NN}{NN}}
+
+In questa sezione si analizzerà il rischio della funzione \textit{zero-one loss}
+su classificatori binari 1-NN rispetto al \textit{training set}. 
+
+Con dovute assunzioni sulla distribuzione $\D$, si può dimostrare che:
+$$ \E[\ell_\D(A(S_m))] \leq 2\ell_\D(f^*)+\varepsilon_m $$
+Dove $A$ denota l'algoritmo 1-NN, $S_m$ il \textit{training set} di dimensione
+$m$ e \textbf{$\varepsilon_m$ è una quantità che si azzera per 
+$m\rightarrow\infty$}. Il fatto che si riesca a confrontare $\E[\ell_\D(A(S_m))]$
+direttamente con il rischio di Bayes mostra come, in un certo senso, gli 
+algoritmi 1-NN siano potenti.
+
+Più nello specifico, \textbf{assumendo che $\eta$ sia una funzione di Lipschitz
+su $\X$ con una costante $c>0$},
+si può dire che:
+\begin{align}
+    \E[\ell_\D(A(S_m))] &\leq
+        2\ell_\D(f^*)+c_{\phantom{i}}\E\left[\|X-X_{\pi(S,X)}\|\right]\notag\\
+        &\leq 2\ell_\D(f^*)+4c\sqrt{d}m^{-1/(d+1)}\notag
+\end{align}
+Si può quindi dire che asintoticamente, con $m\rightarrow\infty$, il rischio di
+1-NN oscilla tra $\ell_\D(f^*)$ e $2\ell_\D(f^*)$.

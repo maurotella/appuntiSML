@@ -62,3 +62,4 @@
 \contentsline {subsection}{\numberline {7.3}Algoritmi non consistenti e non parametrici}{31}{subsection.7.3}%
 \contentsline {subsubsection}{\numberline {7.3.1}Teorema \textit {No Free Lunch}}{31}{subsubsection.7.3.1}%
 \contentsline {subsection}{\numberline {7.4}Maledizione della dimensionalità}{31}{subsection.7.4}%
+\contentsline {section}{\numberline {8}Analisi del rischio per gli algoritmi NN}{32}{section.8}%
