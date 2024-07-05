@@ -40,7 +40,7 @@ $$ h(x) = \begin{cases}
 -1 & x\in H^-\\
 \end{cases} $$
 
-\subsection{\textit{Training} di classificatori lineari}
+\subsection{Classificatori lineari}
 Si ricordi che un classificatore lineare è un predittore $h$ tale che
 $h(x)=\sgn(w^\top x)$. Applicando (\ref{eq:hyperplane_eq}) si ottiene che:
 $$ \begin{aligned}
@@ -51,3 +51,110 @@ $$ \begin{aligned}
 Questo ci mostra che il valore di $\|w\|$ è irrilevante e si dovrebbe
 prendere $\|w\|=1$. Inoltre la \textit{zero-one loss} $\I\{h(x_t)\neq y_t\}$
 può essere riscritta come $\I\{y_tw^\top x_t\leq 0\}$.
+
+Sia $\Hpred_d$ la famiglia di classificatori lineari $h(x)=\sgn(w^\top x)$
+con $w \in \RN^d:\|w\|=1$. Si consideri l'algoritmo ERM per la 
+\textit{zero-one loss}:
+
+\begin{align}
+h_S &= \argmin_{h\in\Hpred_d}\frac{1}{m}\sum_{t=1}^{m}\I\{h(x_t)\neq y_t\}
+   \notag\\
+&= \argmin_{w\in\RN:\|w\|=1}\frac{1}{m}\sum_{t=1}^{m}\I\{y_tw^\top x_t\leq 0\}
+\label{eq:lin_pred_01_ERM}
+\end{align}
+
+\textbf{Sfortunatamente, è improbabile esista un implementazione efficiente
+di ERM per classificatori lineari con la \textit{zero-one loss}}. Infatti,
+il problema di decisione associato alla ricerca di $h_S$ è NP-completo.
+
+\subsubsection{Separabilità lineare}
+
+Il problema ERM (\ref{eq:lin_pred_01_ERM}) diventa più semplice quando il 
+\textit{training set} è linearmente separabile, ovvero quando esiste un 
+classificatore lineare con \textit{training error} nullo, e quindi si può 
+dividere lineramente tutti i \textit{data point} in etichette differenti.
+
+Si noti che il problema (\ref{eq:lin_pred_01_ERM}) può essere rappresentato 
+da un sistema di disequazioni lineari:
+$$ y_tw^\top x_t >0 \qquad t=1,\dots,m $$
+$$ \downdownarrows $$
+$$ \begin{cases}
+y_1 w^\top x_1 >0 \\
+\qquad\vdots \\
+y_m w^\top x_m >0 \\
+\end{cases} $$
+\textbf{Se il \textit{training set} è linearmente separabile allora il
+sistema ha almeno una soluzione, che può essere trovata in tempo polinomiale
+utilizzando un algoritmo per la programmazione lineare}.
+
+Per risolvere il sistema di disequazioni si può usare l'algoritmo del
+simplesso. Tuttavia esiste un algoritmo ancora più semplice: 
+\textbf{l'algoritmo \textit{Perceptron}}.
+
+\subsubsection{\textit{Perceptron}}
+Il \textit{Perceptron} è in grado di risolvere il problema 
+(\ref{eq:lin_pred_01_ERM}) in presenza di un \textit{training set} 
+lineramente separabile. Per trovare l'iperpiano separatore scorre gli esempi
+del \textit{training set} uno dopo l'altro. Partendo da un classificatore
+lineare iniziale, lo testa su ogni esempio e, in caso di errore, corregge
+l'iperpiano associato.
+
+\begin{algorithm}[h]
+   \DontPrintSemicolon
+   \KwData{\textit{Training set} $(x_1,y_1),\dots,(x_m,y_m)$}
+   $w=(0,\dots,0)$\;
+   \While{$true$}{
+      \For(\tcp*[h]{epoca}){$t=1,\dots,m$}{
+         \uIf{$y_t w^\top x_t \leq 0$}{
+            $\displaystyle w \leftarrow w+y_tx_y$
+            \tcp*[h]{aggiornamento} \;
+         }
+      }
+      \lIf{nessun aggiornamento nell'ultima epoca}{\textbf{break}}
+   }
+   \KwOut{$w$}
+   \caption{\textit{Perceptron} (per i casi linearmente separabili)}
+\end{algorithm}
+
+Geometricamente, ogni aggiornamento sposta l'iperpiano $w$ verso $x_t$ se
+$y_t=1$; se invece $y_t=-1$, $w$ viene allontanato da $x_t$.
+
+Si può dimostrare che il \textit{Perceptron} termina sempre in presenza
+di un \textit{training set} linearmente separabile.
+
+\begin{theorem}[Convergenza di \textit{Perceptron}]
+   Sia $(x_1,y_1),\dots,(x_m,y_m)$ un \textit{training set} linearmente
+   separabile. Allora il Perceptron terminerà sempre dopo un numero di
+   aggiornamenti non più grande di:
+   $$ \left(\min_{\displaystyle u:\gamma(u)\geq1} \|u\|^2 \right)\cdot
+      \left(\max_{\displaystyle t=1,\dots,m}\|x_t\|^2\right) $$
+
+   dove $\gamma(u)$ è il punto più vicino all'iperpiano $u$:
+   $$ \gamma(u) = \min_{t=1,\dots,m} y_t u^\top x_t $$
+\end{theorem}
+
+Si noti che questo teorema non implica che il \textit{Perceptron} termini
+in tempo polinomiale.
+
+\subsection{Regressione lineare}
+Nella regressione lineare i predittori sono funzioni lineari
+$h:\RN^d\rightarrow\RN$ parametrizzate da un vettore $w\in\RN^d$ di
+coefficienti reali, ovvero:
+$$ h(x) = w^\top x $$
+I coefficienti del predittore dell'algoritmo ERM per la \textit{square loss}
+la regressione lineare sono:
+$$ \begin{aligned}
+   w_S &= \argmin_{w\in\RN^d}\sum_{t=1}^{m} (w^\top x_t - y_t)^2\\
+   &= \argmin_{w\in\RN^d} \|Sw-y\|^2
+   \end{aligned}
+$$
+
+\subsubsection{\textit{Ridge Regression}}
+Un predittore più stabile di ERM è ottenuto introducendo un regolarizzatore
+che aumenta l'errore di approssimazione e riduce la varianza con un effetto
+positivo sul rischio. La forma regolarizzata di $w_S$ è:
+$$\begin{aligned}
+   w_{S,\alpha} &= \argmin_{w\in\RN^d}\|S_w-y\|^2+\alpha\|w\|^2\\
+   &= (\alpha I+S^\top S)^{-1}S^\top y
+\end{aligned}$$
+con $\alpha>0$

@@ -66,4 +66,8 @@
 \contentsline {subsection}{\numberline {8.1}Rischio statistico di 1-NN}{32}{subsection.8.1}%
 \contentsline {section}{\numberline {9}Predittori lineari}{33}{section.9}%
 \contentsline {subsection}{\numberline {9.1}Iperpiani}{33}{subsection.9.1}%
-\contentsline {subsection}{\numberline {9.2}\textit {Training} di classificatori lineari}{33}{subsection.9.2}%
+\contentsline {subsection}{\numberline {9.2}Classificatori lineari}{33}{subsection.9.2}%
+\contentsline {subsubsection}{\numberline {9.2.1}Separabilità lineare}{34}{subsubsection.9.2.1}%
+\contentsline {subsubsection}{\numberline {9.2.2}\textit {Perceptron}}{34}{subsubsection.9.2.2}%
+\contentsline {subsection}{\numberline {9.3}Regressione lineare}{35}{subsection.9.3}%
+\contentsline {subsubsection}{\numberline {9.3.1}\textit {Ridge Regression}}{35}{subsubsection.9.3.1}%
