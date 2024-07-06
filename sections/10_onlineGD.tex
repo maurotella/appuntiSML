@@ -1,0 +1,101 @@
+\section{\textit{Online Gradient Descent}}
+
+Il \textit{Perceptron} accede al \textit{training set} in maniera sequenziale,
+elaborando ogni esempio in tempo $\Theta(d)$ dove $d$ è il numero di 
+\textit{feature}. Gli algoritmi che imparano sequenzialmente, come il
+\textit{Perceptron}, sono anche ottimi nel gestire scenari dove nuovi dati di
+\textit{training} vengono generati in ogni momento; alcuni esempi sono dati
+generati da sensori, mercati finanziari o interazioni. In questi casi, i
+protocolli tradizionali di apprendimento basati sull'utilizzo di
+\textit{training set} di dimensione fissata, risultano inefficienti, siccome
+si dovrebbe far girare da capo il \textit{learning algorithm} ogni volta che
+si aggiungono nuovi esempi nel \textit{training set}.
+
+\subsection{\textit{Online learning}}
+Una generalizzione di questo tipo di \textit{learning algorithm} sequenziale,
+che si dirà \textit{online learning}, può essere riassunta come segue.
+\begin{algorithm}
+    \DontPrintSemicolon
+    \Params{Classe $\Hpred$ di predittori, funzione di \textit{loss} $\ell$}\;
+    L'algoritmo genera un predittore iniziale di default $h_1\in\Hpred$\;
+    \For{$t=1,2,\dots$}{
+        1. Il prossimo esempio $(x_t,y_t)$ viene osservato\;
+        2. L'errore $\ell(h_t(x_t),y_t)$ del predittore corrente $h_t$
+            viene calcolato\;
+        3. $h_t$ viene aggiornato generando un nuovo predittore 
+            $h_{t+1}\in\Hpred$}
+\end{algorithm}
+\vspace{-1.5em}
+
+Una caratteristica tipica dell'\textit{online learning} è che l'aggiornamento
+del modello $h_{t+1}\in\Hpred$ è locale, ovvero dipende solo dal predittore
+attuale e dall'esempio attuale.
+
+\subsection{Rischio sequenziale e \textit{regret}}
+Un predittore algoritmo \textit{online} $A$ genera una sequenza
+$h_1,h_2,\dots,\in\Hpred$ di predittori. Per valutarne le performance si userà
+il \textbf{rischio sequenziale}
+$$ \frac{1}{T}\sum_{t=1}^{T}\ell(h_t(x_t),y_t) $$
+che misura la \textit{loss} media della sequenza di predittori sui primi $T$
+esempi.
+
+Un altra misura di valutazione è la \textbf{\textit{regret}}
+$$
+\frac{1}{T}\sum_{t=1}^{T}\ell_t(h_t)-
+\min_{h\in\Hpred}\frac{1}{T}\sum_{t=1}^{T}\ell_t(h)
+$$
+che misura la differenza tra il rischio sequenziale dei primi $T$ predittori
+e il rischio sequenziale del miglior predittore presente in $\Hpred$. La
+\textit{regret} può essere visto come la controparte sequenziale dell'errore
+di variazione dello \textit{statistical learning}.
+
+\subsection{\textit{Projected Gradient Descent}}
+Si vedrà ora la versione \textit{online} del \textit{gradient descent},
+algoritmo predominante per l'ottimizzazione di funzioni convesse e derivabili.
+Data una funzione $f$ convessa e differenziabilie, di cui si vuole trovare il 
+minimo, il \textit{gradient descent} funziona iterando 
+$w_{t+1}=w_t-\eta_t\nabla f(w_t)$ partendo da un punto iniziale $w_1$ presente
+nel dominio di $f$, dove $\eta>0$ è un parametro. Preso il punto $w_t$, se
+$\nabla f(w_t)\neq 0$, allora $w_t$ non è un minimo e l'algoritmo prenderà
+un nuovo punto $w_{t+1}$ andando nella direzione opposta alla direzione del
+gradiente $\nabla f(w_t)$.
+
+Per poter analizzare l'\textit{Online Gradient Descent} (OGD), bisogna
+comprendere il comportamento del \textit{gradient descent} quando la funzione
+$f$ da minimizzare cambia ad ogni iterazione. Ci si concentrerà su predittori
+lineari $h(x)=w^\top x$ con $w\in\RN^d$. Si userà la notazione
+$\ell_t(w) = \ell(w^\top x_t,y_t)$ e si assumerà che le \textit{loss}
+$\ell_1,\ell_2,\dots$ siano convesse e derivabili in tutti i loro punti.
+
+Viene ora mostrato l'algoritmo dell'\textit{projected OGD}:
+
+\begin{algorithm}[H]
+    \DontPrintSemicolon
+    \Params{$\eta>0,\ U>0$}\;
+    $w_1 = 0\qquad$ \tcp*[h]{Inizializzazione}\;
+    \For{$t=1,2,\dots$}{
+        $w_{t+1}'=w_t-\displaystyle\frac{\eta}{\sqrt{t}}\nabla\ell_t(w_t)$\;
+        $w_{t+1}=\displaystyle\argmin_{w:\|w\|\leq U}{\|w-w_{t+1}'\|}$
+    }
+    \caption{\textit{Projected OGD}}
+\end{algorithm}
+Il parametro $U$ indica il raggio di una sfera dentro la quale cercare il
+punto con la minor \textit{regret}.
+
+\subsubsection{Limiti superiori della \textit{regret}}
+Sia $G$ il valore massimo che la norma del gradiente può assumere:
+$$ \forall t\leq T \quad \| \nabla\ell_t(w_t)\|\leq G  $$
+Il limite superiore della \textit{regret} è:
+$$
+\underbrace{\frac{1}{T}\sum_{t=1}^{T}\ell_t(w_t)}_{\displaystyle\ell_T(w)}\leq
+\underbrace{\min_{u:\|u\|\leq U} \frac{1}{T}\sum_{t=1}^T \ell_t(u)}_
+    {\displaystyle\ell_T(u^*)}
++\underbrace{UG\sqrt{\frac{8}{T}}}_{\displaystyle\text{\textit{regret}}}
+$$
+dove:
+\begin{itemize}
+    \item $\ell_T(w)$ è la \textit{loss} media dell'algoritmo fino al passo $T$;
+    \item $\ell_t(u^*)$ è la \textit{loss} media del miglior predittore trovato
+        fino al passo $T$;
+    \item $UG\sqrt{\frac{8}{T}}$ è la \textit{regret} dell'algoritmo.
+\end{itemize}

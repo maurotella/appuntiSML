@@ -71,3 +71,8 @@
 \contentsline {subsubsection}{\numberline {9.2.2}\textit {Perceptron}}{34}{subsubsection.9.2.2}%
 \contentsline {subsection}{\numberline {9.3}Regressione lineare}{35}{subsection.9.3}%
 \contentsline {subsubsection}{\numberline {9.3.1}\textit {Ridge Regression}}{35}{subsubsection.9.3.1}%
+\contentsline {section}{\numberline {10}\textit {Online Gradient Descent}}{36}{section.10}%
+\contentsline {subsection}{\numberline {10.1}\textit {Online learning}}{36}{subsection.10.1}%
+\contentsline {subsection}{\numberline {10.2}Rischio sequenziale e \textit {regret}}{36}{subsection.10.2}%
+\contentsline {subsection}{\numberline {10.3}\textit {Projected Gradient Descent}}{36}{subsection.10.3}%
+\contentsline {subsubsection}{\numberline {10.3.1}Limiti superiori della \textit {regret}}{37}{subsubsection.10.3.1}%

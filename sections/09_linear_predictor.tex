@@ -72,7 +72,7 @@ il problema di decisione associato alla ricerca di $h_S$ è NP-completo.
 Il problema ERM (\ref{eq:lin_pred_01_ERM}) diventa più semplice quando il 
 \textit{training set} è linearmente separabile, ovvero quando esiste un 
 classificatore lineare con \textit{training error} nullo, e quindi si può 
-dividere lineramente tutti i \textit{data point} in etichette differenti.
+dividere linearmente tutti i \textit{data point} in etichette differenti.
 
 Si noti che il problema (\ref{eq:lin_pred_01_ERM}) può essere rappresentato 
 da un sistema di disequazioni lineari:
@@ -94,7 +94,7 @@ simplesso. Tuttavia esiste un algoritmo ancora più semplice:
 \subsubsection{\textit{Perceptron}}
 Il \textit{Perceptron} è in grado di risolvere il problema 
 (\ref{eq:lin_pred_01_ERM}) in presenza di un \textit{training set} 
-lineramente separabile. Per trovare l'iperpiano separatore scorre gli esempi
+linearmente separabile. Per trovare l'iperpiano separatore scorre gli esempi
 del \textit{training set} uno dopo l'altro. Partendo da un classificatore
 lineare iniziale, lo testa su ogni esempio e, in caso di errore, corregge
 l'iperpiano associato.
@@ -104,9 +104,9 @@ l'iperpiano associato.
    \KwData{\textit{Training set} $(x_1,y_1),\dots,(x_m,y_m)$}
    $w=(0,\dots,0)$\;
    \While{$true$}{
-      \For(\tcp*[h]{epoca}){$t=1,\dots,m$}{
+      \For(\hspace{2.7em}\tcp*[h]{epoca}){$t=1,\dots,m$}{
          \uIf{$y_t w^\top x_t \leq 0$}{
-            $\displaystyle w \leftarrow w+y_tx_y$
+            $\displaystyle w \leftarrow w+y_tx_y\qquad$
             \tcp*[h]{aggiornamento} \;
          }
       }
