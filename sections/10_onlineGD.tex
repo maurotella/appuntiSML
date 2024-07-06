@@ -72,20 +72,21 @@ Viene ora mostrato l'algoritmo dell'\textit{projected OGD}:
 \begin{algorithm}[H]
     \DontPrintSemicolon
     \Params{$\eta>0,\ U>0$}\;
-    $w_1 = 0\qquad$ \tcp*[h]{Inizializzazione}\;
+    $w_1 = 0\qquad$ \hspace{9.6em}\tcp*[h]{Inizializzazione}\;
     \For{$t=1,2,\dots$}{
         $w_{t+1}'=w_t-\displaystyle\frac{\eta}{\sqrt{t}}\nabla\ell_t(w_t)$\;
         $w_{t+1}=\displaystyle\argmin_{w:\|w\|\leq U}{\|w-w_{t+1}'\|}$
+        \hspace{1em}\tcp*[h]{Proiezione}
     }
     \caption{\textit{Projected OGD}}
 \end{algorithm}
 Il parametro $U$ indica il raggio di una sfera dentro la quale cercare il
-punto con la minor \textit{regret}.
+punto con la minor \textit{regret} (proiezione).
 
-\subsubsection{Limiti superiori della \textit{regret}}
+\subsubsection{Analisi \textit{regret}}
 Sia $G$ il valore massimo che la norma del gradiente può assumere:
 $$ \forall t\leq T \quad \| \nabla\ell_t(w_t)\|\leq G  $$
-Il limite superiore della \textit{regret} è:
+Si può mostrare come, con qualsiasi funzione di \textit{loss} si ha:
 $$
 \underbrace{\frac{1}{T}\sum_{t=1}^{T}\ell_t(w_t)}_{\displaystyle\ell_T(w)}\leq
 \underbrace{\min_{u:\|u\|\leq U} \frac{1}{T}\sum_{t=1}^T \ell_t(u)}_
@@ -98,4 +99,43 @@ dove:
     \item $\ell_t(u^*)$ è la \textit{loss} media del miglior predittore trovato
         fino al passo $T$;
     \item $UG\sqrt{\frac{8}{T}}$ è la \textit{regret} dell'algoritmo.
+\end{itemize}
+
+\subsection{OGD con \textit{loss} fortemente convesse}
+Il limite mostrato nella precedente sezione non può essere migliorato in presenza
+di funzioni di \textit{loss} lineari. Si può invece migliore in presenza di
+funzioni di \textit{loss} convesse e mai piatte. Per formalizzare questo scenario
+verrà introdotto il concetto di funzione fortemente convessa.
+
+Una funzione differenziabilie $\ell$ è $\sigma$-fortemente convessa con $\sigma>0$
+se, per ogni $w,u \in RN^d$ vale che:
+$$ \ell(w) - \ell(u) \leq \nabla\ell(w)^\top (w-u)-\frac{\sigma}{2}\|u-w\|^2 $$
+o, in altri termini, è una funzione che cresce alla stessa velocità di una funzione
+quadratica.
+
+L'algoritmo di OGD per funzioni fortemente convesse non necessita del passo di
+proiezione.
+
+\begin{algorithm}[H]
+    \DontPrintSemicolon
+    $w_1 = 0\qquad$ \;
+    \For{$t=1,2,\dots$}{
+        $w_{t+1}'=w_t-\displaystyle\frac{1}{\sigma t}\nabla\ell_t(w_t)$\;
+    }
+    \caption{\textit{OGD} per funzioni fortemente convesse}
+\end{algorithm}
+
+\subsubsection{Analisi \textit{regret}}
+L'analisi della \textit{regret} mostra che:
+$$
+\underbrace{\frac{1}{T}\sum_{t=1}^{T}\ell_t(w_t)}_{\displaystyle\ell_T(w)}\leq
+\underbrace{\min_{u\in\RN^d} \frac{1}{T}\sum_{t=1}^T \ell_t(u)}_
+    {\displaystyle\ell_T(u^*)}
++\underbrace{\frac{G^2(1+\ln{T})}{2\sigma T}}_{\displaystyle\text{\textit{regret}}}
+$$
+dove:
+\begin{itemize}
+    \item $\sigma$ indica che la \textit{loss} è $\sigma$-fortemente convessa;
+    \item $G$ è il valore massimo che la norma del gradiente può assumere: 
+        $\max_t{\|\nabla\ell_t(w_t)\|\leq G}$;
 \end{itemize}
