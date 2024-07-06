@@ -73,8 +73,9 @@
 \contentsline {subsubsection}{\numberline {9.3.1}\textit {Ridge Regression}}{35}{subsubsection.9.3.1}%
 \contentsline {section}{\numberline {10}\textit {Online Gradient Descent}}{36}{section.10}%
 \contentsline {subsection}{\numberline {10.1}\textit {Online learning}}{36}{subsection.10.1}%
-\contentsline {subsection}{\numberline {10.2}Rischio sequenziale e \textit {regret}}{36}{subsection.10.2}%
-\contentsline {subsection}{\numberline {10.3}\textit {Projected Gradient Descent}}{36}{subsection.10.3}%
-\contentsline {subsubsection}{\numberline {10.3.1}Analisi \textit {regret}}{37}{subsubsection.10.3.1}%
-\contentsline {subsection}{\numberline {10.4}OGD con \textit {loss} fortemente convesse}{37}{subsection.10.4}%
-\contentsline {subsubsection}{\numberline {10.4.1}Analisi \textit {regret}}{38}{subsubsection.10.4.1}%
+\contentsline {subsection}{\numberline {10.2}Analisi dell'errore di \textit {Perceptron}}{36}{subsection.10.2}%
+\contentsline {subsection}{\numberline {10.3}Rischio sequenziale e \textit {regret}}{36}{subsection.10.3}%
+\contentsline {subsection}{\numberline {10.4}\textit {Projected Gradient Descent}}{37}{subsection.10.4}%
+\contentsline {subsubsection}{\numberline {10.4.1}Analisi \textit {regret}}{37}{subsubsection.10.4.1}%
+\contentsline {subsection}{\numberline {10.5}OGD con \textit {loss} fortemente convesse}{37}{subsection.10.5}%
+\contentsline {subsubsection}{\numberline {10.5.1}Analisi \textit {regret}}{38}{subsubsection.10.5.1}%

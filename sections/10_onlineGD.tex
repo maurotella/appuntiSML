@@ -31,6 +31,21 @@ Una caratteristica tipica dell'\textit{online learning} è che l'aggiornamento
 del modello $h_{t+1}\in\Hpred$ è locale, ovvero dipende solo dal predittore
 attuale e dall'esempio attuale.
 
+\subsection{Analisi dell'errore di \textit{Perceptron}}
+Un esempio di algoritmo di \textit{online learning} è il \textit{Perceptron}.
+Si analizzerà ora il numero massimo di errori che \textit{Perceptron} fa su
+un qualsiasi flusso di esempi, anche se linearmente non separabili.
+
+Sia $M$ il numero di errori commessi dal \textit{Perceptron}; si ha che:
+$$\forall u\in\RN^d \qquad
+M \leq \sum_{t=1}^{T}h_t(u)+(\|u\|X)^2+\|u\|X\sqrt{\sum_{t=1}^{T}h_t(u)} $$
+dove:
+\begin{itemize}
+    \item $h_t(u)$ è la \textbf{\textit{hinge loss}} al tempo $t$ del vettore
+        $u$: $h_t(u) = \max{\{0,1-y_tu^\top x_t\}}$
+    \item $X$ è la norma massima dei \textit{data point}: $X=\max_t{\|x_t\|}$
+\end{itemize}
+
 \subsection{Rischio sequenziale e \textit{regret}}
 Un predittore algoritmo \textit{online} $A$ genera una sequenza
 $h_1,h_2,\dots,\in\Hpred$ di predittori. Per valutarne le performance si userà
