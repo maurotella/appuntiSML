@@ -1,0 +1,172 @@
+\section{\textit{Kernel}}
+
+I predittori lineari possono soffrire di un errore di approssimazione alto in
+quanto sono sempre descritti da un numero di coefficienti che non può essere
+più grande del numero di \textit{feature}. Una tecnica molto usata per ridurre
+questo problema è la \textbf{\textit{feature expansion}}.
+
+\subsection{\textit{Feature expansion}}
+La tecnica della \textit{feature expansion} consiste nell'aggiungere nuovi
+parametri costruendo nuove \textit{feature} tramite combinazioni non lineari
+delle \textit{feature} di base. Formalmente si introduce una funzione
+$\phi :\RN^d\rightarrow \Hpred$ che mappa i punti $\bm{x}\in\RN^d$ in uno spazio
+di dimensioni maggiori $\Hpred$.
+
+Per esempio, si consideri la \textit{feature-expansion} quadratica con la 
+funzione $\phi:\RN^2\rightarrow\RN^6$ definita da:
+$$ \phi(x_1,x_2)=(1,x_1^2,x_2^2,x_1,x_2,x_1x_2) $$
+Si ricordi che un iperpiano omogeneo in $\RN^6$ con i coefficienti
+$\bm{w}=(w_1,\dots,w_6)$, è un insieme di punti 
+$\{\bm{z}\in\RN^6:\bm{w}^\top\bm{z}=0\}$. Si ha
+quindi che:
+\begin{equation}\label{eq:future_exp}
+    \bm{w}^\top\phi(\bm{x}) = w_1+w_2x_1^2+w_3x_2^2+w_4x_1+w_5x_2+w_6x_1x_2
+\end{equation}
+Questi insiemi dalla forma $\{\bm{x}\in\RN^2:\bm{w}^\top\phi(\bm{x}) = 0\}$
+descrivono curve di secondo grado su $\RN^2$ in quanto il grado dell'equazione
+(\ref{eq:future_exp}) è due.
+
+In generale si considererà una mappa di \textit{feature-expansion}
+$\phi :\RN^d\rightarrow \Hpred$, dove $\Hpred=\RN^N$, che crea \textit{feature}
+della forma:
+$$\prod_{s=1}^k x_{v_s} \quad \text{per ogni \ } \bm{v}\in\{1,\dots,d\}^k \
+\text{e per ogni \ } k=0,1,\dots,n$$
+Nell'esempio precedente (con $\RN^6$) sono stati usati $d=n=2$.
+
+Fissata la $\phi$ si consideri il classificatore $h:\RN^d\rightarrow\{-1,1\}$
+definito come:
+$$ h(\bm{x}) = \sgn{(\bm{w}^\top\phi(\bm{x}))} \qquad \text{dove} 
+\quad \bm{w}^\top\phi(\bm{x})=\sum_{i=1}^{N}w_i\phi(\bm{x})_i$$
+
+Questo classificatore non lineare in $\RN^d$ corrisponde ad un classificatore
+lineare in $\RN^N$. Il problema però, è che $N$ cresce esponenzialmente
+($N=\Theta(d^n)$), facendo diventare il calcolo di $\phi$ infattibile per
+valori moderatamente alti di $n$. Fortunatamente, questa barriera
+computazionale è stata ampiamente superata grazie al \textit{kernel trick}.
+
+\subsection{\textit{Kernel trick}}
+Per introdurre il \textit{kernel trick} si vedrà un esempio: si prenda il
+passo di aggiornamento del \textit{Perceptron} 
+$\bm{w}_{t+1}=\bm{w}_t+y_t\bm{x}_t$ dove $w_1=0$. Il classificatore lineare
+appreso dal \textit{Perceptron} sarà:
+$$ h(\bm{x}) = \sgn{\left(\sum_{s\in S} y_s\bm{x}_s^\top \bm{x}\right)} $$
+dove $S$ è l'insieme degli indici $s$ dell'esempio di \textit{training}
+$(\bm{x_s},y_s)$.
+Volendo eseguire \textit{Perceptron} in $\RN^N$, il classificatore lineare
+sarà:
+$$h_\phi(\bm{x}) 
+= \sgn{\left(\sum_{s\in S} y_s\phi(\bm{x}_s)^\top\phi(\bm{x})\right)} $$
+Ora la complessità computazionale di $h_\phi(\bm{x})$ dipende da quanto
+velocemente si riesce a calcolare $\phi(\bm{x}_s)^\top\phi(\bm{x})$. 
+
+Si ipotizzi di lavorare in $\RN^2$ e si prenda la seguente $\phi$:
+$$ \phi(x_1,x_2)=(1,x_1^2,x_2^2,\sqrt{2}x_1,\sqrt{2}x_2,\sqrt{2}x_1x_2) $$
+$$
+\begin{aligned} \phi(\bm{x}_s)^\top\phi(\bm{x}) &= 
+{\color{red}
+\left(1\quad x_{s_1}^2\quad x_{s_2}^2\quad \sqrt{2}x_{s_1}\quad \sqrt{2}x_{s_2}\quad
+\sqrt{2}x_{s_1}x_{s_2}\right)}\cdot {\color{blue}
+\begin{pmatrix}1\\x_1^2\\x_2^2\\\sqrt{2}x_1\\\sqrt{2}x_2\\\sqrt{2}x_1x_2\end{pmatrix}}\\
+&= 1+{\color{red}x_{s_1}^2}{\color{blue}x_1^2}+{\color{red}x_{s_1}^2}{\color{blue}x_2^2}
++2{\color{red}x_{s_1}^2}{\color{blue}x_1}+2{\color{red}x_{s_1}^2}{\color{blue}x_2}
++2{\color{red}x_{s_1}x_{s_2}}{\color{blue}x_1x_2}
+\end{aligned}
+$$
+Nonostante $d$ ed $n$ siano bassi, il carico computazionale di questa
+operazione non è indifferente. Per semplificarla si può facilmente
+notare che:
+\begin{equation}\label{eq:kernel_quad}
+    \phi(\bm{x}_s)^\top\phi(\bm{x}) = (1+\bm{x}^\top\bm{x}')^2
+\end{equation}
+Si è quindi trovata un'alternativa efficiente per lo stesso tipo di calcolo.
+È proprio questa l'idea del \textit{kernel trick}, ovvero \textbf{trovare
+una funzione efficiente $K:\RN^d\times\RN^d\rightarrow\RN$ tale che}:
+$$\forall \bm{x},\bm{x}'\in\RN^d \qquad
+K(\bm{x},\bm{x}') = \phi(\bm{x}_s)^\top\phi(\bm{x}) $$
+
+\subsubsection{\textit{Kernel Perceptron}}
+Dato un \textit{kernel} $K$, il classificatore lineare generato dal
+\textit{Kernel Perceptron} è:
+$$ h_K(\bm{x}) 
+= \sgn{\left(\sum_{s\in S} y_sK(\bm{x}_s,\bm{x})\right)} $$
+Viene ora mostrato lo pseudo-codice del \textit{Kernel Perceptron}:
+\begin{algorithm}
+    \DontPrintSemicolon
+    $S\leftarrow\{\}$\;
+    \For{$t=1,2,\dots$}{
+        Il prossimo esempio $(\bm{x}_t,y_t)$ viene osservato\;
+        $\hat{y_t} = \displaystyle\sgn{\left(\sum_{s\in S}
+            y_sK(\bm{x}_s,\bm{x}_t)\right)}$\;
+        \If{$\hat{y_t}\neq y_t$}{$S\leftarrow S\cup\{t\}$}
+    }
+    \caption{\textit{Kernel Perceptron}}
+\end{algorithm}
+\vspace{-1.5em}
+
+\subsubsection{\textit{Kernel polinomiale}}
+Generalizzando il \textit{kernel} quadratico (\ref{eq:kernel_quad}), si
+ottiene il \textit{kernel} polinomiale di grado $n$:
+$$ K_n(\bm{x},\bm{x}') = (1+\bm{x}^\top\bm{x}')^n $$
+
+\subsubsection{\textit{Kernel} gaussiano}
+Un altro tipo di \textit{kernel} è quello gaussiano:
+$$ K_\gamma(\bm{x},\bm{x}') =  \exp\left(
+    -\frac{1}{2\gamma}\|\bm{x}-\bm{x}'\|^2
+\right) \qquad \gamma>0 $$
+dove il parametro $\gamma$ è un fattore di scala per il prodotto
+$\bm{x}^\top\bm{x}'$.
+
+\subsection{Verifica del \textit{kernel}}
+Dato uno spazio $\X$ e una funzione simmetrica $K:\X\times\X\rightarrow\RN$
+come si può capire se $K$ è un \textit{kernel}?
+
+In altre parole, si vuole capire se esiste una mappatura delle
+\textit{feature} $\phi_K:\X\rightarrow\Hpred_k$, dove $\Hpred_k$ è uno
+spazio lineare con l'operazione di prodotto $\langle\cdot,\cdot\rangle_K$
+tale che:
+$$ \forall\bm{x},\bm{x}'\in\X \qquad
+ \langle\phi_K(\bm{x}),\phi_K(\bm{x}')\rangle_K = K(\bm{x},\bm{x}')$$
+Un metodo molto semplice di verifica di $K$ è il seguente: $K$ è un 
+\textit{kernel} se e solo se per ogni $m\in\mathbb{N}$ e per ogni
+$\bm{x_1},\dots,\bm{x_m}\in\X$, la matrice $\bm{K}$ grande $m\times m$
+tale che $\bm{K}_{i,j}=K(\bm{x}_i,\bm{x}_j)$, è semidefinita positiva,
+ovvero $\bm{z}^\top\bm{Kz}\geq 0$ per ogni $\bm{z}\in\RN^m$.
+
+$\Hpred_K$ può essere definito come l'insieme di tutte le combinazioni
+lineari di $K(\bm{x},\cdot)$ con coefficienti $\alpha$ e punti $x\in\X$
+arbitrari:
+$$ \Hpred_K = \left\{
+    \sum_{i=1}^{N}\alpha_i K(\bm{x}_i,\cdot):\bm{x_1},\dots,\bm{x_N}\in\X
+    , \alpha_1,\dots,\alpha_N \in \RN, N\in\mathbb{N}
+\right\} $$
+Un elemento $f\in\Hpred_K$ è una funzione $f:\Hpred\rightarrow\RN$ tale
+che:
+$$ f(x)=\sum_{i=1}^{N} \alpha_i K(\bm{x_i},\bm{x}) $$
+
+\subsection{Convergenza del \textit{Kernel Perceptron}}
+Partendo dal teorema \ref{theor:perc_conv} si può stabilire il numero
+massimo di aggiornamenti $M$ che il \textit{Kernel Perceptron} compierà:
+$$
+\begin{aligned}
+    M &\leq \|u\|^2\left(\max_t\|x_t\|^2\right)\\
+    &= \|f\|^2_K\left(\max_t\{\|\phi_K(\bm{x})\|^2_K\}\right)\\
+    &= \left\|\sum_{i=1}^{N} \alpha_i K(\bm{x_i},\cdot)\right\|^2_K
+        \left(\max_t\langle K(\bm{x},\cdot),K(\bm{x},\cdot)\rangle_K\right)\\
+    &= \left\langle \sum_{i=1}^{N} \alpha_i K(\bm{x_i},\cdot),
+    \sum_{j=1}^{N} \alpha_j K(\bm{x_j},\cdot) \right\rangle^2_K
+        \left(\max_t K(\bm{x},\bm{x}) \right)\\
+    &=  \left(\sum_{i=1}^{N}\sum_{j=1}^{N} \alpha_i\alpha_j K(\bm{x}_i,\bm{x}_j)\right)
+        \left(\max_t K(\bm{x},\bm{x}) \right)\\
+\end{aligned}
+$$
+
+\subsection{\textit{Kernel Ridge Regression}}
+La formula chiusa del predittore \textit{Ridge Regression} è:
+$$ \bm{w}_{S,\alpha} = (\alpha I +S^\top S)^{-1}S^\top \bm{y} $$
+Applicando il kernel $K=S^\top S$ si ottiene il predittore:
+$$ \bm{w}^\top\bm{x} = \bm{y}^\top(\alpha I+\bm{K})^{-1}\bm{k}(\cdot) $$
+dove:
+\begin{itemize}
+    \item $k(\cdot)$ è il vettore $(K(\bm{x}_1,\cdot),\dots,K(\bm{x}_m,\cdot))$
+        di funzioni $K(\bm{x}_t,\cdot)=\langle\phi_K(\bm{x}_t,\cdot)\rangle_K$.
+\end{itemize}
