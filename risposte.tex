@@ -1,0 +1,557 @@
+\documentclass[a4paper]{article}
+
+\usepackage[boxed]{algorithm2e}
+\usepackage[top=2.5cm]{geometry}
+\usepackage{mathtools}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{float}
+\usepackage{bm}
+
+\newcommand{\Y}{\ensuremath{\mathcal{Y}}}
+\newcommand{\Z}{\ensuremath{\mathcal{Z}}}
+\newcommand{\X}{\ensuremath{\mathcal{X}}}
+\newcommand{\F}{\ensuremath{\mathcal{F}}}
+\newcommand{\D}{\ensuremath{\mathcal{D}}}
+\newcommand{\N}{\ensuremath{\mathbb{N}}}
+\newcommand{\E}{\ensuremath{\mathbb{E}}}
+\newcommand{\RN}{\ensuremath{\mathbb{R}}}
+\newcommand{\I}{\ensuremath{\mathbb{I}}}
+\newcommand{\Hpred}{\ensuremath{\mathcal{H}}}
+\newcommand{\Prob}{\ensuremath{\mathbb{P}}}
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\var}{Var}
+\DeclareMathOperator*{\sgn}{sgn}
+
+\SetKw{Params}{Parameters:}
+
+\newcommand{\mathEq}[1]{\begin{equation}#1\end{equation}}
+
+\begin{document}
+\section{Introduction}
+
+\begin{enumerate}
+    \item Write the formulas for the square loss, the zero-one loss, and the logarithmic loss.
+        \begin{itemize}
+            \item Square loss: $\ell(y,\hat{y}) = (y-\hat{y})^2$
+            \item Zero-one loss: $\ell(y,\hat{y}) = \begin{cases}
+                    0 & y=\hat{y}\\
+                    1 & y\neq\hat{y}\\
+                \end{cases}$
+            \item Logarithmic loss: $\ell(y,\hat{y}) = \begin{cases}
+                    \log{\frac{1}{\hat{y}}} & y=1\\
+                    \log{\frac{1}{1-\hat{y}}} & y=0\\
+                \end{cases}$
+        \end{itemize}
+    \item What does a learning algorithm receive in input? And what does it produce in output?
+        
+        A learning algorithm $A$ receives in input a training set $S$, that is a subset of examples taked 
+        from the set of all data points. $A$ produces in output a predictor $f:\X\to\Y$.    
+    \item Write the mathematical formula defining the training error of a predictor $h$.
+        $$ \ell_S(f) = \frac{1}{m}\sum_{t=1}^m \ell(y_t,f(x_t)) $$
+        $$ m = |S| $$
+    \item Write the mathematical formula defining the ERM algorithm over a class H of predictors.
+    Define the main quantities occurring in the formula.
+    $$ A(S) \in \argmin_{f\in\F} \ell_S(f) $$
+        \begin{itemize}
+            \item $A$: learning algorithm
+            \item $S$: training set 
+            \item $\F$: set of all possible predictors
+        \end{itemize}
+    \item Explain in words how overfitting and underfitting are defined in terms of behavior of an
+    algorithm on training and test set.
+
+        When the training error is low but the test error is high, we have overfitting, that is, the
+        predictor has learned also the noise from the training set. On the other side, when
+        the training error is high we have underfitting.
+    \item Name and describe three reasons why labels may be noisy.
+        The labels can be noisy due to:
+        \begin{enumerate}
+            \item Human uncertainty: if the labels are assigned by humans, it may happen that
+                two different person could have different opinion and so different labels at the
+                same data point;
+            \item Epistemic uncertainty: the data points are represented with a vector that not
+                contains enough information for uniquely determine the label;
+            \item Aleatoric uncertainty: the data points are obtained through some noisy measurement.
+        \end{enumerate}
+\end{enumerate}
+
+\section{NN}
+\begin{enumerate}
+    \setcounter{enumi}{6}
+    \item Is k-NN more likely to overfit when k is large or small?
+
+        When is smaller. More smaller is $k$, more the $k$-NN predictor make the prediction more
+        influenced by the training set, capturing also the noise.
+\end{enumerate}
+\section{Tree predictors}
+\begin{enumerate}
+    \setcounter{enumi}{7}
+    \item Write a short pseudo-code for building a tree classifier based on a training set S.
+    
+    \begin{enumerate}
+        \item Initialization:
+            \begin{itemize}
+                \item Create the $T$ tree with only one leaf $\ell$
+                \item $S_\ell = S$
+                \item $y_\ell = \text{most frequent label in $S_\ell$}$
+            \end{itemize}
+        \item Loop:
+            \begin{itemize}
+                \item Pick a leaf $\ell$ and replace it with a node $v$ and create
+                    two children leaves $\ell'$ and $\ell''$
+                \item Pick a feature $i$ and a test $f:\X_i\to\{1,2\}$
+                \item Associate the test $f$ with the node $v$
+                \item $S_{\ell'}=\{(\bm{x_t},y_t)\in S_\ell:f(x_{t,i})=1\}$
+                \item $S_{\ell''}=\{(\bm{x_t},y_t)\in S_\ell:f(x_{t,i})=2\}$
+                \item Associate to $\ell'$ the most frequent label in $S_{\ell'}$
+                \item Associate to $\ell''$ the most frequent label in $S_{\ell''}$
+            \end{itemize}
+    \end{enumerate}
+
+    \item What is the property of a splitting criterion $\psi$ ensuring that the training error 
+    of a tree classifier does not increase after a split?
+
+    For ensuring that the training error does not increase, $\psi$ must be a concave function.
+
+    \item Write the formulas for at least two splitting criteria $\psi$ used in practice to
+    build tree classifiers.
+    \begin{enumerate}
+        \item $\psi_1(\alpha) = \min\{\alpha,1-\alpha\}$
+        \item $\psi_2(p) = 2p(1-p)$
+        \item $\psi_3(p) = \sqrt{p(1-p)}$
+    \end{enumerate}
+\end{enumerate}
+
+\section{Statistical risk}
+\begin{enumerate}
+    \setcounter{enumi}{10}
+    \item Write the formula for the statistical risk of a predictor $h$ with respect to a generic
+    loss function and data distribution.
+    $$ \ell_\D(h) = \E[\ell(Y,h(X))] $$
+    \item Write the formula for the Bayes optimal predictor for a generic loss function and data 
+    distribution.
+    $$ f^*(\bm x) = \argmin_{\hat{y}\in\Y}\E[\ell(Y,\hat{y})|\bm X=\bm x] $$
+    \item Write the formula for Bayes optimal predictor and Bayes risk for the zero-one loss.
+    $$ f^*(\bm x)=\begin{cases}
+        +1 & \eta(\bm x)\geq\frac{1}{2}\\
+        -1 & \eta(\bm x)<\frac{1}{2}\\
+    \end{cases} \qquad \eta(x)=\Prob(Y=1|\bm{X=x}) $$ \vspace{.7em}
+    $$ \ell_\D(f^*) = \E[\min\{\eta(\bm X),1-\eta(\bm X)\}] $$
+    \item Can the Bayes risk for the zero-one loss be zero? If yes, then explain how.
+        
+        If $\ell_\D(f^*)=0$ it means that the predictor $f^*$ never errs. This can only
+        happen if:
+        \begin{enumerate}
+            \item The data are perfectly separable
+            \item The distribution $\D$ is known
+        \end{enumerate}
+    \item Write the formula for Bayes optimal predictor and Bayes risk for the square loss.
+    $$ f^*(x) = \var[Y|X=x] \qquad \ell_\D(f^*)=\E[\var[Y|X]]$$
+    \item Explain in mathematical terms the relationship between test error and statistical risk.
+    
+    $\ell_\D(h)$ cannot be directly calculeted because the distribution $\D$ is unknown. We thus
+    have to estimate it. We assume that the test set $S'=\{(x'_1,y'_1),\dots,(x'_n,y'_n)\}$
+    is generated from a random draw from $\D$
+    and so $(X'_t,Y'_t)\sim\D$ for every $t=1,\dots,n$.
+    Therefore: $$ \E[\ell(Y'_t,h(X'_t))]=\ell_\D(h) $$ 
+    For estimating this value we use the sample mean of the loss function over $S'$, that is the
+    test error $\ell_{S'}(h)$. Is important that $h$ doesn't have to depend on $S'$.
+    \item State the Chernoff-Hoeffding bounds.
+    
+    Let $Z_1,\dots,Z_n$ be i.i.d. such that $\forall i \  Z_i\in[0,1]$. For any $\varepsilon>0$:
+    $$ \Prob\left(\frac{1}{n}\sum_{t=1}^nZ_t>\mu+\varepsilon \right)\leq e^{-2\varepsilon^2n}
+    \quad \wedge \quad
+       \Prob\left(\frac{1}{n}\sum_{t=1}^nZ_t<\mu-\varepsilon \right)\leq e^{-2\varepsilon^2n}
+    $$
+    \item Write the bias-variance decomposition for a generic learning algorithm A and associate the
+    resulting components to overfitting and underfitting.
+    $$ \begin{aligned} 
+        \ell_\D(h_S) &= \ell_\D(h_S) - \ell_\D(h^*)\ + & \quad (\text{estimation error})\\
+                     &= \ell_\D(h^*) - \ell_\D(f^*)\ + & \quad (\text{bias error})\\
+                     &= \ell_\D(f^*)                   & \quad (\text{Bayes risk})
+    \end{aligned}$$
+
+    If the estimation error dominates the bias error we have overfitting while in the opposite case
+    we have underfitting.
+    \item Write the upper bound on the estimation error of ERM run on a finite class $\Hpred$ 
+    of predictors.
+    $$ \Prob \left( \ell_\D(h_S)-\ell_\D(h^*)\leq\sqrt{\frac{2}{m}\ln{\frac{2|\Hpred|}{\delta}}}\right)
+        \geq 1-\delta $$
+    $$ \delta = 2|\Hpred|e^{-m\varepsilon^2/2} $$
+\end{enumerate}
+
+\section{Risk analysis for tree predictor}
+\begin{enumerate}
+    \setcounter{enumi}{19}
+    \item What is the number of nodes that a tree classifier must have so that by assigning labels 
+    to its leaves we can compute any function of the form $h:\{0,1\}^d\to\{-1,1\}$?
+    
+    For each possible $x\in\{0,1\}^d$ we need a leaf with the corresponding label. So the three
+    has $2^d$ leaves. Because the tree is complete and has $2^d$ leaves, it has $2^{d+1}-1$ nodes.
+    \item Write an upper bound on the set $\Hpred_N$ of all classifiers computed by complete binary
+    tree predictors with exactly $N$ nodes on $d$ binary features.
+    $$ |\Hpred_N| \leq (2de)^N $$
+    \item Write the upper bound on the estimation error of ERM run on a the class of complete binary
+    tree predictors with at most $N$ nodes on $d$ binary features.
+    $$ \ell_\D(h_S) \leq \ell_\D(h^*) + \sqrt{
+        \frac{2}{m}\left(\ln{\frac{2}{\delta}+N\left(\ln{2d}+1\right)}\right)
+    } $$
+    \item How many bits are sufficient to encode an arbitrary tree predictor with $N$ nodes on $d$ 
+    binary features so that no tree has an encoding that is a prefix of the encoding of a 
+    different tree?
+    $$ (N+1)\lceil\log_2{(d+3)}\rceil+2\lfloor\log_2{N}\rfloor+1 $$
+    \item Write the bound on the difference between risk and training error for an arbitrary 
+    complete binary tree classifier $h$ on $d$  binary features in terms of its number $N_h$ of nodes. 
+    Bonus points if you provide a short explanation on how this bound is obtained.
+    $$ \ell_\D(h)\leq\ell_S(h)+\sqrt{\frac{1}{2m}\left(|\sigma(h)|+\ln{\frac{2}{\delta}}\right)} $$
+    $$ |\sigma(h)|=O(N_h\log{d}) $$
+\end{enumerate}
+
+\section{Hyperparameter tuning and risk estimation}
+\begin{enumerate}
+    \setcounter{enumi}{24}
+    \item Write the formula for the $K$-fold cross validation estimate. Explain the main quantities
+    occurring in the formula.
+    \mathEq{\ell_{S_i}(h_i) = \frac{K}{m}\sum_{(\bm x,y)\in S_i} \ell(y,h_i(\bm x))\tag{mean error of every fold}}
+    \mathEq{\ell_{S}^{\text{cv}}(A) = \frac{1}{K}\sum_{i=1}^K \ell_{S_i}(h_i)\tag{average error of all folds}}
+    \vspace{.5em}$$ K = \text{number of partitions} \qquad\qquad m = |S_i| $$
+    \item Write the pseudo-code for computing the nested cross validation estimate.
+    \begin{algorithm}[h]
+        \DontPrintSemicolon
+        $S = S_1\cup\dots\cup S_K$\;
+        \For{$i=1,\dots,K$}{
+            $S_{-i} = S \setminus S_i$\;
+            Run CV on $S_{-i}$ for each $\theta\in\Theta_0$ and find
+            $\theta_i = \displaystyle
+            \argmin_{\theta\in\Theta_0}\ell_{S_{-i}}^{\text{cv}}(A_\theta)$\;
+            $h_i = A_{\theta_i}(S_{-i})$\;
+            $\varepsilon_i = \ell_{S_i}(h_i)$\;
+        }
+        \KwOut{$(\varepsilon_1+\dots+\varepsilon_K)/K$}
+    \end{algorithm}
+\end{enumerate}
+\section{Consistency and nonparametric algorithms}
+\begin{enumerate}
+    \setcounter{enumi}{26}
+    \item Write the mathematical definition of consistency for an algorithm $A$.
+    
+    An algorithm $A$ is consistent if, for any data distribution $\D$:
+    $$ \lim_{m\to\infty} \E[\ell_\D(A(S_m))]=\ell_D(f^*) $$
+    \item Write the statement of the no-free-lunch theorem.
+    
+    For any sequence $a_1,a_2,\dots$ of positive numbers such that 
+    $\frac{1}{16}\geq a_1\geq a_2\geq\dots>0$ and for any consistent algorithm $A$ for
+    binary classification with zero-one loss, there exists a data distribution $\D$ such that:
+    $$\ell_\D(f^*)=0 \qquad \E[\ell_\D(A(S_m))]\geq a_m \qquad \forall m\geq 1$$
+    \item Write the mathematical definition of nonparametric learning algorithm.
+        Define the main quantities occurring in the formula.
+    
+        An algorithm $A$ is nonparametric if:
+        $$ \lim_{m\to\infty} \ \min_{h\in\Hpred_m}\ell_\D(h) = \ell_\D(f^*) $$
+        \begin{itemize}
+            \item $\Hpred_m$: set of all predictors generated by any training set of size $m$
+        \end{itemize}
+    \item Name one nonparametric learning algorithm and one parametric learning algorithm.
+    
+    \begin{itemize}
+        \item Nonparametric: $k$-NN
+        \item Parametric: linear regression
+    \end{itemize}
+    \item Write the mathematical conditions on $k$ ensuring consistency for the $k$-NN algorithm.
+        Provide an example of a choice of $k$ that makes $k$-NN consistent as a function of the
+        training set size $m$.
+
+        If $k$ is a function $k_m$ of the training set size, $k_m$-NN is consistent if:
+        $$ k_m\to\infty \quad \wedge \quad k_m=o(m) $$
+        An example is $k_m=\log{m}$.
+    \item Write the formula for the Lipschitz condition in a binary classification problem. 
+        Define the main quantities occurring in the formula.
+
+        In a distribution, the function $\eta(\bm x)=\Prob(Y=1|\bm X=\bm x)$ is a Lipschitz function
+        on $\bm X$ if:
+        $$ \forall \bm x,\bm x'\in\X \quad \exists c:0<c<\infty
+        \quad |\eta(\bm x)-\eta(\bm x')|\leq c||\bm x-\bm x'|| $$
+    \item Write the rate at which the risk of a consistent learning algorithm for binary
+        classification vanishes as a function of the training set size $m$ and the dimension
+        $d$ under Lipschitz assumptions.
+
+        Assuming Lipschitz, the rate of convergence is $m^{\frac{-1}{d+1}}$.
+    \item Explain the curse of dimensionality.
+    
+        The convergence rate of $m^{\frac{-1}{d+1}}$ in the nonparametric case implies that
+        to get $\varepsilon$-close to Bayes risk, we need a training set size $m$ of order of
+        $\varepsilon^{-(d+1)}$. This show that if $d$ is high we need an exponentially high
+        number of training set elements. This is known as curse of dimensionality.
+\end{enumerate}
+
+\section{Risk analysis for NN}
+\begin{enumerate}
+    \setcounter{enumi}{34}
+    \item Write the bound on the risk of the $1$-NN binary classifier under Lipschitz
+    assumptions.
+    $$ \begin{aligned}
+        \E[\ell_\D(1\text{-NN}(S_M))] \leq& 2\ell_\D(f^*)+
+        c\E\left[||\bm{X}-\bm{X}_{\pi(S,\bm X)}||\right]\\
+        \leq& 2\ell_\D(f^*)+4c\sqrt{d}m^{\frac{-1}{d+1}}
+    \end{aligned}$$
+    $$ \pi(S,\bm x) = \argmin_{t=1,\dots,m} ||\bm x-\bm x_t|| $$
+
+    For $m\to\infty$ we have $\ell_\D(h_S)\leq\E[\ell_\D(h_S)]\leq2\ell_\D(h_S)$.
+\end{enumerate}
+
+\section{Linear predictor}
+\begin{enumerate}
+    \setcounter{enumi}{35}
+    \item Can the ERM over linear classifiers be computed efficiently? Can it be approximated
+    efficiently? Motivate your answers.
+
+    ERM over linear classifier is:
+    $$ h_S = \argmin_{w\in\RN:||w||=1} \frac{1}{m}\sum_{t=1}^m \I\{y_tw^\top x_t\leq0\} $$
+    It is unlikely to find an efficient implementation of ERM because the problem of
+    finding $w$ such that $y_tw^\top x_t\leq0$ for at most $k$ indices is NP-complete.
+    So, cosidering that almost certainly $P\neq NP$, there are no algorithms that solve the
+    problem in polynomial time.
+
+    The only way to compute efficiently a linear classifier is with linearly separable data.
+    \item Write the system of linear inequalities stating the condition of linear separability
+    for a training set in binary classification.
+
+    A training set is linearly separable if the following system has at least one solution:
+    $$ \begin{cases}
+        y_1w^\top x_1 > 0\\
+        \dots\\
+        y_mw^\top x_m > 0
+    \end{cases} $$
+    \item Write the pseudo-code for the Perceptron algorithm.
+    
+    \begin{minipage}{.94\textwidth}
+        \begin{algorithm}[H]
+            \DontPrintSemicolon
+            \KwData{$ S = \{(\bm x_1,y_1),\dots,(\bm x_m,y_m)\}$}
+            $w \leftarrow (0,\dots,0)$\;
+            \While{true}{
+                \For{$t=1,\dots,m$}{
+                    \uIf{$y_tw^\top \bm x_t\leq0$}{
+                        $w\leftarrow w+y_t\bm x_t$\;
+                    }
+                }
+                \lIf{no update}{break}
+            }
+            \KwOut{$w$}
+        \end{algorithm}
+    \end{minipage}
+    \item Write the statement of the Perceptron convergence theorem.
+
+    Let $S$ linearly separable; The Perceptron always terminates after a number of updates
+    not bigger than:
+    $$ \left(\min_{u:\gamma(u)\geq 1}||u||^2\right)
+       \left(\max_{t=1,\dots,m}||x_t||^2\right) $$
+    $$ \gamma(u) = \min_{t=1,\dots,m} y_tu^\top x_t$$
+    \item Write the closed-form formula (i.e., not the argmin definition) for the Ridge
+    Regression predictor. Define the main quantities occurring in the formula.
+    $$ w_{S,\alpha} = (\alpha I + S^\top S)^{-1}S^\top y $$
+    \begin{itemize}
+        \item $S^\top = [x_1,\dots ,x_m] $
+        \item $\alpha >0$
+    \end{itemize}
+\end{enumerate}
+\section{Online Gradient Descent}
+\begin{enumerate}
+    \setcounter{enumi}{40}
+    \item Write the pseudo-code for the projected online gradient descent algorithm. \\[1em]
+    \begin{minipage}{.94\textwidth}
+        \begin{algorithm}[H]
+            \DontPrintSemicolon
+            \Params{$\eta>0, \ U>0$}\;
+            $w_1=0$\;
+            \For{$t=1,2,\dots$}{
+                $\displaystyle w_{t+1}'=w_t-\frac{\eta}{\sqrt{t}}\nabla\ell_t(w_t)$\;
+                $\displaystyle w_{t+1}=\argmin_{w:||w||\leq U}||w-w_{t+1}'||$\;
+            }
+        \end{algorithm}
+    \end{minipage}
+
+    \item Write the upper bound on the regret of projected online gradient descent on
+    convex functions. Define the main quantities occurring in the bound.
+    $$\underbrace{\frac{1}{T}\sum_{t=1}^{T}\ell_t(\bm w_t)}_{\ell_T(\bm w)}\leq 
+    \underbrace{\min_{\bm u: ||\bm{u}||\leq U}
+    {\frac{1}{T}\sum_{t=1}^T \ell_t(\bm u)}}_{\ell_T(u^*)}+
+    \underbrace{UG\sqrt{\frac{8}{T}}}_{\text{regret}}$$
+    \begin{itemize}
+        \item $\ell_T(\bm w)$: average loss of the algorithm up to step $T$
+        \item $\ell_T(\bm u^*)$: average loss of the best finded predictor up to step $T$
+        \item $U$: maximum radius of the sphere where the projection is performed
+        \item $G$: bound on the norm of the gradient of the loss function
+    \end{itemize}
+    \item Write the upper bound on the regret of online gradient descent on $\sigma$-strongly
+    convex functions. Define the main quantities occurring in the bound.
+    $$\underbrace{\frac{1}{T}\sum_{t=1}^{T}\ell_t(\bm w_t)}_{\ell_T(\bm w)}\leq 
+    \underbrace{\min_{\bm u\in\RN^d}
+    {\frac{1}{T}\sum_{t=1}^T \ell_t(\bm u)}}_{\ell_T(u^*)}+
+    \underbrace{\frac{G^2(1+\ln{T})}{2\sigma T}}_{\text{regret}}$$
+    \begin{itemize}
+        \item $\ell_T(\bm w)$: average loss of the algorithm up to step $T$
+        \item $\ell_T(\bm u^*)$: average loss of the best finded predictor up to step $T$
+        \item $G$: bound on the norm of the gradient of the loss function
+    \end{itemize}
+    \item Write the formula of the hinge loss.
+    $$ h_t(\bm u) = \max{\{0,1-y_t\bm u^\top \bm x_t\}} $$
+    \item Write the mistake bound for the Perceptron run on an arbitrary data stream for 
+    binary classification. Define the main quantities occurring in the bound.
+    $$ \forall \bm u\in\RN^d \quad 
+    M\leq\sum_{t=1}^{T}h_t(\bm u)+(||\bm u||X)^2
+    +||\bm u||X\sqrt{\sum_{t=1}^{T}h_t(\bm u)} $$
+    \begin{itemize}
+        \item $M$: number of mistakes made by the Perceptron
+        \item $h_t(\bm u) = \max{\{0,1-y_t\bm u^\top x_t\}}$ (hinge loss)
+        \item $X = \underset{t}{\max}\ ||x_t||$
+    \end{itemize}
+\end{enumerate}
+
+\section{Kernel functions}
+\begin{enumerate}
+    \setcounter{enumi}{45}
+    \item Write the formula for the polynomial kernel of degree $n$.
+    $$ K_n(\bm x,\bm x') = (1+\bm x^\top \bm x')^n $$
+    \item Write the formula for the Gaussian kernel with parameter $\gamma$.
+    $$ K_n(\bm x,\bm x') = \exp\left(
+        -\frac{1}{2\gamma}||\bm x-\bm x'||^2
+    \right) $$ $$\gamma>0$$
+    \item Write the pseudo-code for the kernel Perceptron algorithm.
+    
+    \begin{minipage}{.94\textwidth}
+        \begin{algorithm}[H]
+            $S \leftarrow \{\}$\;
+            \For{$t=1,2,\dots$}{
+                Get the next example $(\bm x_t,y_t)$\;
+                $\displaystyle\hat{y}_t = \sgn\left(\sum_{s\in S}y_sK(\bm x_s,\bm x_t)\right) $\;
+                \If{$\hat{y}_t\neq y_t$}{$S\leftarrow S\cup\{t\}$}
+            }
+        \end{algorithm}
+    \end{minipage}
+    \item Write the mathematical definition of the linear space $\Hpred_K$ of functions
+    induced by a kernel $K$.
+    $$ \Hpred_K = \left\{
+        \sum_{i=1}^{N}\alpha_i K(\bm x_i,\cdot):\bm x_1,\dots,\bm x_N\in \X,
+        \alpha_1,\dots,\alpha_N \in\RN, N\in\N
+    \right\} $$
+    \item Let $f$ be an arbitrary element of the linear space $\Hpred_K$ induced by a kernel 
+    $K$. Write $f(x)$ in terms of $K$.
+    $$ f(x) = \sum_{i=1}^{N}\alpha_i K(\bm x_i,\bm x) $$
+    \item Write the mistake bound of the Perceptron convergence theorem when the Perceptron
+    is run with a kernel $K$. Define the main quantities occurring in the bound.
+    $$ M \leq \left(
+        \sum_{i=1}^{N}\sum_{j=1}^{N} \alpha_i\alpha_j K(\bm x_i,\bm x_j)
+    \right) \left(\underset{t}{\text{max}}\{K(\bm x_t,\bm x_t)\}\right) $$
+    \item Write the closed-form formula (i.e., not the argmin definition) of the kernel
+    version of the Ridge Regression predictor.
+    $$ w^\top \bm x = \bm y^\top(\alpha I+\bm K)^{-1}k(\bm x) $$
+    \begin{itemize}
+        \item $\bm K_{i,j}=k(\bm x_i,\bm x_j)$
+        \item $k(\bm x) = (K(\bm x_1,\bm x),\dots,K(\bm x_m,\bm x))$
+    \end{itemize}
+\end{enumerate}
+
+\section{Support Vector Machine}
+\begin{enumerate}
+    \setcounter{enumi}{52}
+    \item Write the convex optimization problem with linear constraints that defines the
+        SVM hyperplane in the linearly separable case.
+        $$ \min_{w\in\RN^d} \frac{1}{2}||w||^2 $$
+            $$ s.t. \ \ y_tw^\top x_t\leq 1 \quad t=1,\dots,m $$
+    \item Write the unconstrained optimization problem whose solution defines the SVM 
+        hyperplane when the training set is not necessarily linearly separable.
+        $$\min_{w\in\RN^d}\frac{\lambda}{2}||w||^2 + 
+        \frac{1}{m}\sum_{t=1}^{m} h_t(w)$$
+        $$ h_t(w) = \max\{0,1-y_tw^\top x_t\} $$
+    \item Write the update rule of Pegasos.
+        $$ w_{t+1} = w_t - \eta_t\nabla\ell_{Z_t}(w_t) $$
+    \item Write the bound on the expected value of the SVM objective function achieved 
+        by Pegasos. Provide also a bound on the expected squared norm of the loss gradient
+        in terms of a bound $X$ on the norm of the training points.
+        $$ \E[F(\bar{w})] \leq F(w^*)+\frac{\E[G^2]}{2\lambda T}(\ln{T}+1) $$
+        $$ F(w) = \frac{\lambda}{2} ||w||^2 + \frac{1}{m}\sum_{t=1}^{m}h_t(w) 
+        \quad ,\quad \bar{w}=\frac{1}{T}\sum_{t=1}^{T}w_t
+        \quad ,\quad w^*= \argmin_{w\in\RN^d}(F(w)) $$
+        $$ G=\max_{t=1,\dots,T}||\ell_{S_t}(w_t)|| \quad ,\quad \lambda>0 $$ \vspace{2em}
+        $$ \E[F(\bar{w})] \leq F(w^*)+\frac{2X^2}{\lambda T}(\ln{T}+1) $$
+\end{enumerate}
+
+\section{Stability and risk control for SVM}
+\begin{enumerate}
+    \setcounter{enumi}{56}
+    \item Write the definition of $\varepsilon$-stability for a learning algorithm.
+    
+    An algorithm is $\varepsilon$-stable if:
+    $$\E[\ell(h_{S^{(t)}},\bm Z_t)-\ell(h_S,\bm Z_t)]\leq\varepsilon$$
+    $$ \bm Z_t = (\bm x_t,y_t) $$
+    \item Write the value of $\varepsilon$ for which SVM is known to be stable. The value
+    depends on the radius $X$ of the ball where the training datapoints live, the training
+    set size $m$, and the regularization coefficient $\lambda$.
+    $$ \varepsilon = \frac{4X^2}{\lambda m}$$
+    \item Write the mathematical conditions on the regularization coefficient $\lambda$
+    ensuring consistency for the SVM algorithm wih Gaussian kernel.
+    
+    Let $\lambda$ be a function $\lambda_m$ of the size of $S$. SVM is consistent with
+    Gaussian Kernel if: $$ \lim_{m\to\infty}\lambda_m=o(1) \ \wedge \
+    \lim_{m\to\infty}\lambda_m = w\left(m^{-\frac{1}{2}}\right)$$
+\end{enumerate}
+
+\section{Neural Networks and Deep Learning}
+\begin{enumerate}
+    \setcounter{enumi}{59}
+    \item Consider the class $\F_d$ of all functions of the form $f:\{−1,1\}^d\to\{−1,1\}$.
+    Let $\F_{G,\sgn}$ be the class of functions computed by a feedforward neural networks
+    with the sgn activation function and graph $G=(V, E)$. Provide asymptotic upper and
+    lower bounds on $|V|$ such that $\F_d\subseteq\F_{G,\sgn}$.
+    $$ |V| = \Omega(2^{d/3}) $$
+    \item Define a class of neural networks for which the ERM problem with the square 
+    loss is probably NP-hard.
+
+    For any $k\in\N: k\geq 2 $, the problem:
+    $$ \min_{f\in F_{k,\sigma}} \ell_S(f) \text{ such that }
+    \ell_S(f) = \frac{1}{m}\sum_{t=1}^{m}(f(\bm x)-y_t)^2 $$
+    is NP-HARD.
+    \item Write the update line of the stochastic gradient descent algorithm. Explain the
+    main quantities.
+    $$ w_{i,j} \leftarrow w_{i,j}-\eta_t\frac{\partial \ell_{Z_t}(w)}{\partial w_{i,j}} 
+    \qquad\qquad (i,j)\in E$$
+    \begin{itemize}
+        \item $w_{i,j}$ is the weight of the edge $(i,j)\in E$
+        \item $\eta_t$ is the learning rate at the iteration $t$
+        \item $\ell_{\bm Z_t}(\bm w)$ is the loss function $\ell(y_t,\hat{y}_t)$ where
+            $Z_t$ is the index of a random training example.
+    \end{itemize}
+\end{enumerate}
+
+\section{Logistic Regression and Surrogate Loss Function}
+\begin{enumerate}
+    \setcounter{enumi}{62}
+    \item Write the definition of logistic loss for logistic regression with linear models.
+        $$\ell_t(w) = \log_2{(1+e^{-y_t\bm w^\top \bm x_t})}$$
+    \item Define the surrogate losses used by SVM and AdaBoost.
+    \begin{itemize}
+        \item SVM: $\ell(y,\hat{y})=\max\{0,1-y_t\hat{y}\}$
+        \item AdaBoost: $\ell(y,\hat{y})=e^{-y\hat{y}}$
+    \end{itemize}
+    \item Write the definition of consistency for surrogate losses.
+
+        A surrogate loss function $\ell$ is consistent if:
+        $$ \forall x\in\X \quad \sgn(g^*)=f^* $$
+        $$ g^*(x)=\argmin_{\hat{y}\in\RN}\E[\ell(\hat{y},Y)|X=x] $$
+    \item Write a sufficient condition for consistency of a surrogate loss.
+
+        If a surrogate loss function $\ell$ is such that:
+        $$ \forall y\in\{-1,1\} \quad \ell'(y,0)\text{ exists} 
+        \ \ \wedge \ \ \ell'(y,0)<0 $$
+        then $\ell$ is consistent.
+    \item Write the formula for Bayes optimal predictor and Bayes risk for the logistic loss.
+    $$ g^*(x)=\ln\left(\frac{\eta(x)}{1-\eta(x)}\right)
+    \qquad , \qquad \ell_D(g^*)=H(Y|\bm X) $$
+    $$ H(Y|\bm X): \text{conditional entropy} $$
+\end{enumerate}
+
+\end{document}
